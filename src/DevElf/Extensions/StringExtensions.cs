@@ -1,6 +1,7 @@
 namespace DevElf.Extensions;
 
-public static class StringExtensions {
+public static class StringExtensions
+{
     public static bool IsNull(this string? text) => text is null;
 
     public static bool IsNullOrEmpty(this string? text) => string.IsNullOrEmpty(text);

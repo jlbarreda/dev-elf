@@ -1,183 +1,164 @@
-# Copilot instructions (from .editorconfig)
+# GitHub Copilot Repository Instructions
 
-This file contains the full set of editor and code-style rules taken from the repository root `.editorconfig` so Copilot (or any assistant) can refer to the project's style expectations.
+## General Formatting Preferences
+- Use UTF-8 encoding for all files.
+- Use spaces for indentation (size 4) unless overridden.
+- Use CRLF line endings by default.
+- Trim trailing whitespace and insert final newline.
 
-Use these rules to suggest edits, formatting, and naming consistent with the project.
-
----
-
-```properties
-# EditorConfig for DevElf
-# https://editorconfig.org
-# Root file
-root = true
-
-############################################################
-# Default settings (applies to all files unless overridden)
-############################################################
-[*]
-charset = utf-8
-end_of_line = crlf
-insert_final_newline = true
-trim_trailing_whitespace = true
-indent_style = space
-indent_size = 4
-max_line_length = 120
-
-# Ensure dotnet analyzers and formatters see these as defaults
-# Use spaces for alignment in most editors
-# Visual Studio/VS Code will respect many of the csharp_* and dotnet_* options below
-
-############################################################
-# C# files
-############################################################
-[*.{cs,csx}]
-# Encoding, line endings
-charset = utf-8
-end_of_line = crlf
-insert_final_newline = true
-trim_trailing_whitespace = true
-
-# Indentation and spacing
-indent_style = space
-indent_size = 4
-continuation_indent_size = 8
-max_line_length = 120
-
-# C# code style preferences (Roslyn analyzers) with severity suffix
-# var preferences
-csharp_style_var_for_built_in_types = false:suggestion
-csharp_style_var_when_type_is_apparent = true:suggestion
-csharp_style_var_elsewhere = false:suggestion
-
-# Expression-bodied members
-csharp_style_expression_bodied_methods = when_on_single_line:suggestion
-csharp_style_expression_bodied_constructors = false:suggestion
-csharp_style_expression_bodied_properties = when_on_single_line:suggestion
-csharp_style_expression_bodied_operators = false:suggestion
-csharp_style_expression_bodied_accessors = when_on_single_line:suggestion
-
-# Prefer explicit tuple names
-dotnet_style_prefer_inferred_tuple_names = true:suggestion
-
-# Null-checking and pattern matching
-csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
-csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
-
-# Null propagation
-csharp_style_conditional_delegate_call = true:suggestion
-
-# New line preferences
-csharp_new_line_before_open_brace = all:warning
-csharp_new_line_between_query_expression_clauses = true:suggestion
-
-# Spacing preferences
-csharp_space_after_cast = false
-csharp_space_after_keywords_in_control_flow_statements = true
-csharp_space_between_method_declaration_parameter_list_parentheses = false
-csharp_space_between_method_call_parameter_list_parentheses = false
-csharp_space_around_binary_operators = before_and_after
-
-# File-scoped namespace preference
-csharp_style_namespace_declarations = file_scoped:suggestion
-
-# Qualification preferences
-dotnet_style_qualification_for_field = false:suggestion
-dotnet_style_qualification_for_property = false:suggestion
-dotnet_style_qualification_for_method = false:suggestion
-dotnet_style_qualification_for_event = false:suggestion
-
-# Using directive placement
-dotnet_separate_import_directive_groups = true:suggestion
-
-# Prefer System.* types (e.g., System.String) vs. built-in types -- don't prefer
-dotnet_style_prefer_inlined_variable_declaration = false:suggestion
-
-############################################################
-# Naming rules (PascalCase for types/members, _camelCase for private fields)
-# These follow the dotnet_naming_* pattern used by Roslyn analyzers
-############################################################
-
-# Styles
-dotnet_naming_style.pascal_case_style.capitalization = pascal_case
-dotnet_naming_style.camel_case_style.capitalization = camel_case
-dotnet_naming_style.underscore_prefix_style.capitalization = camel_case
-dotnet_naming_style.underscore_prefix_style.required_prefix = _
-
-# Symbols
-dotnet_naming_symbols.all_types.applicable_kinds = class, struct, enum, interface, record
-dotnet_naming_symbols.all_types.applicable_accessibilities = *
-
-dotnet_naming_symbols.public_members.applicable_kinds = property, method, event
-dotnet_naming_symbols.public_members.applicable_accessibilities = public, protected, internal
-
-dotnet_naming_symbols.private_fields.applicable_kinds = field
-dotnet_naming_symbols.private_fields.applicable_accessibilities = private
-
-# Rules
-dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.types_should_be_pascal_case.symbols = all_types
-dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case_style
-
-dotnet_naming_rule.public_members_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.public_members_should_be_pascal_case.symbols = public_members
-dotnet_naming_rule.public_members_should_be_pascal_case.style = pascal_case_style
-
-dotnet_naming_rule.private_fields_should_have_underscore_prefix.severity = suggestion
-dotnet_naming_rule.private_fields_should_have_underscore_prefix.symbols = private_fields
-dotnet_naming_rule.private_fields_should_have_underscore_prefix.style = underscore_prefix_style
-
-############################################################
-# Project / solution files
-############################################################
-[*.{csproj,sln,slnx,props,targets}]
-indent_style = space
-indent_size = 2
-trim_trailing_whitespace = true
-insert_final_newline = true
-
-############################################################
-# JSON, XML, and config files
-############################################################
-[*.{json,xml,config,appsettings,props,targets}]
-indent_style = space
-indent_size = 2
-trim_trailing_whitespace = true
-insert_final_newline = true
-
-############################################################
-# Markdown and text files
-############################################################
-[*.md]
-trim_trailing_whitespace = false
-insert_final_newline = true
-max_line_length = 100
-
-[*.txt]
-trim_trailing_whitespace = false
-insert_final_newline = true
-
-############################################################
-# Scripts
-############################################################
-[*.{sh,ps1,psm1}] 
-indent_style = space
-indent_size = 2
-
-############################################################
-# Exclusions / overrides for binary files
-############################################################
-[*.png]
-trim_trailing_whitespace = false
-[*.jpg]
-trim_trailing_whitespace = false
-
-# End of file
-```
+## General Conventions
+- Use consistent naming conventions and severity levels for analyzers.
+- Follow .NET and StyleCop guidelines.
+- Avoid unnecessary code; prefer simplified expressions.
+- Maintain consistent spacing, indentation, and brace styles.
+- Use PascalCase for types and members; camelCase for locals and parameters.
+- Prefer language keywords over framework type names.
+- Use accessibility modifiers consistently.
+- Use expression-bodied members and pattern matching.
+- Use object and collection initializers.
+- Use inferred names and auto-properties.
+- Use conditional expressions and compound assignments.
+- Use null propagation and coalesce expressions.
+- Use top-level statements and file-scoped namespaces.
+- Maintain consistent formatting for newlines, spacing, and wrapping.
+- Maintain consistent ordering of elements and modifiers.
+- Use documentation comments with summaries and parameter descriptions.
+- Use consistent naming rules for interfaces, type parameters, and fields.
+- Use static local functions and simplified `new` expressions.
 
 ---
 
-Notes
-- The formatter-level option `csharp_new_line_before_open_brace = all:warning` appears in the source `.editorconfig`. For formatters this behaves as a formatting preference; the `:warning` suffix is ignored by the formatter. If you want analyzer diagnostics for brace placement, enable an analyzer (for example, StyleCop.Analyzers) and set the corresponding `dotnet_diagnostic.SA####.severity` entries.
+## C# Style Preferences
+- Use PascalCase for public constants and static readonly fields.
+- Use camelCase with and underscore prefix for private fields and local variables.
+- Prefix interfaces with `I` and type parameters with `T`.
+- Use explicit types for built-in types (`string`, `int`, `bool`, etc.)
+- Use `var` for complex types when the type is obvious from the right side
+- Use `var` for anonymous types and LINQ queries
+- Prefer expression-bodied members, pattern matching, and switch expressions.
+- Use object and collection initializers.
+- Use inferred tuple and anonymous type member names.
+- Use auto-properties and simplified boolean expressions.
+- Use coalesce and null propagation expressions.
+- Use simplified interpolation and conditional expressions.
+- Use index and range operators.
+- Use top-level statements and UTF-8 string literals.
+- Use file-scoped namespaces and place `using` directives outside the namespace.
+- Always use braces for control blocks.
+- Maintain consistent spacing and indentation.
+- Use trailing commas in multi-line initializers.
+- Add documentation comments for public members.
+- Maintain consistent ordering of modifiers and members.
+- Use simplified `new` expressions when type is apparent.
+- Prefer `nameof` over `typeof` where applicable.
+- Use tuple swap syntax for swapping values.
+- Use static local functions where possible.
+- Add an empty line before `return`, `throw`, `break`, `yield`, and `continue`.
+- Place a blank line between method declarations.
+- Avoid multiple statements on a single line.
+- Align parameters and arguments vertically with one level of indentation.
+- Prefer multiline `if` statements over single-line ones.
+- Use consistent spacing around operators.
+- Use a single space after `//` in comments.
+- Use discard `_` to comply with IDE0058.
+- Don't add unnecessary using statements.
 
-If you want this file edited (summarized rules only, or extra guidance for Copilot prompts), tell me how you'd like it condensed.
+### Documentation Preferences
+- Use XML documentation comments for public members.
+- Keep the XML documentation comment lines length under 100 characters.
+- Don't modify auto-generated files (all files inside the ".\docs\api\" folder are auto-generated).
+
+### Best Practices
+- Use static classes for shared constants.
+- Use enums for fixed sets of related values.
+- Use `private const` or `private static readonly` for scoped constants.
+- Use `static readonly` for runtime or non-primitive values.
+- Organize constants by domain in logical namespaces.
+- Avoid magic strings and numbers; use named constants.
+- Prefer meaningful names over abbreviations.
+- Avoid deeply nested control structures; refactor into smaller methods.
+- Use early returns to reduce nesting.
+- Keep methods short and focused.
+- Use `readonly` for fields not reassigned.
+- Prefer `TryParse` over `Parse`.
+- Use `StringBuilder` for string concatenation in loops.
+- Always check for `null` before accessing members.
+- Use `using` or `await using` for disposable resources.
+- Avoid catching general exceptions; be specific.
+- Use dependency injection for testability.
+- Avoid static dependencies in testable components.
+- Prefer `TimeProvider` over `DateTime`, `DateTimeOffset`, and `Stopwatch`.
+- Use `Task.Delay` (and any other time related method) overloads with `TimeProvider`.
+- Prefer `TimeSpan` over raw time units.
+- Fix all compiler warnings.
+- Use existing code as reference.
+- Keep it simple.
+
+### Avoid
+- `dynamic`
+- `unsafe`
+
+---
+
+## JSON Formatting Preferences
+- Use 2 spaces for indentation.
+- Use UTF-8 encoding.
+- Trim trailing whitespace.
+- Insert final newline.
+
+---
+
+## YAML Formatting Preferences
+- Use 2 spaces for indentation.
+- Use UTF-8 encoding.
+- Trim trailing whitespace.
+- Insert final newline.
+
+---
+
+## Markdown Formatting Preferences
+- Do not trim trailing whitespace.
+- Use UTF-8 encoding.
+- Insert final newline.
+
+---
+
+## Testing Guidelines
+- Use MSTest with `AutoFixture` and `NSubstitute` when they are needed.
+- Use `AwesomeAssertions` for assertions.
+- Create a new `Fixture` instance in each test method when test data generation is needed.
+- Use `AutoNSubstituteCustomization` for auto-mocking when mocking dependencies.
+- Use `fixture.Freeze` or `fixture.Inject` for dependencies.
+- Add `// Arrange`, `// Act`, and `// Assert` comments to structure tests.
+- Start comments other than `// Arrange`, `// Act`, and `// Assert` with lowercase.
+- Name test methods using: `MethodName_expected_behavior_when_condition`.
+- Use `snake_case` in test method names except for `MethodName`.
+- Use `sut` for the system under test (except for extension methods).
+- Place test classes in a project named after the source project with `.Tests` suffix.
+- Match the folder structure of the source file.
+- Name the test file after the source file, appending `Tests`.
+- Never use TestCleanup, ClassCleanup, AssemblyCleanup, TestInitialize, ClassInitialize, or AssemblyInitialize methods.
+- Don't use shared state between tests.
+- Ensure tests don't give false positives or negatives.
+- Avoid pointless tests.
+- Don't test property getters and setters.
+- Don't test objects that only have properties (DTOs).
+- Use `<see langword=""/>` for language keywords in XML comments (e.g. `<see langword="true"/>`, `<see langword="false"/>`).
+
+---
+
+## Rule Precedence
+1. Compilation and functionality first.
+2. Analyzer and compiler warnings.
+3. .editorconfig rules.
+4. Repository-specific conventions (this file).
+5. .NET Best Practices.
+6. General best practices.
+
+---
+
+## **Tool-Specific Guidance**
+- When in doubt about rule conflicts, ask for clarification.
+- When in doubt, ask for clarification.
+- Apply rules consistently across all files in a change set.
+- Don't modify any auto-generated files.
