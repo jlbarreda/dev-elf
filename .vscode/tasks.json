@@ -1,0 +1,47 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "dotnet: build (vscode)",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/DevElf.slnx",
+        "/p:BuildingInsideVisualStudio=true"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "dotnet: clean (vscode)",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "clean",
+        "${workspaceFolder}/DevElf.slnx",
+        "/p:BuildingInsideVisualStudio=true"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": "none"
+    },
+    {
+      "label": "dotnet: test (vscode)",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "test",
+        "${workspaceFolder}/DevElf.slnx",
+        "/p:BuildingInsideVisualStudio=true"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    }
+  ]
+}

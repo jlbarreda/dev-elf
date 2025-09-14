@@ -1,0 +1,75 @@
+<Project>
+
+  <PropertyGroup>
+    <RootNamespace>$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <WarningLevel>9999</WarningLevel>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>All</AnalysisMode>
+    <Authors>Jose Luis Barreda Guerena</Authors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(BuildingInsideVisualStudio)' != 'true'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!--
+      Allow documentation syntax checking, avoiding warnings for missing documentation comments.
+      CS1573: Parameter 'parameter' has no matching param tag in the XML comment for 'parameter'
+              (but other parameters do)
+      CS1591: Missing XML comment for publicly visible type or member 'Type_or_Member'
+      CS1712: Type parameter 'type_parameter' has no matching typeparam tag in the XML comment on
+              'type_or_member' (but other type parameters do)
+      =============================================================================================
+      NU1507: When using Central Package Management, you get this warning if you have more than one
+              package source defined in your configuration. We don't get this warning because we're
+              using source mapping, but we still disable it just to play it safe.
+    -->
+    <!-- <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn),1573,1591,1712,NU1507</NoWarn> -->
+  </PropertyGroup>
+
+  <!-- DefaultDocumentation settings => https://github.com/Doraku/DefaultDocumentation -->
+  <PropertyGroup Condition="'$(IsTestProject)' != 'true' And '$(BuildingInsideVisualStudio)' == 'true'">
+    <DefaultDocumentationConfigurationFile>..\..\default-documentation.json</DefaultDocumentationConfigurationFile>
+    <DefaultDocumentationFolder>..\..\docs\api\$(MSBuildProjectName)\</DefaultDocumentationFolder>
+  </PropertyGroup>
+
+  <!-- <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json">
+      <Link>..\..\stylecop.json</Link>
+    </AdditionalFiles>
+  </ItemGroup> -->
+
+  <!--
+  Allow version ranges in project references for related nuget packages see:
+  https://github.com/NuGet/Home/issues/5556#issuecomment-1179526189
+  -->
+  <!-- <Target Name="UseExplicitPackageVersions" BeforeTargets="GenerateNuspec">
+    <ItemGroup>
+      <_ProjectReferenceWithExplicitPackageVersion
+        Include="@(ProjectReference->'%(FullPath)')"
+        Condition="'%(ProjectReference.PackageVersion)' != ''" />
+      <_ProjectReferenceWithExactPackageVersion
+        Include="@(ProjectReference->'%(FullPath)')"
+        Condition="'%(ProjectReference.ExactVersion)' == 'true'" />
+      <_ProjectReferenceWithReassignedVersion
+        Include="@(_ProjectReferencesWithVersions)"
+        Condition="'%(Identity)' != '' And '@(_ProjectReferenceWithExplicitPackageVersion)' == '@(_ProjectReferencesWithVersions)'">
+        <ProjectVersion>@(_ProjectReferenceWithExplicitPackageVersion->'%(PackageVersion)')</ProjectVersion>
+      </_ProjectReferenceWithReassignedVersion>
+      <_ProjectReferenceWithReassignedVersion
+        Include="@(_ProjectReferencesWithVersions)"
+        Condition="'%(Identity)' != '' And '@(_ProjectReferenceWithExactPackageVersion)' == '@(_ProjectReferencesWithVersions)'">
+        <ProjectVersion>[@(_ProjectReferencesWithVersions->'%(ProjectVersion)')]</ProjectVersion>
+      </_ProjectReferenceWithReassignedVersion>
+      <_ProjectReferencesWithVersions Remove="@(_ProjectReferenceWithReassignedVersion)" />
+      <_ProjectReferencesWithVersions Include="@(_ProjectReferenceWithReassignedVersion)" />
+    </ItemGroup>
+  </Target> -->
+
+</Project>

@@ -1,0 +1,62 @@
+<Project>
+  <!-- Reference: https://devblogs.microsoft.com/nuget/introducing-central-package-management/ -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <EnablePackageVersionOverride>false</EnablePackageVersionOverride>
+    <!--
+      By default, transitive dependency versions are determined by resolving the package metadata
+      defined by the graph.  To override the version of a transitive dependency, you would normally
+      need to add that package as a top-level dependency.  The CentralPackageTransitivePinningEnabled
+      property tells NuGet that if any PackageVersion is defined in Directory.Packages.props that
+      matches any transitive dependency to use that version instead and elevate it to a top-level
+      dependency.
+    -->
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="AutoFixture" Version="4.18.1" />
+    <PackageVersion Include="AutoFixture.AutoNSubstitute" Version="4.18.1" />
+    <PackageVersion Include="AwesomeAssertions" Version="9.1.0" />
+    <PackageVersion Include="AwesomeAssertions.Analyzers" Version="9.0.3" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.4">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.9" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.9" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="9.0.9" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageVersion Include="MSTest" Version="3.10.4" />
+    <PackageVersion Include="NSubstitute" Version="5.3.0" />
+    <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+  </ItemGroup>
+  <!-- Transitive packages. Versions are specified to avoid vulnerabilities -->
+  <ItemGroup>
+  </ItemGroup>
+  <!-- Code Analysis Versions -->
+  <ItemGroup>
+    <!-- <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556" /> -->
+  </ItemGroup>
+  <!-- Code Analysis References -->
+  <ItemGroup>
+    <!-- <PackageReference Include="StyleCop.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference> -->
+  </ItemGroup>
+  <!-- Documentation Generation Versions -->
+  <ItemGroup>
+    <PackageVersion Include="DefaultDocumentation" Version="1.2.0" />
+  </ItemGroup>
+  <!-- Documentation Generation References -->
+  <ItemGroup Condition="'$(IsTestProject)' != 'true' And '$(BuildingInsideVisualStudio)' == 'true'">
+    <PackageReference Include="DefaultDocumentation">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>

@@ -244,6 +244,18 @@ dotnet_naming_symbols.public_members.applicable_accessibilities = public, protec
 dotnet_naming_symbols.private_fields.applicable_kinds = field
 dotnet_naming_symbols.private_fields.applicable_accessibilities = private
 
+# Static fields and constants
+# Symbol group for static fields and constants
+dotnet_naming_symbols.static_fields_and_constants.applicable_kinds = field
+# Applies to all accessibilities
+dotnet_naming_symbols.static_fields_and_constants.applicable_accessibilities = *
+dotnet_naming_symbols.static_fields_and_constants.required_modifiers = static
+
+# Rule: static fields and constants should be PascalCase
+dotnet_naming_rule.static_fields_and_constants_should_be_pascal_case.severity = warning
+dotnet_naming_rule.static_fields_and_constants_should_be_pascal_case.symbols = static_fields_and_constants
+dotnet_naming_rule.static_fields_and_constants_should_be_pascal_case.style = pascal_case_style
+
 # Rules
 dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.types_should_be_pascal_case.symbols = all_types
@@ -256,6 +268,13 @@ dotnet_naming_rule.public_members_should_be_pascal_case.style = pascal_case_styl
 dotnet_naming_rule.private_fields_should_have_underscore_prefix.severity = suggestion
 dotnet_naming_rule.private_fields_should_have_underscore_prefix.symbols = private_fields
 dotnet_naming_rule.private_fields_should_have_underscore_prefix.style = underscore_prefix_style
+
+############################################################
+# Disabled rules
+############################################################
+
+# CA1515: Consider making public types internal.
+dotnet_diagnostic.CA1515.severity = suggestion
 
 ############################################################
 # Project / solution files

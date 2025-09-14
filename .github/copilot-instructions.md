@@ -62,6 +62,7 @@
 - Use a single space after `//` in comments.
 - Use discard `_` to comply with IDE0058.
 - Don't add unnecessary using statements.
+- Always add an empty line between lines of code and statement blocks.
 
 ### Documentation Preferences
 - Use XML documentation comments for public members.

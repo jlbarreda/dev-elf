@@ -1,3 +1,5 @@
+using AutoFixture;
+using AwesomeAssertions;
 using DevElf.ArgumentValidation;
 
 namespace DevElf.Tests.ArgumentValidation;
@@ -8,23 +10,44 @@ public class StringExtensionsTests
     [TestMethod]
     public void ThrowIfNullOrEmpty_DoesNotThrow_ForNonEmpty()
     {
-        string s = "abc";
-        s.ThrowIfNullOrEmpty();
+        // Arrange
+        var fixture = new Fixture();
+        string s = fixture.Create<string>();
+
+        // Act
+        Action act = () => s.ThrowIfNullOrEmpty();
+
+        // Assert
+        _ = act.Should().NotThrow();
     }
 
     [TestMethod]
     public void ThrowIfNullOrEmpty_ThrowsArgumentNullException_ForNull()
     {
-        string? s = null;
-        ArgumentNullException ex = Assert.ThrowsException<ArgumentNullException>(() => s.ThrowIfNullOrEmpty());
-        Assert.AreEqual(nameof(s), ex.ParamName);
+        // Arrange
+        var fixture = new Fixture();
+        string? value = null;
+
+        // Act
+        Action act = () => value.ThrowIfNullOrEmpty();
+
+        // Assert
+        _ = act.Should().Throw<ArgumentNullException>()
+            .WithParameterName(nameof(value));
     }
 
     [TestMethod]
     public void ThrowIfNullOrEmpty_ThrowsArgumentException_ForEmpty()
     {
-        string s = string.Empty;
-        ArgumentException ex = Assert.ThrowsException<ArgumentException>(() => s.ThrowIfNullOrEmpty());
-        Assert.AreEqual(nameof(s), ex.ParamName);
+        // Arrange
+        var fixture = new Fixture();
+        string value = string.Empty;
+
+        // Act
+        Action act = () => value.ThrowIfNullOrEmpty();
+
+        // Assert
+        _ = act.Should().Throw<ArgumentException>()
+            .WithParameterName(nameof(value));
     }
 }
