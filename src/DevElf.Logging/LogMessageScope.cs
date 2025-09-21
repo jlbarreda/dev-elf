@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using DevElf.ArgumentValidation;
 using Microsoft.Extensions.Logging;
 
 namespace DevElf.Logging;
@@ -6,11 +7,25 @@ namespace DevElf.Logging;
 /// <summary>
 /// Represents a scope for logging properties. Supports nesting and property accumulation.
 /// </summary>
-public sealed class LogMessageScope : IDisposable, ILogMessageScope
+/// <remarks>
+/// A <see cref="LogMessageScope"/> is pushed onto an async-local stack when constructed and
+/// popped when disposed. Scopes must be disposed in LIFO order. If a scope is disposed out of order,
+/// a warning is logged and no state is changed, allowing a later correct dispose to succeed.
+///
+/// While active, a scope can accumulate key/value properties via <see cref="SetProperty{T}(string, T)"/>.
+/// When scopes are nested, properties are merged so that child properties override parent values for the
+/// same key. On <see cref="Dispose"/>, the scope logs its message at the configured <see cref="LogLevel"/>, 
+/// using <see cref="ILogger.BeginScope(object)"/> with the accumulated properties so they are available to
+/// logging providers that support scopes.
+///
+/// An exception can be associated to the log entry via <see cref="SetException(Exception, bool)"/> and will be
+/// passed to <see cref="ILogger.Log(LogLevel, EventId, Exception?, string)"/>. When <c>setAsProperty</c> is
+/// <see langword="true"/>, the exception is also added as a scope property under the key "Exception".
+/// </remarks>
+internal sealed partial class LogMessageScope : IDisposable, ILogMessageScope
 {
-    private readonly ILogMessageScopeStore<LogMessageScope> _ambientStack;
-
     private readonly ConcurrentDictionary<string, object?> _properties = new(StringComparer.OrdinalIgnoreCase);
+
 #pragma warning disable CA2213 // Disposable fields should be disposed => By design. We don't own the parent scope.
     private readonly LogMessageScope? _parent;
 #pragma warning restore CA2213 // Disposable fields should be disposed
@@ -22,30 +37,33 @@ public sealed class LogMessageScope : IDisposable, ILogMessageScope
     private Exception? _exception;
     private bool _disposed;
 
-    // Microsoft logging scope integration
-    private IDisposable? _microsoftScope;
-    private readonly object _scopeLock = new();
-
     /// <summary>
-    /// Creates a new log message scope.
+    /// Initializes a new instance of the <see cref="LogMessageScope"/> class and pushes it onto the
+    /// ambient async-local scope stack.
     /// </summary>
+    /// <param name="logger">The logger used to emit the message when the scope is disposed.</param>
+    /// <param name="logLevel">The log level for the message.</param>
+    /// <param name="eventId">The event identifier for the message.</param>
+    /// <param name="message">The message to log when the scope is disposed.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="logger"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="logLevel"/> is not a defined value.</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="message"/> is <see langword="null"/>, empty, or whitespace.</exception>
     public LogMessageScope(
-        ILogMessageScopeStore<LogMessageScope> ambientStack,
         ILogger logger,
         LogLevel logLevel,
         EventId eventId,
         string message)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(message);
+        logLevel.ThrowIfNotDefined();
+        message.ThrowIfNullOrWhiteSpace();
 
-        _ambientStack = ambientStack ?? throw new ArgumentNullException(nameof(ambientStack));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _logLevel = logLevel;
         _eventId = eventId;
         _message = message;
 
-        _parent = _ambientStack.Peek();
-        _ambientStack.Push(this);
+        _parent = AsyncLocalLogMessageScopeStack.Peek();
+        AsyncLocalLogMessageScopeStack.Push(this);
     }
 
     /// <summary>
@@ -53,27 +71,31 @@ public sealed class LogMessageScope : IDisposable, ILogMessageScope
     /// </summary>
     /// <param name="key">The property key.</param>
     /// <param name="value">The property value.</param>
+    /// <typeparam name="T">The value type.</typeparam>
+    /// <returns>Returns the provided <paramref name="value"/> to enable fluent assignment.</returns>
     public T SetProperty<T>(string key, T value)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
-        ArgumentException.ThrowIfNullOrWhiteSpace(key);
+        key.ThrowIfNullOrWhiteSpace();
 
         _properties[key] = value;
-        UpdateMicrosoftScope();
 
         return value;
     }
 
     /// <summary>
-    /// Sets an exception for this scope and adds it as a property.
+    /// Sets an exception for this scope and optionally adds it as a property.
     /// </summary>
     /// <param name="exception">The exception to set.</param>
-    public void SetException(Exception exception)
+    /// <param name="setProperty">
+    /// If <see langword="true"/>, also sets the exception as a property under the key "Exception".
+    /// </param>
+    public void SetException(Exception exception, bool setProperty = false)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
-        ArgumentNullException.ThrowIfNull(exception);
+        exception.ThrowIfNull();
 
-        _exception = SetProperty("Exception", exception);
+        _exception = setProperty ? SetProperty(nameof(Exception), exception) : exception;
     }
 
     /// <summary>
@@ -83,6 +105,7 @@ public sealed class LogMessageScope : IDisposable, ILogMessageScope
     public void ChangeLogLevel(LogLevel logLevel)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
+        logLevel.ThrowIfNotDefined();
 
         _logLevel = logLevel;
     }
@@ -105,35 +128,15 @@ public sealed class LogMessageScope : IDisposable, ILogMessageScope
     public void ChangeMessage(string message)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
-        ArgumentException.ThrowIfNullOrWhiteSpace(message);
+        message.ThrowIfNullOrWhiteSpace();
 
         _message = message;
     }
 
     /// <summary>
-    /// Updates the Microsoft logging scope with current properties.
-    /// This ensures that properties are visible to the Microsoft logging infrastructure immediately.
-    /// </summary>
-    private void UpdateMicrosoftScope()
-    {
-        lock (_scopeLock)
-        {
-            // Dispose the previous scope if it exists
-            _microsoftScope?.Dispose();
-
-            // Create a new scope with all current properties
-            Dictionary<string, object?> allProperties = GetAllProperties();
-            
-            if (allProperties.Count > 0)
-            {
-                _microsoftScope = _logger.BeginScope(allProperties);
-            }
-        }
-    }
-
-    /// <summary>
     /// Disposes the scope and logs the message with accumulated properties.
-    /// Enforces strict LIFO disposal using the injected ambient stack.
+    /// Enforces strict LIFO disposal using the ambient async-local stack.
+    /// If the scope is disposed out of order, it logs a warning and returns without changing state.
     /// </summary>
     public void Dispose()
     {
@@ -142,25 +145,22 @@ public sealed class LogMessageScope : IDisposable, ILogMessageScope
             return;
         }
 
-        _disposed = true;
-
-        if (_ambientStack.Count == 0 || !ReferenceEquals(_ambientStack.Peek(), this))
+        // Validate LIFO without marking disposed; allow a later correct dispose to succeed.
+        if (AsyncLocalLogMessageScopeStack.Count == 0 || !ReferenceEquals(AsyncLocalLogMessageScopeStack.Peek(), this))
         {
-#pragma warning disable CA1065 // Do not raise exceptions in unexpected locations => By design. This indicates a programming error.
-            throw new InvalidOperationException("LogMessageScope disposed out of order. Scopes must be disposed in LIFO order.");
-#pragma warning restore CA1065 // Do not raise exceptions in unexpected locations
+            LogOutOfOrderDisposeWarning();
+
+            return;
         }
 
-        _ = _ambientStack.Pop();
+        // Pop first to update the ambient stack to the parent before logging.
+        _ = AsyncLocalLogMessageScopeStack.Pop();
 
-        // Dispose the Microsoft scope first
-        lock (_scopeLock)
-        {
-            _microsoftScope?.Dispose();
-            _microsoftScope = null;
-        }
-
+        // Log with accumulated properties from this scope and its parents
         Log(GetAllProperties());
+
+        // Finally mark as disposed
+        _disposed = true;
     }
 
     /// <summary>
@@ -192,4 +192,9 @@ public sealed class LogMessageScope : IDisposable, ILogMessageScope
             }
         }
     }
+
+    [LoggerMessage(
+        Level = LogLevel.Warning,
+        Message = "LogMessageScope disposed out of order. Scopes must be disposed in LIFO order.")]
+    private partial void LogOutOfOrderDisposeWarning();
 }

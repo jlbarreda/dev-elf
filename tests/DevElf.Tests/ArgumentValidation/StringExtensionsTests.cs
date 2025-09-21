@@ -8,7 +8,7 @@ namespace DevElf.Tests.ArgumentValidation;
 public class StringExtensionsTests
 {
     [TestMethod]
-    public void ThrowIfNullOrEmpty_DoesNotThrow_ForNonEmpty()
+    public void ThrowIfNullOrEmpty_does_not_throw_when_string_is_not_empty()
     {
         // Arrange
         var fixture = new Fixture();
@@ -22,10 +22,9 @@ public class StringExtensionsTests
     }
 
     [TestMethod]
-    public void ThrowIfNullOrEmpty_ThrowsArgumentNullException_ForNull()
+    public void ThrowIfNullOrEmpty_throws_ArgumentNullException_when_string_is_null()
     {
         // Arrange
-        var fixture = new Fixture();
         string? value = null;
 
         // Act
@@ -37,10 +36,9 @@ public class StringExtensionsTests
     }
 
     [TestMethod]
-    public void ThrowIfNullOrEmpty_ThrowsArgumentException_ForEmpty()
+    public void ThrowIfNullOrEmpty_throws_ArgumentException_when_string_is_empty()
     {
         // Arrange
-        var fixture = new Fixture();
         string value = string.Empty;
 
         // Act

@@ -1,3 +1,4 @@
+using AwesomeAssertions;
 using DevElf.Extensions;
 
 namespace DevElf.Tests.Extensions;
@@ -6,58 +7,106 @@ namespace DevElf.Tests.Extensions;
 public class StringExtensionsTests
 {
     [TestMethod]
-    public void IsNull_ReturnsTrue_ForNull()
+    public void IsNull_returns_true_when_string_is_null()
     {
+        // Arrange
         string? s = null;
-        Assert.IsTrue(s.IsNull());
+
+        // Act
+        bool result = s.IsNull();
+
+        // Assert
+        _ = result.Should().BeTrue();
     }
 
     [TestMethod]
-    public void IsNull_ReturnsFalse_ForEmpty()
+    public void IsNull_returns_false_when_string_is_empty()
     {
+        // Arrange
         string s = string.Empty;
-        Assert.IsFalse(s.IsNull());
+
+        // Act
+        bool result = s.IsNull();
+
+        // Assert
+        _ = result.Should().BeFalse();
     }
 
     [TestMethod]
-    public void IsNullOrEmpty_ReturnsTrue_ForNull()
+    public void IsNullOrEmpty_returns_true_when_string_is_null()
     {
+        // Arrange
         string? s = null;
-        Assert.IsTrue(s.IsNullOrEmpty());
+
+        // Act
+        bool result = s.IsNullOrEmpty();
+
+        // Assert
+        _ = result.Should().BeTrue();
     }
 
     [TestMethod]
-    public void IsNullOrEmpty_ReturnsTrue_ForEmpty()
+    public void IsNullOrEmpty_returns_true_when_string_is_empty()
     {
-        string s = "";
-        Assert.IsTrue(s.IsNullOrEmpty());
+        // Arrange
+        string s = string.Empty;
+
+        // Act
+        bool result = s.IsNullOrEmpty();
+
+        // Assert
+        _ = result.Should().BeTrue();
     }
 
     [TestMethod]
-    public void IsNullOrEmpty_ReturnsFalse_ForNonEmpty()
+    public void IsNullOrEmpty_returns_false_when_string_is_not_empty()
     {
+        // Arrange
         string s = "abc";
-        Assert.IsFalse(s.IsNullOrEmpty());
+
+        // Act
+        bool result = s.IsNullOrEmpty();
+
+        // Assert
+        _ = result.Should().BeFalse();
     }
 
     [TestMethod]
-    public void IsNullOrWhiteSpace_ReturnsTrue_ForNull()
+    public void IsNullOrWhiteSpace_returns_true_when_string_is_null()
     {
+        // Arrange
         string? s = null;
-        Assert.IsTrue(s.IsNullOrWhiteSpace());
+
+        // Act
+        bool result = s.IsNullOrWhiteSpace();
+
+        // Assert
+        _ = result.Should().BeTrue();
     }
 
     [TestMethod]
-    public void IsNullOrWhiteSpace_ReturnsTrue_ForWhitespace()
+    public void IsNullOrWhiteSpace_returns_true_when_string_is_whitespace()
     {
+        // Arrange
         string s = "   \t\n";
-        Assert.IsTrue(s.IsNullOrWhiteSpace());
+
+        // Act
+        bool result = s.IsNullOrWhiteSpace();
+
+        // Assert
+        _ = result.Should().BeTrue();
     }
 
     [TestMethod]
-    public void IsNullOrWhiteSpace_ReturnsFalse_ForNonWhitespace()
+    public void IsNullOrWhiteSpace_returns_false_when_string_is_not_whitespace()
     {
+        // Arrange
         string s = " a ";
-        Assert.IsFalse(s.IsNullOrWhiteSpace());
+
+        // Act
+        bool result = s.IsNullOrWhiteSpace();
+
+        // Assert
+        _ = result.Should().BeFalse();
     }
 }

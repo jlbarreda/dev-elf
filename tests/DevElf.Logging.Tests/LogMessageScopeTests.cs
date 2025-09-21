@@ -1,6 +1,7 @@
+using AutoFixture;
 using AwesomeAssertions;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Testing;
 
 namespace DevElf.Logging.Tests;
 
@@ -8,205 +9,122 @@ namespace DevElf.Logging.Tests;
 public class LogMessageScopeTests
 {
     [TestMethod]
-    public void Test()
-    {
-        ILogMessageScopeFactory factory = new LogMessageScopeFactory();
-        ILogger logger = LoggerFactory
-            .Create(builder =>
-            {
-                builder.AddJsonConsole(options => { options.IncludeScopes = true; });
-            })
-            .CreateLogger("TestLogger");
-
-        using (var scope = factory.Create(logger, LogLevel.Information, "Test message"))
-        {
-            _ = scope.SetProperty("Key", "Value");
-
-            using (var nestedScope = factory.Create(logger, LogLevel.Warning, "Nested message"))
-            {
-                _ = nestedScope.SetProperty("NestedKey", 123);
-
-                var x = new X(factory, logger);
-
-                x.Y();
-            }
-        }
-    }
-
-    [TestMethod]
-    public void SetProperty_should_return_the_value()
+    public void Constructor_throws_for_invalid_arguments()
     {
         // Arrange
-        var factory = new LogMessageScopeFactory();
-        var logger = LoggerFactory.Create(builder => { }).CreateLogger("Test");
-
-        using var scope = factory.Create(logger, LogLevel.Information, "Test");
-        const string expectedValue = "TestValue";
+        var fixture = new Fixture();
+        ILogger logger = new FakeLogger();
+        string anyMessage = fixture.Create<string>();
 
         // Act
-        string result = scope.SetProperty("Key", expectedValue);
+        Action nullLogger = () => _ = new LogMessageScope(null!, LogLevel.Information, default, anyMessage);
+        Action invalidLevel = () => _ = new LogMessageScope(logger, (LogLevel)999, default, anyMessage);
+        Action nullMessage = () => _ = new LogMessageScope(logger, LogLevel.Information, default, null!);
+        Action whitespaceMessage = () => _ = new LogMessageScope(logger, LogLevel.Information, default, "   ");
 
         // Assert
-        result.Should().Be(expectedValue);
+        _ = nullLogger.Should().Throw<ArgumentNullException>();
+        _ = invalidLevel.Should().Throw<ArgumentOutOfRangeException>();
+        _ = nullMessage.Should().Throw<ArgumentException>();
+        _ = whitespaceMessage.Should().Throw<ArgumentException>();
     }
 
     [TestMethod]
-    public void Dispose_should_throw_when_disposed_out_of_order()
+    public void SetException_does_not_add_property_when_flag_is_false()
     {
         // Arrange
-        var factory = new LogMessageScopeFactory();
-        var logger = LoggerFactory.Create(builder => { }).CreateLogger("Test");
-
-        var outerScope = factory.Create(logger, LogLevel.Information, "Outer");
-        var innerScope = factory.Create(logger, LogLevel.Information, "Inner");
-
-        // Act & Assert
-        Action act = () => outerScope.Dispose();
-        _ = act.Should().Throw<InvalidOperationException>()
-           .WithMessage("LogMessageScope disposed out of order. Scopes must be disposed in LIFO order.");
-
-        // Clean up properly
-        innerScope.Dispose();
-        outerScope.Dispose();
-    }
-
-    [TestMethod]
-    public void SetProperty_should_throw_when_disposed()
-    {
-        // Arrange
-        var factory = new LogMessageScopeFactory();
-        var logger = LoggerFactory.Create(builder => { }).CreateLogger("Test");
-
-        var scope = factory.Create(logger, LogLevel.Information, "Test");
-        scope.Dispose();
-
-        // Act & Assert
-        Func<string> act = () => scope.SetProperty("Key", "Value");
-        _ = act.Should().Throw<ObjectDisposedException>();
-    }
-
-    [TestMethod]
-    public void ChangeLogLevel_should_throw_when_disposed()
-    {
-        // Arrange
-        var factory = new LogMessageScopeFactory();
-        var logger = LoggerFactory.Create(builder => { }).CreateLogger("Test");
-
-        var scope = factory.Create(logger, LogLevel.Information, "Test");
-        scope.Dispose();
-
-        // Act & Assert
-        Action act = () => scope.ChangeLogLevel(LogLevel.Error);
-        _ = act.Should().Throw<ObjectDisposedException>();
-    }
-
-    [TestMethod]
-    public void Microsoft_scope_integration_should_work_with_extension_methods()
-    {
-        // Arrange
-        var logger = LoggerFactory
-            .Create(builder =>
-            {
-                builder.AddJsonConsole(options => { options.IncludeScopes = true; });
-            })
-            .CreateLogger("TestLogger");
-
-        // Act & Assert
-        using (var scope = logger.BeginMessageScope(LogLevel.Information, "Test message"))
-        {
-            _ = scope.SetProperty("TestKey", "TestValue");
-            _ = scope.SetProperty("Number", 42);
-
-            // The scope should be active and properties should be visible to Microsoft logging
-            // This test verifies the extension method works correctly
-        }
-    }
-
-    [TestMethod]
-    public void External_scope_integration_should_merge_existing_scopes()
-    {
-        // Arrange
-        var externalIntegration = new ExternalScopeIntegration();
-        var factory = new LogMessageScopeFactory(new LogMessageScopeStore<LogMessageScope>(), externalIntegration);
-        var logger = LoggerFactory.Create(builder => { }).CreateLogger("Test");
+        var fixture = new Fixture();
+        var fake = new FakeLogger();
+        ILogger logger = fake;
+        string message = fixture.Create<string>();
+        var sut = logger.BeginMessageScope(LogLevel.Warning, message);
+        var ex = fixture.Create<InvalidOperationException>();
 
         // Act
-        using (logger.BeginScope(new Dictionary<string, object?> { { "ExternalKey", "ExternalValue" } }))
-        {
-            using var scope = factory.Create(logger, LogLevel.Information, "Test");
-            _ = scope.SetProperty("InternalKey", "InternalValue");
+        sut.SetException(ex, setAsProperty: false);
+        sut.Dispose();
 
-            // Both external and internal properties should be available
-            // This test verifies external scope integration works
-        }
+        // Assert
+        var records = fake.Collector.GetSnapshot();
+        _ = records.Should().HaveCount(1);
+        _ = records[0].Exception.Should().BeSameAs(ex);
+        var lastScopeState = records[0].Scopes[^1] as IReadOnlyDictionary<string, object?>;
+        _ = lastScopeState.Should().NotBeNull();
+        _ = lastScopeState.Should().NotContainKey("Exception");
     }
 
     [TestMethod]
-    public void Dependency_injection_integration_should_work()
+    public void SetException_adds_property_when_flag_is_true()
     {
         // Arrange
-        ServiceCollection services = new();
-        services.AddLogging(builder => builder.AddConsole());
-        services.AddLogMessageScopes();
+        var fixture = new Fixture();
+        var fake = new FakeLogger();
+        ILogger logger = fake;
+        string message = fixture.Create<string>();
+        var sut = logger.BeginMessageScope(LogLevel.Warning, message);
+        var ex = fixture.Create<InvalidOperationException>();
 
-        ServiceProvider serviceProvider = services.BuildServiceProvider();
-        ILogMessageScopeFactory factory = serviceProvider.GetRequiredService<ILogMessageScopeFactory>();
-        ILogger<LogMessageScopeTests> logger = serviceProvider.GetRequiredService<ILogger<LogMessageScopeTests>>();
+        // Act
+        sut.SetException(ex, setAsProperty: true);
+        sut.Dispose();
 
-        // Act & Assert
-        using var scope = factory.Create(logger, LogLevel.Information, "DI Test");
-        _ = scope.SetProperty("DIKey", "DIValue");
-
-        // The factory should be properly configured from DI
-        factory.Should().NotBeNull();
+        // Assert
+        var records = fake.Collector.GetSnapshot();
+        _ = records.Should().HaveCount(1);
+        _ = records[0].Exception.Should().BeSameAs(ex);
+        var lastScopeState = records[0].Scopes[^1] as IReadOnlyDictionary<string, object?>;
+        _ = lastScopeState.Should().NotBeNull();
+        _ = lastScopeState.Should().ContainKey("Exception");
     }
 
     [TestMethod]
-    public void Custom_configuration_should_work()
+    public void SetProperty_is_case_insensitive_and_overrides()
     {
         // Arrange
-        ServiceCollection services = new();
-        services.AddLogging();
-        services.AddLogMessageScopes(options =>
-        {
-            options.UseAsyncLocalStorage = false;
-            options.EnableExternalScopeIntegration = false;
-        });
+        var fixture = new Fixture();
+        var fake = new FakeLogger();
+        ILogger logger = fake;
+        string message = fixture.Create<string>();
+        var sut = logger.BeginMessageScope(LogLevel.Information, message);
 
-        ServiceProvider serviceProvider = services.BuildServiceProvider();
-        ILogMessageScopeFactory factory = serviceProvider.GetRequiredService<ILogMessageScopeFactory>();
-        ILogger logger = serviceProvider.GetRequiredService<ILogger<LogMessageScopeTests>>();
+        // Act
+        _ = sut.SetProperty("KEY", 1);
+        _ = sut.SetProperty("key", 2);
+        sut.Dispose();
 
-        // Act & Assert
-        using var scope = factory.Create(logger, LogLevel.Information, "Custom Config Test");
-        _ = scope.SetProperty("ConfigKey", "ConfigValue");
-
-        // The factory should work with custom configuration
-        factory.Should().NotBeNull();
+        // Assert
+        var records = fake.Collector.GetSnapshot();
+        _ = records.Should().HaveCount(1);
+        var scopes = records[0].Scopes[^1] as IReadOnlyDictionary<string, object?>;
+        _ = scopes.Should().NotBeNull();
+        _ = scopes.Should().ContainSingle();
+        _ = scopes["key"].Should().Be(2);
+        _ = scopes.Should().ContainKey("KEY");
+        _ = scopes.Should().ContainKey("key");
     }
 
-    public class X
+    [TestMethod]
+    public void Out_of_order_dispose_logs_warning_then_messages()
     {
-        private readonly ILogMessageScopeFactory _factory;
-        private readonly ILogger _logger;
+        // Arrange
+        var fixture = new Fixture();
+        var fake = new FakeLogger();
+        ILogger logger = fake;
+        string outerMsg = fixture.Create<string>();
+        string innerMsg = fixture.Create<string>();
+        var outer = logger.BeginMessageScope(LogLevel.Information, outerMsg);
+        var inner = logger.BeginMessageScope(LogLevel.Information, innerMsg);
 
-        public X(ILogMessageScopeFactory factory, ILogger logger)
-        {
-            using (var scope = factory.Create(logger, LogLevel.Information, "Test message from X"))
-            {
-                _ = scope.SetProperty("XKey", "XValue");
-            }
+        // Act
+        outer.Dispose();
+        inner.Dispose();
+        outer.Dispose();
 
-            _factory = factory;
-            _logger = logger;
-        }
-
-        public void Y()
-        {
-            using (var scope = _factory.Create(_logger, LogLevel.Error, "Error message from Y"))
-            {
-                _ = scope.SetProperty("YKey", "YValue");
-            }
-        }
+        // Assert
+        var records = fake.Collector.GetSnapshot();
+        _ = records[0].Level.Should().Be(LogLevel.Warning);
+        _ = records[0].Message.Should().Be("LogMessageScope disposed out of order. Scopes must be disposed in LIFO order.");
+        _ = records[1].Message.Should().Be(innerMsg);
+        _ = records[2].Message.Should().Be(outerMsg);
     }
 }

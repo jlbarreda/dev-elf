@@ -275,6 +275,7 @@ dotnet_naming_rule.private_fields_should_have_underscore_prefix.style = undersco
 
 # CA1515: Consider making public types internal.
 dotnet_diagnostic.CA1515.severity = suggestion
+dotnet_code_quality.CA1515.output_kind = ConsoleApplication
 
 ############################################################
 # Project / solution files

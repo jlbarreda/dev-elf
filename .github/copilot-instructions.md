@@ -29,6 +29,7 @@
 ---
 
 ## C# Style Preferences
+- Never add more than one class/interface/enum/struct per file.
 - Use PascalCase for public constants and static readonly fields.
 - Use camelCase with and underscore prefix for private fields and local variables.
 - Prefix interfaces with `I` and type parameters with `T`.
@@ -125,6 +126,7 @@
 ---
 
 ## Testing Guidelines
+- Never add more than one class/interface/enum/struct per file.
 - Use MSTest with `AutoFixture` and `NSubstitute` when they are needed.
 - Use `AwesomeAssertions` for assertions.
 - Create a new `Fixture` instance in each test method when test data generation is needed.
