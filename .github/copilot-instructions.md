@@ -136,7 +136,8 @@
 - Start comments other than `// Arrange`, `// Act`, and `// Assert` with lowercase.
 - Name test methods using: `MethodName_expected_behavior_when_condition`.
 - Use `snake_case` in test method names except for `MethodName`.
-- Use `sut` for the system under test (except for extension methods).
+- Use `sut` for the system under test, except for delegates. When using a delegate to execute the code under test, it should be named `act`.
+- Use `act` for delegates that execute the code under test. 
 - Place test classes in a project named after the source project with `.Tests` suffix.
 - Match the folder structure of the source file.
 - Name the test file after the source file, appending `Tests`.

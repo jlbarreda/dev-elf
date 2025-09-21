@@ -1,5 +1,7 @@
 using AutoFixture;
+using AutoFixture.AutoNSubstitute;
 using AwesomeAssertions;
+using DevElf.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Testing;
 
@@ -9,24 +11,83 @@ namespace DevElf.Logging.Tests;
 public class LogMessageScopeTests
 {
     [TestMethod]
-    public void Constructor_throws_for_invalid_arguments()
+    public void Constructor_throws_when_logger_is_null()
     {
         // Arrange
-        var fixture = new Fixture();
-        ILogger logger = new FakeLogger();
-        string anyMessage = fixture.Create<string>();
+        var fixture = new Fixture().Customize(new AutoNSubstituteCustomization());
+        ILogger logger = null!;
+        fixture.Inject(logger);
 
         // Act
-        Action nullLogger = () => _ = new LogMessageScope(null!, LogLevel.Information, default, anyMessage);
-        Action invalidLevel = () => _ = new LogMessageScope(logger, (LogLevel)999, default, anyMessage);
-        Action nullMessage = () => _ = new LogMessageScope(logger, LogLevel.Information, default, null!);
-        Action whitespaceMessage = () => _ = new LogMessageScope(logger, LogLevel.Information, default, "   ");
+        var act = fixture.Create<LogMessageScope>;
 
         // Assert
-        _ = nullLogger.Should().Throw<ArgumentNullException>();
-        _ = invalidLevel.Should().Throw<ArgumentOutOfRangeException>();
-        _ = nullMessage.Should().Throw<ArgumentException>();
-        _ = whitespaceMessage.Should().Throw<ArgumentException>();
+        _ = act.UnwrapAndReThrow().Should().Throw<ArgumentNullException>()
+            .WithParameterName(nameof(logger));
+    }
+
+    [TestMethod]
+    public void Constructor_throws_when_logLevel_is_invalid()
+    {
+        // Arrange
+        var fixture = new Fixture().Customize(new AutoNSubstituteCustomization());
+        var logLevel = (LogLevel)int.MaxValue;
+        fixture.Inject(logLevel);
+
+        // Act
+        var act = fixture.Create<LogMessageScope>;
+
+        // Assert
+        _ = act.UnwrapAndReThrow().Should().Throw<ArgumentOutOfRangeException>()
+            .WithParameterName(nameof(logLevel));
+    }
+
+    [TestMethod]
+    public void Constructor_throws_when_message_is_null()
+    {
+        // Arrange
+        var fixture = new Fixture().Customize(new AutoNSubstituteCustomization());
+        string message = null!;
+        fixture.Inject(message);
+
+        // Act
+        var act = fixture.Create<LogMessageScope>;
+
+        // Assert
+        _ = act.UnwrapAndReThrow().Should().Throw<ArgumentNullException>()
+            .WithParameterName(nameof(message));
+    }
+
+    [TestMethod]
+    public void Constructor_throws_when_message_is_empty()
+    {
+        // Arrange
+        var fixture = new Fixture().Customize(new AutoNSubstituteCustomization());
+        string message = "";
+        fixture.Inject(message);
+
+        // Act
+        var act = fixture.Create<LogMessageScope>;
+
+        // Assert
+        _ = act.UnwrapAndReThrow().Should().Throw<ArgumentException>()
+            .WithParameterName(nameof(message));
+    }
+
+    [TestMethod]
+    public void Constructor_throws_when_message_is_white_space()
+    {
+        // Arrange
+        var fixture = new Fixture().Customize(new AutoNSubstituteCustomization());
+        string message = "    ";
+        fixture.Inject(message);
+
+        // Act
+        var act = fixture.Create<LogMessageScope>;
+
+        // Assert
+        _ = act.UnwrapAndReThrow().Should().Throw<ArgumentException>()
+            .WithParameterName(nameof(message));
     }
 
     [TestMethod]

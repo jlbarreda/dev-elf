@@ -273,6 +273,9 @@ dotnet_naming_rule.private_fields_should_have_underscore_prefix.style = undersco
 # Disabled rules
 ############################################################
 
+# CA1031: Do not catch general exception types.
+# Why none?: It's not very smart.
+dotnet_diagnostic.CA1031.severity = none
 # CA1515: Consider making public types internal.
 dotnet_diagnostic.CA1515.severity = suggestion
 dotnet_code_quality.CA1515.output_kind = ConsoleApplication
