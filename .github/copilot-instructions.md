@@ -4,7 +4,7 @@
 - Use UTF-8 encoding for all files.
 - Use spaces for indentation (size 4) unless overridden.
 - Use CRLF line endings by default.
-- Trim trailing whitespace and insert final newline.
+- Trim trailing whitespace and ensure files end with exactly one empty line.
 
 ## General Conventions
 - Use consistent naming conventions and severity levels for analyzers.
