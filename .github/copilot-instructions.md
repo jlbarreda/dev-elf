@@ -166,3 +166,4 @@
 - When in doubt, ask for clarification.
 - Apply rules consistently across all files in a change set.
 - Don't modify any auto-generated files.
+- The solution file has an slnx extension.
