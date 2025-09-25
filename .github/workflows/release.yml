@@ -41,9 +41,9 @@ jobs:
       - name: Bump version and changelog
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           dotnet tool run versionize
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
           git add CHANGELOG.md
           git add -A "*.csproj"
           git commit -m "chore: bump version [skip ci]" || echo "No changes to commit"
