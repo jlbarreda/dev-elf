@@ -1,6 +1,6 @@
 <p align="center">
   <picture>
-    <img src="./assets/logo.png" alt="DevElf logo" width="200" />
+    <img src="./assets/Logo.png" alt="DevElf logo" width="200" />
   </picture>
 </p>
 
