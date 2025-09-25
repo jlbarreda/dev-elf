@@ -41,7 +41,7 @@ jobs:
       - name: Bump version and changelog
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          dotnet tool run versionize --skip-commit-message-check
+          dotnet tool run versionize
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add CHANGELOG.md
