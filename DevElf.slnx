@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/benchmarks/">
+    <Project Path="benchmarks/DevElf.Benchmarks/DevElf.Benchmarks.csproj" Id="20d22fe1-c6c4-4ec3-b37b-c359f89b6071" />
+  </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
     <File Path=".gitignore" />
@@ -19,9 +22,7 @@
     <Project Path="src/DevElf/DevElf.csproj" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="tests/DevElf.Benchmarks/DevElf.Benchmarks.csproj" Id="20d22fe1-c6c4-4ec3-b37b-c359f89b6071" />
     <Project Path="tests/DevElf.Logging.Tests/DevElf.Logging.Tests.csproj" />
     <Project Path="tests/DevElf.Tests/DevElf.Tests.csproj" />
   </Folder>
 </Solution>
-
