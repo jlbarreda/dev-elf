@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.1.0"></a>
+## [0.1.0](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.1.0) (2025-09-26)
+
+### Features
+
+* add ThrowIfLessThan<T> extension method ([426638c](https://www.github.com/jlbarreda/dev-elf/commit/426638c458a73d5ce9742676fe8cd49cabdb8153))
+
 <a name="0.0.0"></a>
 ## [0.0.0](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.0.0) (2025-09-26)
 
