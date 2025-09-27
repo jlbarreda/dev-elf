@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# IMPORTANT: If you modify this file, run this command to keep execution permissions:
+# git add --chmod=+x .husky/pre-push
+
+. "$(dirname "$0")/_/husky.sh"
+
+echo "Running versionize before push..."
+
+if ! dotnet versionize; then
+  echo "❌ Versionize failed."
+  exit 1
+fi
+
+echo "✅ Versionize ran successfully."

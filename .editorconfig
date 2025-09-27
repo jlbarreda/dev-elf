@@ -320,9 +320,20 @@ insert_final_newline = true
 ############################################################
 # Scripts
 ############################################################
+[./.ci-cd/*]]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+
+[./.husky/*]]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+
 [*.{sh,ps1,psm1}]
 indent_style = space
 indent_size = 2
+end_of_line = lf
 
 ############################################################
 # Exclusions / overrides for binary files
@@ -331,5 +342,3 @@ indent_size = 2
 trim_trailing_whitespace = false
 [*.jpg]
 trim_trailing_whitespace = false
-
-# End of file

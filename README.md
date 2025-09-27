@@ -11,8 +11,22 @@ Essential .NET libraries that make day-to-day development simpler and safer.
 - Core utilities for argument validation and fluent string checks
 - Logging helpers with disposable message scopes, property accumulation, and strict LIFO enforcement
 
+> [!WARNING]
+> **This library is currently in development and is not ready for production use.**
+> 
+> The API is subject to breaking changes without notice. Features may be incomplete or unstable.
+> Use at your own risk in non-production environments only.
+
 > [!NOTE]
 > This repository targets .NET 10.0.
+
+[![NuGet Version](https://img.shields.io/nuget/v/DevElf.svg?style=flat-square)](https://www.nuget.org/packages/DevElf/)
+
+[![NuGet Version](https://img.shields.io/nuget/v/DevElf.Logging.svg?style=flat-square)](https://www.nuget.org/packages/DevElf.Logging/)
+
+[![Build Status](https://github.com/jlbarreda/dev-elf/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/jlbarreda/dev-elf/actions/workflows/ci-cd.yml)
+
+[![License](https://img.shields.io/github/license/jlbarreda/dev-elf.svg?style=flat-square)](https://github.com/jlbarreda/dev-elf/blob/main/LICENSE)
 
 ## Features
 

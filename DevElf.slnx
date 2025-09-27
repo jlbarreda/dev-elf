@@ -4,10 +4,14 @@
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
     <File Path=".gitignore" />
+    <File Path=".versionize" />
+    <File Path="CHANGELOG.md" />
     <File Path="default-documentation.json" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
     <File Path="LICENSE" />
     <File Path="nuget.config" />
     <File Path="README.md" />

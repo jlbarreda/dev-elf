@@ -17,6 +17,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="MSTest" />
+    <PackageReference Include="MSTest.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="NSubstitute" />
     <PackageReference Include="NSubstitute.Analyzers.CSharp">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
