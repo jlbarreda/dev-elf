@@ -25,6 +25,13 @@ if [[ "$branch" == "main" ]]; then
   exit 0
 fi
 
+# Skip versionize if the HEAD commit is already a release commit
+head_commit_message=$(git log -1 --pretty=%s)
+if [[ "$head_commit_message" =~ ^chore\(release\): ]]; then
+  echo "✅ HEAD commit is already a release commit, skipping versionize."
+  exit 0
+fi
+
 # Capture the current commit hash before running versionize
 current_commit=$(git rev-parse HEAD)
 
