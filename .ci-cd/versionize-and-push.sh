@@ -25,6 +25,9 @@ if [[ "$branch" == "main" ]]; then
   exit 0
 fi
 
+# Capture the current commit hash before running versionize
+current_commit=$(git rev-parse HEAD)
+
 echo "🔄 Running versionize before push..."
 
 if ! dotnet versionize; then
@@ -32,4 +35,13 @@ if ! dotnet versionize; then
   exit 1
 fi
 
-echo "✅ Versionize completed! Version commits will be included in this push."
+# Check if versionize created new commits
+new_commit=$(git rev-parse HEAD)
+
+if [[ "$current_commit" != "$new_commit" ]]; then
+  echo "✅ Versionize completed and created new version commits!"
+  echo "🚫 Aborting current push to include version commits. Please run 'git push' again."
+  exit 1
+fi
+
+echo "✅ Versionize completed with no new commits needed!"
