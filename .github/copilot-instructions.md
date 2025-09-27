@@ -110,6 +110,15 @@
 
 ---
 
+## bash Formatting Preferences
+- Use 2 spaces for indentation.
+- Use UTF-8 encoding.
+- Trim trailing whitespace.
+- Insert final newline.
+- Use unix style line endings (LF).
+
+---
+
 ## YAML Formatting Preferences
 - Use 2 spaces for indentation.
 - Use UTF-8 encoding.

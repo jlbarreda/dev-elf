@@ -5,7 +5,16 @@
 
 . "$(dirname "$0")/_/husky.sh"
 
-bash .ci-cd/versionize-and-push.sh
+#bash .ci-cd/versionize-and-push.sh
+
+echo "🔄 Running versionize before push..."
+
+if ! dotnet versionize; then
+  echo "❌ Versionize failed."
+  exit 1
+fi
+
+echo "✅ Versionize ran successfully."
 
 ## husky task runner examples ------------------
 ## Note : for local installation use 'dotnet' prefix. e.g. 'dotnet husky'
