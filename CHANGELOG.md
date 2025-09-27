@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.2.0"></a>
+## [0.2.0](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.2.0) (2025-09-26)
+
+### Features
+
+* add smart-push script for automated versionize + push workflow ([f13f379](https://www.github.com/jlbarreda/dev-elf/commit/f13f379a740240789ec50d55d8288e95eba9ecd6))
+
 <a name="0.1.1"></a>
 ## [0.1.1](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.1.1) (2025-09-26)
 
