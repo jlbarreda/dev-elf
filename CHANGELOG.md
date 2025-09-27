@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.1.1"></a>
+## [0.1.1](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.1.1) (2025-09-26)
+
+### Bug Fixes
+
+* improve versionize pre-push hook to handle missing remote branches ([edc2c9a](https://www.github.com/jlbarreda/dev-elf/commit/edc2c9a1293df750c9905e2b564ee9d0f420007f))
+
 <a name="0.1.0"></a>
 ## [0.1.0](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.1.0) (2025-09-26)
 

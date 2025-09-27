@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <PackageId>DevElf.Logging</PackageId>
     <Authors>Jose Luis Barreda Guerena</Authors>
     <Company>Jose Luis Barreda Guerena</Company>
