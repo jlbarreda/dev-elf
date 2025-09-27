@@ -35,9 +35,10 @@ if git show-ref --verify --quiet "refs/remotes/$remote_branch"; then
     echo "✅ Version commits already exist and will be pushed."
   else
     # Let versionize decide if there are commits that need versioning
-    echo "🔄 Running versionize (it will skip if no versioning is needed)..."
+    # Use --ignore-insignificant-commits to skip non-conventional commits
+    echo "🔄 Running versionize (will skip if no significant commits found)..."
     
-    if ! dotnet versionize; then
+    if ! dotnet versionize --ignore-insignificant-commits; then
       echo "❌ Versionize failed. Check your commit history."
       exit 1
     fi
@@ -48,9 +49,9 @@ else
   echo "ℹ️ Remote branch $remote_branch doesn't exist yet."
   
   # Still run versionize for new branches in case there are versionable commits
-  echo "🔄 Running versionize (it will skip if no versioning is needed)..."
+  echo "🔄 Running versionize (will skip if no significant commits found)..."
   
-  if ! dotnet versionize; then
+  if ! dotnet versionize --ignore-insignificant-commits; then
     echo "❌ Versionize failed. Check your commit history."
     exit 1
   fi
