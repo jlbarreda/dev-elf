@@ -7,12 +7,17 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.3.5-alpha.3</Version>
+    <Version>0.3.5-alpha.4</Version>
     <PackageId>DevElf</PackageId>
     <Authors>Jose Luis Barreda Guerena</Authors>
     <Company>Jose Luis Barreda Guerena</Company>
     <Description>Extensions and tools for .NET applications.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
 </Project>
 
