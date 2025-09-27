@@ -4,6 +4,7 @@
 
   <PropertyGroup>
     <IsTestProject>true</IsTestProject>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
 </Project>
