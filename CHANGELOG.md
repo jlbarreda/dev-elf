@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.1.0"></a>
+## [0.1.0](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.1.0) (2025-09-26)
+
+### Features
+
+* add pre-push versioning with Husky.Net ([8d75210](https://www.github.com/jlbarreda/dev-elf/commit/8d752102b0ce0cb161dba5a8e6fa361c27a41210))
+
 <a name="0.0.1"></a>
 ## [0.0.1](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.0.1) (2025-09-26)
 
