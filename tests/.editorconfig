@@ -42,6 +42,11 @@ dotnet_diagnostic.CA2201.severity = none
 # CA2254: (logging) Template should be a static expression.
 dotnet_diagnostic.CA2254.severity = none
 
+# CS8618: Non-nullable property 'TestContext' must contain a non-null
+#  value when exiting constructor. Consider adding the 'required' modifier
+#  or declaring the property as nullable..
+dotnet_diagnostic.CS8618.severity = none
+
 # IDE0007: Use 'var' instead of explicit type.
 # Why?: Not smart enough for fakes/mocks/fixtures.
 dotnet_diagnostic.IDE0007.severity = none

@@ -1,9 +1,9 @@
-name: Release NuGet Package
+name: CI/CD Pipeline
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
+    branches: [ "main" ]
+  push:
     branches: [ "main" ]
 
 permissions:
@@ -12,9 +12,8 @@ permissions:
   id-token: write
 
 jobs:
-  release:
+  integration:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -23,28 +22,35 @@ jobs:
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.0.100-rc.1.25451.107'
 
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Restore local tools
-        run: dotnet tool restore
+      - name: Format validation
+        run: dotnet format --verify-no-changes --no-restore
 
       - name: Build
         run: dotnet build --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test --configuration Release --no-build --verbosity normal
+        run: dotnet test --configuration Release --no-build --verbosity normal --logger trx --results-directory TestResults
+
+      - name: Publish test results
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: .NET Tests
+          path: TestResults/*.trx
+          reporter: dotnet-trx
 
       - name: Pack NuGet package
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'push'
         run: dotnet pack --configuration Release --output ./nupkg
 
       - name: Publish to NuGet (trusted publishing)
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'push'
         run: |
           dotnet nuget push ./nupkg/*.nupkg \
                --source https://api.nuget.org/v3/index.json \
                --skip-duplicate
+
