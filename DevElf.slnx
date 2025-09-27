@@ -22,6 +22,13 @@
   <Folder Name="/Solution Items/.github/workflows/">
     <File Path=".github/workflows/release.yml" />
   </Folder>
+  <Folder Name="/Solution Items/src/">
+    <File Path="src/Directory.Build.props" />
+  </Folder>
+  <Folder Name="/Solution Items/tests/">
+    <File Path="tests/.editorconfig" />
+    <File Path="tests/Directory.Build.props" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/DevElf.Logging/DevElf.Logging.csproj" Id="7c39fc04-6efa-4cb9-939d-c3266285b187" />
     <Project Path="src/DevElf/DevElf.csproj" />
