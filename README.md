@@ -24,9 +24,9 @@ Essential .NET libraries that make day-to-day development simpler and safer.
 
 [![NuGet Version](https://img.shields.io/nuget/v/DevElf.Logging.svg?style=flat-square)](https://www.nuget.org/packages/DevElf.Logging/)
 
-[![Build Status](https://github.com/jlbarreda/DevElf/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/jlbarreda/DevElf/actions/workflows/ci-cd.yml)
+[![Build Status](https://github.com/jlbarreda/dev-elf/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/jlbarreda/dev-elf/actions/workflows/ci-cd.yml)
 
-[![License](https://img.shields.io/github/license/jlbarreda/DevElf.svg?style=flat-square)](https://github.com/jlbarreda/DevElf/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/jlbarreda/dev-elf.svg?style=flat-square)](https://github.com/jlbarreda/dev-elf/blob/main/LICENSE)
 
 ## Features
 
