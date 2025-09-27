@@ -48,10 +48,9 @@ jobs:
         if: github.event_name == 'push'
         run: dotnet pack --configuration Release --output ./nupkg
 
-      - name: Publish to NuGet (trusted publishing)
+      - name: Publish to NuGet
         if: github.event_name == 'push'
         run: |
           dotnet nuget push ./nupkg/*.nupkg \
                --source https://api.nuget.org/v3/index.json \
                --skip-duplicate
-
