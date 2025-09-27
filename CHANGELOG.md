@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.2.4"></a>
+## [0.2.4](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.2.4) (2025-09-26)
+
+### Bug Fixes
+
+* add --ignore-insignificant-commits flag to versionize ([09afd48](https://www.github.com/jlbarreda/dev-elf/commit/09afd484c065660acd69fb94fb595224706aa636))
+
 <a name="0.2.3"></a>
 ## [0.2.3](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.2.3) (2025-09-26)
 
