@@ -1,0 +1,42 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+# Explicitly declare text files you want to always be normalized and converted
+# to native line endings on checkout.
+*.cs text
+*.csproj text
+*.sln text
+*.slnx text
+*.props text
+*.targets text
+*.config text
+*.json text
+*.xml text
+*.yml text
+*.yaml text
+*.md text
+*.txt text
+
+# Shell scripts and CI/CD files should use LF line endings
+.ci-cd/* text eol=lf
+.husky/* text eol=lf
+
+# Declare files that will always have CRLF line endings on checkout.
+*.bat text eol=crlf
+
+# Denote all files that are truly binary and should not be modified.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.7z binary
+*.gz binary
+*.tar binary
+*.dll binary
+*.exe binary
+*.pdb binary
+*.nupkg binary
+*.snupkg binary

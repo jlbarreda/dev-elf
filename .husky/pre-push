@@ -7,7 +7,7 @@
 
 bash .ci-cd/versionize-and-push.sh
 
-## husky task runner examples -------------------
+## husky task runner examples ------------------
 ## Note : for local installation use 'dotnet' prefix. e.g. 'dotnet husky'
 
 ## run all tasks
@@ -22,7 +22,7 @@ bash .ci-cd/versionize-and-push.sh
 ## pass hook arguments to task
 #husky run --args "$1" "$2"
 
-## or put your custom commands -------------------
+## or put your custom commands ------------------
 #echo 'Husky.Net is awesome!'
 
 #dotnet husky run

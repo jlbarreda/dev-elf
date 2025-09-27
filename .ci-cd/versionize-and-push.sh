@@ -11,7 +11,7 @@ if [[ "$branch" == "main" ]]; then
   exit 0
 fi
 
-echo "Running versionize before push..."
+echo "🔄 Running versionize before push..."
 
 GIT_USER_NAME=$(git config user.name)
 GIT_USER_EMAIL=$(git config user.email)
