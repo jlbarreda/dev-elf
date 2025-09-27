@@ -24,40 +24,15 @@ if [[ "$branch" == "main" ]]; then
   exit 0
 fi
 
-# Get the remote tracking branch, handle case where it doesn't exist
-remote_branch="origin/$branch"
+# Always run versionize - let it handle whether versioning is needed
+echo "🔄 Running versionize..."
 
-if git show-ref --verify --quiet "refs/remotes/$remote_branch"; then
-  # Check if we already have unpushed version commits to avoid running versionize twice
-  unpushed_version_commits=$(git log --oneline --grep="chore(release):" "$remote_branch..HEAD" 2>/dev/null | wc -l || echo 0)
-  
-  if [[ $unpushed_version_commits -gt 0 ]]; then
-    echo "✅ Version commits already exist and will be pushed."
-  else
-    # Let versionize decide if there are commits that need versioning
-    # Use --ignore-insignificant-commits to skip non-conventional commits
-    echo "🔄 Running versionize (will skip if no significant commits found)..."
-    
-    if ! dotnet versionize --ignore-insignificant-commits; then
-      echo "❌ Versionize failed. Check your commit history."
-      exit 1
-    fi
-    
-    echo "✅ Versionize completed!"
-  fi
-else
-  echo "ℹ️ Remote branch $remote_branch doesn't exist yet."
-  
-  # Still run versionize for new branches in case there are versionable commits
-  echo "🔄 Running versionize (will skip if no significant commits found)..."
-  
-  if ! dotnet versionize --ignore-insignificant-commits; then
-    echo "❌ Versionize failed. Check your commit history."
-    exit 1
-  fi
-  
-  echo "✅ Versionize completed!"
+if ! dotnet versionize; then
+  echo "❌ Versionize failed. Check your commit history."
+  exit 1
 fi
+
+echo "✅ Versionize completed!"
 
 # Now do the actual push with all arguments passed through
 echo "📤 Pushing to remote..."

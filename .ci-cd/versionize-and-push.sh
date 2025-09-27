@@ -5,7 +5,10 @@
 
 set -e
 
-# Just do basic validation - the smart-push script handles versionize logic
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+echo "🚀 Pre-push: Checking for versioning needs..."
+
 GIT_USER_NAME=$(git config user.name)
 GIT_USER_EMAIL=$(git config user.email)
 
@@ -16,4 +19,17 @@ if [[ -z "$GIT_USER_NAME" || -z "$GIT_USER_EMAIL" ]]; then
   exit 1
 fi
 
-echo "✅ Pre-push validation passed."
+# Skip versionize on main branch
+if [[ "$branch" == "main" ]]; then
+  echo "✅ On main branch, skipping versionize."
+  exit 0
+fi
+
+echo "🔄 Running versionize before push..."
+
+if ! dotnet versionize; then
+  echo "❌ Versionize failed. Check your commit history."
+  exit 1
+fi
+
+echo "✅ Versionize completed! Version commits will be included in this push."
