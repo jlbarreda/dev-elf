@@ -38,14 +38,6 @@ jobs:
       - name: Test
         run: dotnet test --configuration Release --no-build --verbosity normal
 
-      - name: Bump version and changelog
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          dotnet tool run versionize
-          git push --follow-tags
-
       - name: Pack NuGet package
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: dotnet pack --configuration Release --output ./nupkg
