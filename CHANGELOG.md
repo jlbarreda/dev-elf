@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.3.0"></a>
+## [0.3.0](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.3.0) (2025-09-26)
+
+### Features
+
+* add new validation methods to ComparableExtensions ([4f0274e](https://www.github.com/jlbarreda/dev-elf/commit/4f0274e8b2189d5dcf26a63e2774050f0a09e7da))
+
 <a name="0.2.7"></a>
 ## [0.2.7](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.2.7) (2025-09-26)
 
