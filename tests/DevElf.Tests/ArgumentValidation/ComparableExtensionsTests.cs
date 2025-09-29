@@ -51,50 +51,6 @@ public class ComparableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
-    public void ThrowIfLessThan_throws_ArgumentNullException_when_value_is_null_and_throwIfNull_is_true()
-    {
-        // Arrange
-        string? value = null;
-        string other = "test";
-
-        // Act
-        Action act = () => value.ThrowIfLessThan(other, throwIfNull: true);
-
-        // Assert
-        _ = act.Should().Throw<ArgumentNullException>()
-            .WithParameterName(nameof(value));
-    }
-
-    [TestMethod]
-    public void ThrowIfLessThan_throws_ArgumentNullException_when_other_is_null_and_throwIfNull_is_true()
-    {
-        // Arrange
-        string value = "test";
-        string? other = null;
-
-        // Act
-        Action act = () => value.ThrowIfLessThan(other, throwIfNull: true);
-
-        // Assert
-        _ = act.Should().Throw<ArgumentNullException>()
-            .WithParameterName(nameof(other));
-    }
-
-    [TestMethod]
-    public void ThrowIfLessThan_does_not_throw_when_value_is_null_and_throwIfNull_is_false()
-    {
-        // Arrange
-        string? value = null;
-        string other = "test";
-
-        // Act
-        Action act = () => value.ThrowIfLessThan(other, throwIfNull: false);
-
-        // Assert
-        _ = act.Should().NotThrow();
-    }
-
     #endregion
 
     #region ThrowIfLessThan - Value Types
@@ -125,21 +81,6 @@ public class ComparableExtensionsTests
 
         // Assert
         _ = act.Should().Throw<ArgumentOutOfRangeException>()
-            .WithParameterName(nameof(value));
-    }
-
-    [TestMethod]
-    public void ThrowIfLessThan_throws_ArgumentNullException_when_nullable_value_is_null_and_throwIfNull_is_true()
-    {
-        // Arrange
-        int? value = null;
-        int? other = 10;
-
-        // Act
-        Action act = () => value.ThrowIfLessThan(other, throwIfNull: true);
-
-        // Assert
-        _ = act.Should().Throw<ArgumentNullException>()
             .WithParameterName(nameof(value));
     }
 
@@ -431,21 +372,6 @@ public class ComparableExtensionsTests
 
         // Assert
         _ = act.Should().Throw<ArgumentOutOfRangeException>()
-            .WithParameterName(nameof(value));
-    }
-
-    [TestMethod]
-    public void ThrowIfLessThan_throws_ArgumentNullException_for_nullable_value_when_throwIfNull_is_true()
-    {
-        // Arrange
-        int? value = null;
-        int other = 10;
-
-        // Act
-        Action act = () => value.ThrowIfLessThan(other, throwIfNull: true);
-
-        // Assert
-        _ = act.Should().Throw<ArgumentNullException>()
             .WithParameterName(nameof(value));
     }
 

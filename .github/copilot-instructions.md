@@ -69,6 +69,7 @@
 - Use XML documentation comments for public members.
 - Keep the XML documentation comment lines length under 100 characters.
 - Don't modify auto-generated files (all files inside the ".\docs\api\" folder are auto-generated).
+- Use `<see langword=""/>` for language keywords in XML comments (e.g. `<see langword="true"/>`, `<see langword="false"/>`).
 
 ### Best Practices
 - Use static classes for shared constants.
@@ -156,7 +157,8 @@
 - Avoid pointless tests.
 - Don't test property getters and setters.
 - Don't test objects that only have properties (DTOs).
-- Use `<see langword=""/>` for language keywords in XML comments (e.g. `<see langword="true"/>`, `<see langword="false"/>`).
+- Don't add XML documentation comments to test methods.
+- Embedded classes are allowed in test files when they are used only by the test class.
 
 ---
 
