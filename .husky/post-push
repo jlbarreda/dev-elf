@@ -2,3 +2,5 @@
 . "$(dirname "$0")/_/husky.sh"
 
 git fetch
+
+echo "Fetched latest changes after push."
