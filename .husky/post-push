@@ -1,4 +1,8 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-git fetch
+# Check if the last commit is a version bump
+if git log -1 --pretty=%B | grep -q '^chore(release):'; then
+  git fetch
+  echo "Fetched after version bump commit."
+fi
