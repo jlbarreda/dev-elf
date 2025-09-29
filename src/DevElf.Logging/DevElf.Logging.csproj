@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.4.0-alpha.2</Version>
+    <Version>0.4.0-alpha.3</Version>
     <PackageId>DevElf.Logging</PackageId>
     <Authors>Jose Luis Barreda Guerena</Authors>
     <Company>Jose Luis Barreda Guerena</Company>
