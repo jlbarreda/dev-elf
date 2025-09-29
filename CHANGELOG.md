@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.4.0-alpha.0"></a>
+## [0.4.0-alpha.0](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.4.0-alpha.0) (2025-09-28)
+
+### Features
+
+* add validation methods and pre/post-push hooks ([bd3a98c](https://www.github.com/jlbarreda/dev-elf/commit/bd3a98ceb59525bc04c4fc2d4031d26f35652b7d))
+
 <a name="0.3.5-alpha.6"></a>
 ## [0.3.5-alpha.6](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.3.5-alpha.6) (2025-09-28)
 
