@@ -402,4 +402,295 @@ public class ComparableExtensionsTests
     }
 
     #endregion
+
+    #region ThrowIfLessThan - Mixed Nullable and Non-Nullable
+
+    [TestMethod]
+    public void ThrowIfLessThan_does_not_throw_when_nullable_value_is_greater_than_non_nullable_other()
+    {
+        // Arrange
+        int? value = 10;
+        int other = 5;
+
+        // Act
+        Action act = () => value.ThrowIfLessThan(other);
+
+        // Assert
+        _ = act.Should().NotThrow();
+    }
+
+    [TestMethod]
+    public void ThrowIfLessThan_throws_ArgumentOutOfRangeException_when_nullable_value_is_less_than_non_nullable_other()
+    {
+        // Arrange
+        int? value = 5;
+        int other = 10;
+
+        // Act
+        Action act = () => value.ThrowIfLessThan(other);
+
+        // Assert
+        _ = act.Should().Throw<ArgumentOutOfRangeException>()
+            .WithParameterName(nameof(value));
+    }
+
+    [TestMethod]
+    public void ThrowIfLessThan_throws_ArgumentNullException_for_nullable_value_when_throwIfNull_is_true()
+    {
+        // Arrange
+        int? value = null;
+        int other = 10;
+
+        // Act
+        Action act = () => value.ThrowIfLessThan(other, throwIfNull: true);
+
+        // Assert
+        _ = act.Should().Throw<ArgumentNullException>()
+            .WithParameterName(nameof(value));
+    }
+
+    #endregion
+
+    #region ThrowIfLessThanOrEqualTo - Mixed Nullable and Non-Nullable
+
+    [TestMethod]
+    public void ThrowIfLessThanOrEqualTo_does_not_throw_when_nullable_value_is_greater_than_non_nullable_other()
+    {
+        // Arrange
+        int? value = 10;
+        int other = 5;
+
+        // Act
+        Action act = () => value.ThrowIfLessThanOrEqualTo(other);
+
+        // Assert
+        _ = act.Should().NotThrow();
+    }
+
+    [TestMethod]
+    public void ThrowIfLessThanOrEqualTo_throws_ArgumentOutOfRangeException_when_nullable_value_equals_non_nullable_other()
+    {
+        // Arrange
+        int? value = 10;
+        int other = 10;
+
+        // Act
+        Action act = () => value.ThrowIfLessThanOrEqualTo(other);
+
+        // Assert
+        _ = act.Should().Throw<ArgumentOutOfRangeException>()
+            .WithParameterName(nameof(value));
+    }
+
+    [TestMethod]
+    public void ThrowIfLessThanOrEqualTo_throws_ArgumentOutOfRangeException_when_nullable_value_is_less_than_non_nullable_other()
+    {
+        // Arrange
+        int? value = 5;
+        int other = 10;
+
+        // Act
+        Action act = () => value.ThrowIfLessThanOrEqualTo(other);
+
+        // Assert
+        _ = act.Should().Throw<ArgumentOutOfRangeException>()
+            .WithParameterName(nameof(value));
+    }
+
+    #endregion
+
+    #region ThrowIfGreaterThan - Mixed Nullable and Non-Nullable
+
+    [TestMethod]
+    public void ThrowIfGreaterThan_does_not_throw_when_nullable_value_is_less_than_non_nullable_other()
+    {
+        // Arrange
+        int? value = 5;
+        int other = 10;
+
+        // Act
+        Action act = () => value.ThrowIfGreaterThan(other);
+
+        // Assert
+        _ = act.Should().NotThrow();
+    }
+
+    [TestMethod]
+    public void ThrowIfGreaterThan_throws_ArgumentOutOfRangeException_when_nullable_value_is_greater_than_non_nullable_other()
+    {
+        // Arrange
+        int? value = 10;
+        int other = 5;
+
+        // Act
+        Action act = () => value.ThrowIfGreaterThan(other);
+
+        // Assert
+        _ = act.Should().Throw<ArgumentOutOfRangeException>()
+            .WithParameterName(nameof(value));
+    }
+
+    #endregion
+
+    #region ThrowIfGreaterThanOrEqualTo - Mixed Nullable and Non-Nullable
+
+    [TestMethod]
+    public void ThrowIfGreaterThanOrEqualTo_does_not_throw_when_nullable_value_is_less_than_non_nullable_other()
+    {
+        // Arrange
+        int? value = 5;
+        int other = 10;
+
+        // Act
+        Action act = () => value.ThrowIfGreaterThanOrEqualTo(other);
+
+        // Assert
+        _ = act.Should().NotThrow();
+    }
+
+    [TestMethod]
+    public void ThrowIfGreaterThanOrEqualTo_throws_ArgumentOutOfRangeException_when_nullable_value_equals_non_nullable_other()
+    {
+        // Arrange
+        int? value = 10;
+        int other = 10;
+
+        // Act
+        Action act = () => value.ThrowIfGreaterThanOrEqualTo(other);
+
+        // Assert
+        _ = act.Should().Throw<ArgumentOutOfRangeException>()
+            .WithParameterName(nameof(value));
+    }
+
+    [TestMethod]
+    public void ThrowIfGreaterThanOrEqualTo_throws_ArgumentOutOfRangeException_when_nullable_value_is_greater_than_non_nullable_other()
+    {
+        // Arrange
+        int? value = 15;
+        int other = 10;
+
+        // Act
+        Action act = () => value.ThrowIfGreaterThanOrEqualTo(other);
+
+        // Assert
+        _ = act.Should().Throw<ArgumentOutOfRangeException>()
+            .WithParameterName(nameof(value));
+    }
+
+    #endregion
+
+    #region ThrowIfLessThan - Boundary Values
+
+    [TestMethod]
+    public void ThrowIfLessThan_does_not_throw_when_value_is_int_MaxValue_and_other_is_int_MinValue()
+    {
+        // Arrange
+        int value = int.MaxValue;
+        int other = int.MinValue;
+
+        // Act
+        Action act = () => value.ThrowIfLessThan(other);
+
+        // Assert
+        _ = act.Should().NotThrow();
+    }
+
+    [TestMethod]
+    public void ThrowIfLessThan_throws_ArgumentOutOfRangeException_when_value_is_int_MinValue_and_other_is_int_MaxValue()
+    {
+        // Arrange
+        int value = int.MinValue;
+        int other = int.MaxValue;
+
+        // Act
+        Action act = () => value.ThrowIfLessThan(other);
+
+        // Assert
+        _ = act.Should().Throw<ArgumentOutOfRangeException>()
+            .WithParameterName(nameof(value));
+    }
+
+    #endregion
+
+    #region ThrowIfLessThanOrEqualTo - Boundary Values
+
+    [TestMethod]
+    public void ThrowIfLessThanOrEqualTo_does_not_throw_when_value_is_DateTime_MaxValue_and_other_is_DateTime_MinValue()
+    {
+        // Arrange
+        DateTime value = DateTime.MaxValue;
+        DateTime other = DateTime.MinValue;
+
+        // Act
+        Action act = () => value.ThrowIfLessThanOrEqualTo(other);
+
+        // Assert
+        _ = act.Should().NotThrow();
+    }
+
+    [TestMethod]
+    public void ThrowIfLessThanOrEqualTo_throws_ArgumentOutOfRangeException_when_value_is_DateTime_MinValue_and_other_is_DateTime_MaxValue()
+    {
+        // Arrange
+        DateTime value = DateTime.MinValue;
+        DateTime other = DateTime.MaxValue;
+
+        // Act
+        Action act = () => value.ThrowIfLessThanOrEqualTo(other);
+
+        // Assert
+        _ = act.Should().Throw<ArgumentOutOfRangeException>()
+            .WithParameterName(nameof(value));
+    }
+
+    #endregion
+
+    #region ThrowIfGreaterThan - Custom Comparables
+
+    private class CustomComparable : IComparable<CustomComparable>
+    {
+        public int Value { get; set; }
+
+        public int CompareTo(CustomComparable? other)
+        {
+            if (other == null)
+            {
+                return 1;
+            }
+
+            return Value.CompareTo(other.Value);
+        }
+    }
+
+    [TestMethod]
+    public void ThrowIfGreaterThan_does_not_throw_for_custom_comparable_when_value_is_less_than_other()
+    {
+        // Arrange
+        var value = new CustomComparable { Value = 5 };
+        var other = new CustomComparable { Value = 10 };
+
+        // Act
+        Action act = () => value.ThrowIfGreaterThan(other);
+
+        // Assert
+        _ = act.Should().NotThrow();
+    }
+
+    [TestMethod]
+    public void ThrowIfGreaterThan_throws_ArgumentOutOfRangeException_for_custom_comparable_when_value_is_greater_than_other()
+    {
+        // Arrange
+        var value = new CustomComparable { Value = 10 };
+        var other = new CustomComparable { Value = 5 };
+
+        // Act
+        Action act = () => value.ThrowIfGreaterThan(other);
+
+        // Assert
+        _ = act.Should().Throw<ArgumentOutOfRangeException>()
+            .WithParameterName(nameof(value));
+    }
+
+    #endregion
 }
