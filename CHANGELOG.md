@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.4.0-alpha.2"></a>
+## [0.4.0-alpha.2](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.4.0-alpha.2) (2025-09-28)
+
+### Features
+
+* add feedback message after push fetch ([a20219b](https://www.github.com/jlbarreda/dev-elf/commit/a20219bf8665c7adeef7a44f0306b44770cd13c9))
+
 <a name="0.4.0-alpha.1"></a>
 ## [0.4.0-alpha.1](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.4.0-alpha.1) (2025-09-28)
 
