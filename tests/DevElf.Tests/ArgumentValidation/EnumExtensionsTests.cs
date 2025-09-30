@@ -29,7 +29,7 @@ public class EnumExtensionsTests
     public void ThrowIfNotDefined_throws_for_undefined_value()
     {
         // Arrange
-        TestEnum sut = (TestEnum)999;
+        var sut = (TestEnum)999;
 
         // Act
         Action act = () => sut.ThrowIfNotDefined();

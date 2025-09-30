@@ -578,15 +578,7 @@ public class ComparableExtensionsTests
     {
         public int Value { get; set; }
 
-        public int CompareTo(CustomComparable? other)
-        {
-            if (other == null)
-            {
-                return 1;
-            }
-
-            return Value.CompareTo(other.Value);
-        }
+        public int CompareTo(CustomComparable? other) => other == null ? 1 : Value.CompareTo(other.Value);
     }
 
     [TestMethod]
