@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.4.0-alpha.5"></a>
+## [0.4.0-alpha.5](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.4.0-alpha.5) (2025-09-29)
+
+### Features
+
+* add feedback message after push fetch ([f398b79](https://www.github.com/jlbarreda/dev-elf/commit/f398b79b26b18b0884d69cdc58c3b4ff3256747f))
+* add numeric argument validation extensions ([2268165](https://www.github.com/jlbarreda/dev-elf/commit/22681655a549a22ebb27a79ca6bdf3268a24e375))
+* add validation methods and pre/post-push hooks ([4524283](https://www.github.com/jlbarreda/dev-elf/commit/452428300b1fcfcfad98922f6dc08ff4bfb8143f))
+
 <a name="0.4.0-alpha.4"></a>
 ## [0.4.0-alpha.4](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.4.0-alpha.4) (2025-09-29)
 
