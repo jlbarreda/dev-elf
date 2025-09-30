@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>0.4.0-alpha.6</Version>
+    <Version>0.4.0-alpha.7</Version>
     <PackageId>DevElf.Logging</PackageId>
     <Authors>Jose Luis Barreda Guerena</Authors>
     <Company>Jose Luis Barreda Guerena</Company>
