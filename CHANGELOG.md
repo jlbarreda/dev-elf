@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.4.0-alpha.6"></a>
+## [0.4.0-alpha.6](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.4.0-alpha.6) (2025-09-30)
+
+### Features
+
+* enhance extensions and centralize project configs ([f3ed146](https://www.github.com/jlbarreda/dev-elf/commit/f3ed146c989fb6612e9e70bcb2a9c24481260181))
+
 <a name="0.4.0-alpha.5"></a>
 ## [0.4.0-alpha.5](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.4.0-alpha.5) (2025-09-29)
 
