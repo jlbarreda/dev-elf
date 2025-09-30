@@ -2,6 +2,48 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.4.0-alpha.6"></a>
+## [0.4.0-alpha.6](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.4.0-alpha.6) (2025-09-30)
+
+### Features
+
+* enhance extensions and centralize project configs ([f3ed146](https://www.github.com/jlbarreda/dev-elf/commit/f3ed146c989fb6612e9e70bcb2a9c24481260181))
+
+<a name="0.4.0-alpha.5"></a>
+## [0.4.0-alpha.5](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.4.0-alpha.5) (2025-09-29)
+
+### Features
+
+* add feedback message after push fetch ([f398b79](https://www.github.com/jlbarreda/dev-elf/commit/f398b79b26b18b0884d69cdc58c3b4ff3256747f))
+* add numeric argument validation extensions ([2268165](https://www.github.com/jlbarreda/dev-elf/commit/22681655a549a22ebb27a79ca6bdf3268a24e375))
+* add validation methods and pre/post-push hooks ([4524283](https://www.github.com/jlbarreda/dev-elf/commit/452428300b1fcfcfad98922f6dc08ff4bfb8143f))
+
+<a name="0.4.0-alpha.4"></a>
+## [0.4.0-alpha.4](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.4.0-alpha.4) (2025-09-29)
+
+<a name="0.4.0-alpha.3"></a>
+## [0.4.0-alpha.3](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.4.0-alpha.3) (2025-09-28)
+
+<a name="0.4.0-alpha.2"></a>
+## [0.4.0-alpha.2](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.4.0-alpha.2) (2025-09-28)
+
+### Features
+
+* add feedback message after push fetch ([a20219b](https://www.github.com/jlbarreda/dev-elf/commit/a20219bf8665c7adeef7a44f0306b44770cd13c9))
+
+<a name="0.4.0-alpha.1"></a>
+## [0.4.0-alpha.1](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.4.0-alpha.1) (2025-09-28)
+
+<a name="0.4.0-alpha.0"></a>
+## [0.4.0-alpha.0](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.4.0-alpha.0) (2025-09-28)
+
+### Features
+
+* add validation methods and pre/post-push hooks ([bd3a98c](https://www.github.com/jlbarreda/dev-elf/commit/bd3a98ceb59525bc04c4fc2d4031d26f35652b7d))
+
+<a name="0.3.5-alpha.6"></a>
+## [0.3.5-alpha.6](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.3.5-alpha.6) (2025-09-28)
+
 <a name="0.3.5-alpha.5"></a>
 ## [0.3.5-alpha.5](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.3.5-alpha.5) (2025-09-27)
 
