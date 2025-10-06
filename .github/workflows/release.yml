@@ -16,6 +16,10 @@ permissions:
   packages: write
   id-token: write
 
+concurrency:
+  group: release-${{ github.ref_name }}
+  cancel-in-progress: false
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -25,8 +29,45 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Get previous tag
+        id: previoustag
+        shell: bash
+        run: |
+          set -e
+          if git describe --tags --abbrev=0 >/dev/null 2>&1; then
+            if git describe --tags --abbrev=0 HEAD~1 >/dev/null 2>&1; then
+              echo "tag=$(git describe --tags --abbrev=0 HEAD~1)" >> $GITHUB_OUTPUT
+            else
+              echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "tag=$(git rev-list --max-parents=0 HEAD | tail -n1)" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Derive tag and package version
+        id: versions
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            INPUT="${{ github.event.inputs.version }}"
+            if [[ "$INPUT" =~ ^v ]]; then TAG="$INPUT"; else TAG="v$INPUT"; fi
+          else
+            TAG="${{ github.ref_name }}"
+          fi
+          PKG="${TAG#v}"
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "packageVersion=$PKG" >> $GITHUB_OUTPUT
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.sln', '**/*.csproj', 'Directory.Packages.props') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
         run: dotnet restore
@@ -46,55 +87,36 @@ jobs:
           reporter: dotnet-trx
 
       - name: Pack NuGet package
-        run: dotnet pack --configuration Release --output ./nupkg
+        run: dotnet pack --configuration Release --output ./nupkg /p:Version=${{ steps.versions.outputs.packageVersion }}
 
       - name: Generate Release Notes
         id: release_notes
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "notes<<EOF" >> $GITHUB_OUTPUT
-            echo "## What's Changed" >> $GITHUB_OUTPUT
-            echo "" >> $GITHUB_OUTPUT
-            echo "This is a stable release of DevElf." >> $GITHUB_OUTPUT
-            echo "" >> $GITHUB_OUTPUT
-            echo "### Features" >> $GITHUB_OUTPUT
-            echo "- Stable release with all features from alpha versions" >> $GITHUB_OUTPUT
-            echo "- Production-ready API" >> $GITHUB_OUTPUT
-            echo "" >> $GITHUB_OUTPUT
-            echo "### Breaking Changes" >> $GITHUB_OUTPUT
-            echo "- None" >> $GITHUB_OUTPUT
-            echo "" >> $GITHUB_OUTPUT
-            echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/v0.4.0-alpha.7...v${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
-          else
-            echo "notes<<EOF" >> $GITHUB_OUTPUT
-            echo "## What's Changed" >> $GITHUB_OUTPUT
-            echo "" >> $GITHUB_OUTPUT
-            echo "This is a stable release of DevElf." >> $GITHUB_OUTPUT
-            echo "" >> $GITHUB_OUTPUT
-            echo "### Features" >> $GITHUB_OUTPUT
-            echo "- Stable release with all features from alpha versions" >> $GITHUB_OUTPUT
-            echo "- Production-ready API" >> $GITHUB_OUTPUT
-            echo "" >> $GITHUB_OUTPUT
-            echo "### Breaking Changes" >> $GITHUB_OUTPUT
-            echo "- None" >> $GITHUB_OUTPUT
-            echo "" >> $GITHUB_OUTPUT
-            echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/v0.4.0-alpha.7...${{ github.ref_name }}" >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
-          fi
+          echo "notes<<EOF" >> $GITHUB_OUTPUT
+          echo "## What's Changed" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "This is a stable release of DevElf." >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "### Features" >> $GITHUB_OUTPUT
+          echo "- Stable release with all features from alpha versions" >> $GITHUB_OUTPUT
+          echo "- Production-ready API" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "### Breaking Changes" >> $GITHUB_OUTPUT
+          echo "- None" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${{ steps.previoustag.outputs.tag }}...${{ steps.versions.outputs.tag }}" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create GitHub Release and Upload Assets
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name }}
-          release_name: Release ${{ github.ref_name }}
+          tag_name: ${{ steps.versions.outputs.tag }}
+          name: Release ${{ steps.versions.outputs.tag }}
           body: ${{ steps.release_notes.outputs.notes }}
-          draft: false
-          prerelease: false
+          files: ./nupkg/*.nupkg
 
       - name: NuGet login (OIDC → temp API key)
+        id: login
         uses: NuGet/login@v1
         with:
           user: ${{ secrets.NUGET_USERNAME }}
