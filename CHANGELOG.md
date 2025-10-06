@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.4.0-alpha.8"></a>
+## [0.4.0-alpha.8](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.4.0-alpha.8) (2025-10-06)
+
 <a name="0.4.0-alpha.7"></a>
 ## [0.4.0-alpha.7](https://www.github.com/jlbarreda/dev-elf/releases/tag/v0.4.0-alpha.7) (2025-09-30)
 

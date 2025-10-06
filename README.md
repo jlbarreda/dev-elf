@@ -51,7 +51,26 @@ Essential .NET libraries that make day-to-day development simpler and safer.
 
 ## Quick start
 
-Build all projects:
+### Development Setup
+
+1. Clone the repository:
+```bash
+git clone https://github.com/jlbarreda/dev-elf.git
+cd dev-elf
+```
+
+2. Restore dependencies and build:
+```bash
+dotnet restore
+dotnet build
+```
+
+3. Run tests:
+```bash
+dotnet test
+```
+
+### Build all projects:
 
 ```bash
 dotnet build
@@ -62,6 +81,10 @@ Run tests:
 ```bash
 dotnet test
 ```
+
+## Versioning
+
+This project uses a manual tag-based release process. To release a new version, maintainers create and push a git tag following semantic versioning. For detailed information, see our [versioning guide](docs/versioning-guide.md).
 
 ## Usage
 
@@ -107,9 +130,10 @@ var provider = services.BuildServiceProvider();
 var logger = provider.GetRequiredService<ILogger<Program>>();
 
 // Use a disposable message scope that logs on dispose
-using (var scope = logger.BeginMessageScope(LogLevel.Information, new EventId(1001, "Import"), "Import completed"))
+using (var scope = logger.BeginMessageScope(LogLevel.Information, "Import completed"))
 {
     scope.SetProperty("CorrelationId", Guid.NewGuid());
+    scope.SetEventId(new EventId(1001, "Import"));
 
     try
     {

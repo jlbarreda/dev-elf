@@ -2,6 +2,15 @@
 
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 
+  <PropertyGroup>
+    <Version Condition="'$(Version)' == ''">0.0.0-dev</Version>
+    <PackageId>$(MSBuildProjectName)</PackageId>
+    <Authors>Jose Luis Barreda Guerena</Authors>
+    <Company>Jose Luis Barreda Guerena</Company>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+  </PropertyGroup>
+
   <ItemGroup>
     <InternalsVisibleTo Include="$(MSBuildProjectName).Tests" />
   </ItemGroup>

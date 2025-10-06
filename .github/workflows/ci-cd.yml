@@ -1,16 +1,18 @@
-﻿name: CI/CD Pipeline
+name: CI/CD Pipeline
 
 on:
   pull_request:
     branches: [ "main" ]
   push:
     branches: [ "main" ]
+  schedule:
+    # Run security scan daily at 2 AM UTC
+    - cron: '0 2 * * *'
 
 permissions:
-  contents: write
-  packages: write
-  id-token: write
+  contents: read
   checks: write
+  security-events: write
 
 jobs:
   integration:
@@ -23,6 +25,11 @@ jobs:
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
+
+      - name: Security scan with CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: csharp
 
       - name: Restore dependencies
         run: dotnet restore
@@ -44,22 +51,8 @@ jobs:
           path: TestResults/*.trx
           reporter: dotnet-trx
 
-      - name: Pack NuGet package
-        if: github.event_name == 'push'
-        run: dotnet pack --configuration Release --output ./nupkg
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
 
-      # Get a short-lived NuGet API key
-      - name: NuGet login (OIDC → temp API key)
-        if: github.event_name == 'push'
-        uses: NuGet/login@v1
-        id: login
-        with:
-          user: ${{ secrets.NUGET_USERNAME }}
-
-      - name: Publish to NuGet
-        if: github.event_name == 'push'
-        run: |
-          dotnet nuget push ./nupkg/*.nupkg \
-            --api-key ${{ steps.login.outputs.NUGET_API_KEY }} \
-            --source https://api.nuget.org/v3/index.json \
-            --skip-duplicate
+      - name: Run security audit
+        run: dotnet list package --vulnerable --include-transitive
