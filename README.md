@@ -51,7 +51,27 @@ Essential .NET libraries that make day-to-day development simpler and safer.
 
 ## Quick start
 
-Build all projects:
+### Development Setup
+
+1. Clone the repository:
+```bash
+git clone https://github.com/jlbarreda/dev-elf.git
+cd dev-elf
+```
+
+2. Install .NET tools and git hooks:
+```bash
+dotnet tool restore
+dotnet husky install
+```
+
+3. Build and test:
+```bash
+dotnet build
+dotnet test
+```
+
+### Build all projects:
 
 ```bash
 dotnet build
@@ -62,6 +82,22 @@ Run tests:
 ```bash
 dotnet test
 ```
+
+## Versioning
+
+This project uses automatic versioning based on conventional commits:
+
+- `feat:` - New features (minor version bump)
+- `fix:` - Bug fixes (patch version bump)  
+- `BREAKING CHANGE:` - Breaking changes (major version bump)
+
+### Pre-release Versions
+During development, we use alpha pre-releases (e.g., `0.4.0-alpha.7`).
+
+### Stable Releases
+Stable releases follow semantic versioning (e.g., `1.0.0`).
+
+For detailed information, see our [versioning guide](docs/versioning-guide.md) and [development setup](docs/development-setup.md).
 
 ## Usage
 

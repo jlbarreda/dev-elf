@@ -5,6 +5,9 @@ on:
     branches: [ "main" ]
   push:
     branches: [ "main" ]
+  schedule:
+    # Run security scan daily at 2 AM UTC
+    - cron: '0 2 * * *'
 
 permissions:
   contents: write
@@ -43,6 +46,20 @@ jobs:
           name: .NET Tests
           path: TestResults/*.trx
           reporter: dotnet-trx
+
+      - name: Security scan with CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: csharp
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+      - name: Run security audit
+        run: dotnet list package --vulnerable --include-transitive
+
+      - name: Check for outdated packages
+        run: dotnet list package --outdated
 
       - name: Pack NuGet package
         if: github.event_name == 'push'
