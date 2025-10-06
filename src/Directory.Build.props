@@ -3,7 +3,7 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 
   <PropertyGroup>
-    <Version>0.4.0-alpha.7</Version>
+    <Version>0.4.0-alpha.8</Version>
     <PackageId>$(MSBuildProjectName)</PackageId>
     <Authors>Jose Luis Barreda Guerena</Authors>
     <Company>Jose Luis Barreda Guerena</Company>
