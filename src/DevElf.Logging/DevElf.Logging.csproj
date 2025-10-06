@@ -1,13 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>0.4.0-alpha.7</Version>
-    <PackageId>DevElf.Logging</PackageId>
-    <Authors>Jose Luis Barreda Guerena</Authors>
-    <Company>Jose Luis Barreda Guerena</Company>
     <Description>Logging extensions and tools for .NET applications.</Description>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
