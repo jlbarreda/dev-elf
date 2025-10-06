@@ -1,6 +1,6 @@
 # Versioning Guide
 
-This document explains the versioning strategy and automation for the DevElf project.
+This document explains the versioning strategy and automated release workflow for the DevElf project.
 
 ## Versioning Strategy
 
@@ -23,79 +23,34 @@ Stable releases follow the standard SemVer format:
 - `1.1.0` - Minor feature release
 - `1.1.1` - Patch release
 
-## Automated Versioning
+## Release Workflow
+Releases are created by pushing a Git tag to the repository. The tag format should be `v` followed by the version number (e.g., `v1.2.3`).
 
-### Conventional Commits
-We use [Conventional Commits](https://www.conventionalcommits.org/) to automatically determine version bumps:
+1. **Create a Tag**: Once `main` has all the commits for a release, create an annotated tag.
+   ```bash
+   # For a stable release
+   git tag -a v1.0.0 -m "Release version 1.0.0"
 
-- `feat:` - Triggers a MINOR version bump
-- `fix:` - Triggers a PATCH version bump
-- `BREAKING CHANGE:` - Triggers a MAJOR version bump
+   # For a pre-release
+   git tag -a v1.0.0-alpha.1 -m "Release version 1.0.0-alpha.1"
+   ```
 
-### Version Detection
-We use [Versionize](https://github.com/versionize/versionize) for automatic versioning based on conventional commits:
+2. **Push the Tag**: Push the tag to the `origin` remote.
+   ```bash
+   git push origin v1.0.0
+   ```
 
-- Version is automatically determined from conventional commit messages
-- No manual version management required
-- Consistent versioning across all projects
-
-### Pre-push Hooks
-Husky pre-push hooks ensure versioning happens automatically:
-
-- `dotnet versionize` runs before every push
-- Analyzes commits since last version
-- Updates version and changelog automatically
-- Creates git tags for new versions
-
-## Workflow
-
-### Development Workflow
-1. Make changes with conventional commit messages
-2. Commit changes: `git commit -m "feat: add new feature"`
-3. Push changes: `git push`
-4. Pre-push hook automatically runs `dotnet versionize`
-5. New version commit and tag are created
-6. Changes are pushed with version updates
-
-### Release Workflow
-1. **Alpha Releases**: Automatic via pre-push hooks
-2. **Stable Releases**: Manual via GitHub Actions workflow
-3. **Package Publishing**: Automatic via CI/CD pipeline
-
-## Configuration
-
-### Versionize Configuration
-The project uses the following versionize configuration in `.versionize`:
-```json
-{
-  "workingDir": ".",
-  "preRelease": "alpha"
-}
-```
-
-## CI/CD Pipeline
-
-### Feature Branch Testing
-- Tests run on all pull requests
-- Security scanning with CodeQL
-- Package vulnerability checks
-- Outdated package detection
-
-### Main Branch
-- Full CI/CD pipeline
-- Automatic NuGet package publishing
-- Release workflow triggers
-
-### Release Workflow
-- Triggered by git tags (e.g., `v1.0.0`)
-- Creates GitHub releases
-- Publishes to NuGet
-- Updates documentation
+3. **Automated Release**: Pushing the tag triggers the `release.yml` GitHub Actions workflow, which will:
+    - Build and test the code.
+    - Pack the NuGet packages with the version from the tag.
+    - Create a GitHub Release.
+    - Upload the NuGet packages as assets to the release.
+    - Publish the packages to NuGet.org.
 
 ## Best Practices
 
 ### Commit Messages
-Use conventional commit format:
+Use a conventional commit format to maintain a clean and understandable commit history. This helps in tracking changes and understanding the impact of different commits.
 ```bash
 feat: add new validation method
 fix: resolve null reference exception
@@ -104,43 +59,16 @@ chore: update dependencies
 ```
 
 ### Version Management
-- Never manually edit version numbers
-- Let Versionize handle version detection and tagging
-- Use conventional commits for automatic versioning
-- Tag releases with `v` prefix (e.g., `v1.0.0`)
-
-### Release Process
-1. Ensure all features are merged to main
-2. Create a stable release tag: `git tag v1.0.0`
-3. Push the tag: `git push origin v1.0.0`
-4. GitHub Actions will handle the release
-
-## Troubleshooting
-
-### Version Not Updating
-- Check if commits follow conventional commit format
-- Verify Versionize is properly configured
-- Ensure git tags are properly formatted
-
-### Pre-push Hook Failing
-- Check if `dotnet versionize` is installed
-- Verify Husky is properly configured
-- Check for git repository issues
-
-### Package Publishing Issues
-- Verify NuGet credentials are configured
-- Check CI/CD pipeline logs
-- Ensure version is properly formatted
+- The version for a release is determined by the Git tag.
+- The `release.yml` workflow uses the tag name as the single source of truth for the version number.
+- Ensure tags are unique and follow the `vMAJOR.MINOR.PATCH` format.
 
 ## Tools Used
 
-- **Versionize**: Conventional commit-based versioning and git tagging
-- **Husky**: Git hooks for automation
-- **GitHub Actions**: CI/CD pipeline
-- **NuGet**: Package publishing
+- **GitHub Actions**: For the CI/CD and release pipeline.
+- **NuGet**: For package publishing.
 
 ## References
 
 - [Semantic Versioning](https://semver.org/)
 - [Conventional Commits](https://www.conventionalcommits.org/)
-- [Versionize Documentation](https://github.com/versionize/versionize)

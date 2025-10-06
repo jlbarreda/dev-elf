@@ -16,31 +16,17 @@ git clone https://github.com/jlbarreda/dev-elf.git
 cd dev-elf
 ```
 
-### 2. Install .NET Tools
-```bash
-dotnet tool restore
-```
-
-This installs the required tools:
-- `versionize` (v2.3.1) - For automatic versioning
-- `husky` (v0.7.2) - For git hooks
-
-### 3. Install Git Hooks
-```bash
-dotnet husky install
-```
-
-### 4. Restore Dependencies
+### 2. Restore Dependencies
 ```bash
 dotnet restore
 ```
 
-### 5. Build the Project
+### 3. Build the Project
 ```bash
 dotnet build
 ```
 
-### 6. Run Tests
+### 4. Run Tests
 ```bash
 dotnet test
 ```
@@ -49,46 +35,22 @@ dotnet test
 
 ### Making Changes
 1. Create a feature branch: `git checkout -b feature/your-feature-name`
-2. Make your changes
-3. Write tests for new functionality
-4. Commit with conventional commit format:
+2. Make your changes.
+3. Write tests for new functionality.
+4. Commit with a descriptive message. Using the [conventional commit format](https://www.conventionalcommits.org/) is recommended for a clean history.
    ```bash
    git commit -m "feat: add new validation method"
    ```
 
-### Pushing Changes
-1. Push your changes: `git push origin feature/your-feature-name`
-2. The pre-push hook will automatically run `dotnet versionize`
-3. If versioning is needed, new commits and tags will be created
-4. All changes will be pushed together
-
 ### Creating Pull Requests
-1. Push your feature branch
-2. Create a pull request to `main` branch
-3. The CI/CD pipeline will run tests and security scans
-4. Review and merge when ready
+1. Push your feature branch to the remote repository.
+2. Create a pull request targeting the `main` branch.
+3. The CI/CD pipeline will automatically run tests and security scans.
+4. Once the PR is reviewed and approved, it can be merged into `main`.
 
 ## Versioning
 
-### Automatic Versioning
-The project uses automatic versioning based on conventional commits:
-
-- `feat:` - New features (minor version bump)
-- `fix:` - Bug fixes (patch version bump)
-- `BREAKING CHANGE:` - Breaking changes (major version bump)
-
-### Pre-push Hooks
-Husky pre-push hooks ensure versioning happens automatically:
-- Runs `dotnet versionize` before every push
-- Analyzes commits since last version
-- Updates version and changelog
-- Creates git tags
-
-### Manual Versioning
-If you need to manually trigger versioning:
-```bash
-dotnet versionize
-```
+This project follows a manual release process based on Git tags. For more details, please see the [Versioning Guide](versioning-guide.md).
 
 ## Testing
 
@@ -97,17 +59,17 @@ dotnet versionize
 # Run all tests
 dotnet test
 
-# Run tests for specific project
+# Run tests for a specific project
 dotnet test tests/DevElf.Tests
 
-# Run tests with coverage
+# Run tests with code coverage
 dotnet test --collect:"XPlat Code Coverage"
 ```
 
 ### Test Structure
-- `tests/DevElf.Tests` - Tests for core DevElf library
-- `tests/DevElf.Logging.Tests` - Tests for DevElf.Logging library
-- `tests/DevElf.Benchmarks` - Performance benchmarks
+- `tests/DevElf.Tests` - Tests for the core DevElf library.
+- `tests/DevElf.Logging.Tests` - Tests for the DevElf.Logging library.
+- `benchmarks/DevElf.Benchmarks` - Performance benchmarks.
 
 ## Building and Packaging
 
@@ -121,6 +83,7 @@ dotnet build --configuration Release
 ```
 
 ### Pack NuGet Packages
+To create NuGet packages locally for testing:
 ```bash
 # Pack all projects
 dotnet pack --configuration Release --output ./nupkg
@@ -130,108 +93,46 @@ dotnet pack --configuration Release --output ./nupkg
 
 ### Automated Checks
 The CI/CD pipeline runs on:
-- All pull requests
-- Pushes to `main` branch
-- Daily security scans
+- All pull requests to `main`.
+- Pushes to the `main` branch.
+- A daily schedule for security scans.
 
 ### Checks Include
-- Code formatting validation
-- Build verification
-- Test execution
-- Security scanning (CodeQL)
-- Package vulnerability checks
-- Outdated package detection
+- Code formatting validation.
+- Build verification.
+- Test execution.
+- Security scanning with CodeQL.
+- A security audit for vulnerable packages.
 
 ## Release Process
 
-### Alpha Releases
-Alpha releases are automatic:
-1. Make changes with conventional commits
-2. Push to main branch
-3. Pre-push hook runs versioning
-4. CI/CD pipeline publishes packages
-
-### Stable Releases
-Stable releases are manual:
-1. Create a stable release tag: `git tag v1.0.0`
-2. Push the tag: `git push origin v1.0.0`
-3. GitHub Actions handles the release
-
-## Troubleshooting
-
-### Common Issues
-
-#### Pre-push Hook Failing
-```bash
-# Reinstall Husky
-dotnet husky install
-
-# Check if versionize is installed
-dotnet tool list
-```
-
-#### Version Not Updating
-- Check commit message format (use conventional commits)
-- Verify versionize configuration
-- Check git tags are properly formatted
-
-#### Build Failures
-```bash
-# Clean and restore
-dotnet clean
-dotnet restore
-dotnet build
-```
-
-#### Test Failures
-```bash
-# Run tests with verbose output
-dotnet test --verbosity normal
-
-# Check test results
-dotnet test --logger trx --results-directory TestResults
-```
+Releases are handled manually by creating and pushing a Git tag. Refer to the [Versioning Guide](versioning-guide.md) for detailed instructions on how to create a release.
 
 ## Development Tips
 
 ### Code Style
-- Follow the existing code style
-- Use meaningful variable names
-- Add XML documentation for public APIs
-- Write unit tests for new functionality
-
-### Commit Messages
-Use conventional commit format:
-```bash
-feat: add new validation method
-fix: resolve null reference exception
-docs: update API documentation
-chore: update dependencies
-```
+- Follow the existing code style.
+- Use meaningful variable names.
+- Add XML documentation for all public APIs.
+- Write unit tests for new functionality.
 
 ### Branch Naming
-Use descriptive branch names:
+Use descriptive branch names to clearly indicate the purpose of the branch:
 - `feature/add-validation-methods`
 - `fix/resolve-null-reference`
 - `docs/update-api-documentation`
 
 ## Getting Help
 
-- Check the [versioning guide](versioning-guide.md)
-- Review existing issues on GitHub
-- Ask questions in discussions
-- Check CI/CD pipeline logs for build issues
+- Check the [Versioning Guide](versioning-guide.md).
+- Review existing issues on GitHub.
+- Ask questions in the project's discussions.
+- Check CI/CD pipeline logs for build issues.
 
 ## Useful Commands
 
 ```bash
-# Check current version
-dotnet versionize inspect
-
-# Run versionize manually
-dotnet versionize
-
-# Check outdated packages
+# Check for outdated packages
 dotnet list package --outdated
 
 # Check for vulnerabilities
