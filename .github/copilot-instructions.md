@@ -54,7 +54,7 @@
 - Prefer `nameof` over `typeof` where applicable.
 - Use tuple swap syntax for swapping values.
 - Use static local functions where possible.
-- Add an empty line before `return`, `throw`, `break`, `yield`, and `continue`.
+- Add an empty line before `return`, `throw`, `break`, `yield`, and `continue`, when it's not the only line. If the previous line is a comment, the empty line should be added before the comment.
 - Place a blank line between method declarations.
 - Avoid multiple statements on a single line.
 - Align parameters and arguments vertically with one level of indentation.
