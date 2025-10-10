@@ -15,11 +15,11 @@ namespace DevElf.Logging;
 /// While active, a scope can accumulate key/value properties via <see cref="SetProperty{T}(string, T)"/>.
 /// When scopes are nested, properties are merged so that child properties override parent values for the
 /// same key. On <see cref="Dispose"/>, the scope logs its message at the configured <see cref="LogLevel"/>, 
-/// using <see cref="ILogger.BeginScope(object)"/> with the accumulated properties so they are available to
+/// using <see cref="ILogger.BeginScope{TState}(TState)"/> with the accumulated properties so they are available to
 /// logging providers that support scopes.
 ///
 /// An exception can be associated to the log entry via <see cref="SetException(Exception, bool)"/> and will be
-/// passed to <see cref="ILogger.Log(LogLevel, EventId, Exception?, string)"/>. When <c>setAsProperty</c> is
+/// passed to the logger when the scope is disposed. When <c>setAsProperty</c> is
 /// <see langword="true"/>, the exception is also added as a scope property under the key "Exception".
 /// </remarks>
 internal sealed partial class LogMessageScope : IDisposable, ILogMessageScope
