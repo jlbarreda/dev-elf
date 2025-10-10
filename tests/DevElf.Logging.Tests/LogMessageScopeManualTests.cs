@@ -14,21 +14,19 @@ public class LogMessageScopeManualTests
             .CreateLogger("TestLogger");
         var scopeAccessor = new LogMessageScopeAccessor();
 
-        using (var scope = logger.BeginMessageScope(LogLevel.Information, "Test message"))
+        using var scope = logger.BeginMessageScope(LogLevel.Information, "Test message");
+        _ = scope.SetProperty("Key", "Value");
+
+        using (logger.BeginScope(new Dictionary<string, object?> { { "ExternalKey", "ExternalValue" } }))
+        using (var nestedScope = logger.BeginMessageScope(LogLevel.Warning, "Nested message"))
         {
-            _ = scope.SetProperty("Key", "Value");
+            _ = nestedScope.SetProperty("NestedKey", 123);
 
-            using (logger.BeginScope(new Dictionary<string, object?> { { "ExternalKey", "ExternalValue" } }))
-            using (var nestedScope = logger.BeginMessageScope(LogLevel.Warning, "Nested message"))
-            {
-                _ = nestedScope.SetProperty("NestedKey", 123);
+            var x = new X(scopeAccessor, logger);
 
-                var x = new X(scopeAccessor, logger);
+            x.Y();
 
-                x.Y();
-
-                x.Z();
-            }
+            x.Z();
         }
     }
 
@@ -50,10 +48,8 @@ public class LogMessageScopeManualTests
 
         public void Y()
         {
-            using (var scope = _logger.BeginMessageScope(LogLevel.Error, "Error message from Y"))
-            {
-                _ = scope.SetProperty("YKey", "YValue");
-            }
+            using var scope = _logger.BeginMessageScope(LogLevel.Error, "Error message from Y");
+            _ = scope.SetProperty("YKey", "YValue");
         }
 
         public void Z() => _logMessageScopeAccessor.Current?.SetProperty("ZKey", "ZValue");

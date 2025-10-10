@@ -94,7 +94,7 @@ public class LogMessageScopeAccessorTests
         await Task.Yield();
         _ = accessor.Current.Should().BeSameAs(scope);
 
-        await Task.Delay(1, TestContext.CancellationTokenSource.Token);
+        await Task.Delay(1, TestContext.CancellationToken);
         _ = accessor.Current.Should().BeSameAs(scope);
 
         // Act & Assert: inside a child task (ExecutionContext flows by default)
@@ -105,7 +105,7 @@ public class LogMessageScopeAccessorTests
                 await Task.Yield();
                 _ = accessor.Current.Should().BeSameAs(scope);
             },
-            TestContext.CancellationTokenSource.Token);
+            TestContext.CancellationToken);
 
         // Act
         scope.Dispose();
