@@ -1,4 +1,4 @@
-﻿using DevElf.ArgumentValidation;
+using DevElf.ArgumentValidation;
 
 namespace DevElf;
 
