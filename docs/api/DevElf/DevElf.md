@@ -4,6 +4,7 @@
 
 | Classes | |
 | :--- | :--- |
+| [EnterCatch](EnterCatch.md 'DevElf\.EnterCatch') | Provides helper methods for executing actions in catch block filter conditions\. Allows running actions \(such as logging\) while preserving the original exception context and controlling whether to enter the catch block\. |
 | [FrozenTimeProvider](FrozenTimeProvider.md 'DevElf\.FrozenTimeProvider') | A [System\.TimeProvider](https://learn.microsoft.com/en-us/dotnet/api/system.timeprovider 'System\.TimeProvider') that always returns a fixed point in time\. Useful for tests and deterministic time\-dependent logic\. |
 | [RoundRobinGeneratorBase&lt;T&gt;](RoundRobinGeneratorBase_T_.md 'DevElf\.RoundRobinGeneratorBase\<T\>') | Provides a base implementation for round\-robin generators using a comparer\. |
 | [RoundRobinNumberGenerator&lt;T&gt;](RoundRobinNumberGenerator_T_.md 'DevElf\.RoundRobinNumberGenerator\<T\>') | Generates numbers in a round\-robin fashion between a start and end value\. |
