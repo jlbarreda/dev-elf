@@ -197,7 +197,7 @@ public class LoggingScopePropertiesBuilderTests
     #region Constructor and Initial Property Tests
 
     [TestMethod]
-    public void builder_includes_initial_property_from_constructor()
+    public void Builder_includes_initial_property_from_constructor()
     {
         // Arrange
         ILogger logger = Substitute.For<ILogger>();
@@ -217,7 +217,7 @@ public class LoggingScopePropertiesBuilderTests
     #region Property Order and Type Tests
 
     [TestMethod]
-    public void builder_preserves_property_order()
+    public void Builder_preserves_property_order()
     {
         // Arrange
         ILogger logger = Substitute.For<ILogger>();
@@ -231,14 +231,14 @@ public class LoggingScopePropertiesBuilderTests
             .BeginScope();
 
         // Assert
-        string[] keys = capturedProperties.Keys.ToArray();
+        string[] keys = [.. capturedProperties.Keys];
         _ = keys[0].Should().Be("First");
         _ = keys[1].Should().Be("Second");
         _ = keys[2].Should().Be("Third");
     }
 
     [TestMethod]
-    public void builder_works_with_various_value_types()
+    public void Builder_works_with_various_value_types()
     {
         // Arrange
         ILogger logger = Substitute.For<ILogger>();
