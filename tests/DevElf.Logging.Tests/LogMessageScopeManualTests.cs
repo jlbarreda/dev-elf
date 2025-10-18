@@ -32,8 +32,8 @@ public class LogMessageScopeManualTests
 
     public class X
     {
-        private readonly ILogMessageScopeAccessor _logMessageScopeAccessor;
-        private readonly ILogger _logger;
+        private readonly ILogMessageScopeAccessor logMessageScopeAccessor;
+        private readonly ILogger logger;
 
         public X(ILogMessageScopeAccessor logMessageScopeAccessor, ILogger logger)
         {
@@ -42,16 +42,16 @@ public class LogMessageScopeManualTests
                 _ = scope.SetProperty("XKey", "XValue");
             }
 
-            _logMessageScopeAccessor = logMessageScopeAccessor;
-            _logger = logger;
+            this.logMessageScopeAccessor = logMessageScopeAccessor;
+            this.logger = logger;
         }
 
         public void Y()
         {
-            using var scope = _logger.BeginMessageScope(LogLevel.Error, "Error message from Y");
+            using var scope = this.logger.BeginMessageScope(LogLevel.Error, "Error message from Y");
             _ = scope.SetProperty("YKey", "YValue");
         }
 
-        public void Z() => _logMessageScopeAccessor.Current?.SetProperty("ZKey", "ZValue");
+        public void Z() => this.logMessageScopeAccessor.Current?.SetProperty("ZKey", "ZValue");
     }
 }
