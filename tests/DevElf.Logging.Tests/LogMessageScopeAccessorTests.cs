@@ -132,7 +132,7 @@ public class LogMessageScopeAccessorTests
                 _ = allStarted.TrySetResult(true);
             }
 
-            await release.Task;
+            _ = await release.Task;
             _ = accessor.Current.Should().BeSameAs(child);
             child.Dispose();
         }
@@ -140,7 +140,7 @@ public class LogMessageScopeAccessorTests
         Task[] tasks = [Task.Run(RunChild), Task.Run(RunChild)];
 
         // Act
-        await allStarted.Task;
+        _ = await allStarted.Task;
 
         // Assert
         _ = accessor.Current.Should().BeSameAs(parent);
