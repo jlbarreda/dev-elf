@@ -2,15 +2,28 @@ namespace DevElf.Logging;
 
 internal sealed class AsyncLocalLogMessageScopeStack
 {
-    private static readonly AsyncLocal<Stack<LogMessageScope>?> Local = new();
+    private static readonly AsyncLocal<ScopeNode?> Local = new();
 
-    private static Stack<LogMessageScope> ScopeStack => Local.Value ??= new Stack<LogMessageScope>();
+    public static int Count => Local.Value?.Count ?? 0;
 
-    public static int Count => ScopeStack.Count;
+    public static void Push(LogMessageScope item) => Local.Value = new ScopeNode(item, Local.Value);
 
-    public static void Push(LogMessageScope item) => ScopeStack.Push(item);
+    public static LogMessageScope Pop()
+    {
+        ScopeNode node = Local.Value ?? throw new InvalidOperationException("The scope stack is empty.");
+        Local.Value = node.Parent;
 
-    public static LogMessageScope Pop() => ScopeStack.Pop();
+        return node.Scope;
+    }
 
-    public static LogMessageScope? Peek() => ScopeStack.Count > 0 ? ScopeStack.Peek() : default;
+    public static LogMessageScope? Peek() => Local.Value?.Scope;
+
+    private sealed class ScopeNode(LogMessageScope scope, ScopeNode? parent)
+    {
+        public LogMessageScope Scope { get; } = scope;
+
+        public ScopeNode? Parent { get; } = parent;
+
+        public int Count { get; } = (parent?.Count ?? 0) + 1;
+    }
 }

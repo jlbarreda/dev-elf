@@ -113,4 +113,45 @@ public class LogMessageScopeAccessorTests
         // Assert
         _ = accessor.Current.Should().BeNull();
     }
+
+    [TestMethod]
+    public async Task Current_is_isolated_between_concurrent_child_flows()
+    {
+        // Arrange
+        var fixture = new Fixture();
+        ILogger logger = LoggerFactory.Create(b => { }).CreateLogger(fixture.Create<string>());
+        var accessor = new LogMessageScopeAccessor();
+        var parent = logger.BeginMessageScope(LogLevel.Information, fixture.Create<string>());
+        int started = 0;
+        var allStarted = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        async Task RunChild()
+        {
+            var child = logger.BeginMessageScope(LogLevel.Information, fixture.Create<string>());
+
+            if (Interlocked.Increment(ref started) == 2)
+            {
+                _ = allStarted.TrySetResult(true);
+            }
+
+            await release.Task;
+            _ = accessor.Current.Should().BeSameAs(child);
+            child.Dispose();
+        }
+
+        Task[] tasks = [Task.Run(RunChild), Task.Run(RunChild)];
+
+        // Act
+        await allStarted.Task;
+
+        // Assert
+        _ = accessor.Current.Should().BeSameAs(parent);
+        _ = release.TrySetResult(true);
+        await Task.WhenAll(tasks);
+        _ = accessor.Current.Should().BeSameAs(parent);
+
+        parent.Dispose();
+        _ = accessor.Current.Should().BeNull();
+    }
 }

@@ -4,6 +4,7 @@ using AwesomeAssertions;
 using DevElf.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Testing;
+using NSubstitute;
 
 namespace DevElf.Logging.Tests;
 
@@ -162,6 +163,7 @@ public class LogMessageScopeTests
         _ = scopes["key"].Should().Be(2);
         _ = scopes.Should().ContainKey("KEY");
         _ = scopes.Should().ContainKey("key");
+        _ = scopes.Should().ContainKey("Key");
     }
 
     [TestMethod]
@@ -187,5 +189,29 @@ public class LogMessageScopeTests
         _ = records[0].Message.Should().Be("LogMessageScope disposed out of order. Scopes must be disposed in LIFO order.");
         _ = records[1].Message.Should().Be(innerMsg);
         _ = records[2].Message.Should().Be(outerMsg);
+    }
+
+    [TestMethod]
+    public void Dispose_marks_scope_disposed_when_logging_throws()
+    {
+        // Arrange
+        ILogger logger = Substitute.For<ILogger>();
+        logger.IsEnabled(Arg.Any<LogLevel>()).Returns(true);
+        logger.BeginScope(Arg.Any<IReadOnlyDictionary<string, object?>>())
+            .Returns(_ => throw new InvalidOperationException("BeginScope failed."));
+        var accessor = new LogMessageScopeAccessor();
+        var sut = logger.BeginMessageScope(LogLevel.Information, "message");
+
+        // Act
+        Action dispose = sut.Dispose;
+
+        // Assert
+        _ = dispose.Should().Throw<InvalidOperationException>()
+            .WithMessage("BeginScope failed.");
+        _ = accessor.Current.Should().BeNull();
+        _ = dispose.Should().NotThrow();
+
+        Action setProperty = () => sut.SetProperty("key", "value");
+        _ = setProperty.Should().Throw<ObjectDisposedException>();
     }
 }

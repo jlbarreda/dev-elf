@@ -48,7 +48,7 @@ public class LogMessageScopeManualTests
 
         public void Y()
         {
-            using var scope = this.logger.BeginMessageScope(LogLevel.Error, "Error message from Y");
+            using var scope = this.logger.BeginMessageScope(LogLevel.Error, "Error message from Y {YKey}");
             _ = scope.SetProperty("YKey", "YValue");
         }
 

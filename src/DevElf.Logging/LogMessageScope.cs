@@ -155,12 +155,10 @@ internal sealed partial class LogMessageScope : IDisposable, ILogMessageScope
 
         // Pop first to update the ambient stack to the parent before logging.
         _ = AsyncLocalLogMessageScopeStack.Pop();
+        this._disposed = true;
 
         // Log with accumulated properties from this scope and its parents
         Log(GetAllProperties());
-
-        // Finally mark as disposed
-        this._disposed = true;
     }
 
     /// <summary>
