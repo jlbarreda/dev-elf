@@ -3,7 +3,6 @@ using DevElf.Extensions;
 
 namespace DevElf.Tests.Extensions;
 
-[TestClass]
 public class EnumExtensionsTests
 {
     private enum TestEnum
@@ -23,7 +22,7 @@ public class EnumExtensionsTests
         Combined = Flag1 | Flag2,
     }
 
-    [TestMethod]
+    [Test]
     public void IsDefined_returns_true_for_defined_enum_value()
     {
         // Arrange
@@ -36,7 +35,7 @@ public class EnumExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsDefined_returns_true_for_all_defined_enum_values()
     {
         // Arrange & Act & Assert
@@ -45,7 +44,7 @@ public class EnumExtensionsTests
         _ = TestEnum.C.IsDefined().Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsDefined_returns_false_for_undefined_enum_value()
     {
         // Arrange
@@ -58,7 +57,7 @@ public class EnumExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsDefined_returns_false_for_negative_undefined_enum_value()
     {
         // Arrange
@@ -71,7 +70,7 @@ public class EnumExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsDefined_returns_true_for_defined_flags_enum_individual_values()
     {
         // Arrange & Act & Assert
@@ -82,7 +81,7 @@ public class EnumExtensionsTests
         _ = FlagsTestEnum.Combined.IsDefined().Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsDefined_returns_false_for_combined_flags_enum_values_not_explicitly_defined()
     {
         // Arrange
@@ -95,7 +94,7 @@ public class EnumExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotDefined_returns_false_for_defined_enum_value()
     {
         // Arrange
@@ -108,7 +107,7 @@ public class EnumExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotDefined_returns_false_for_all_defined_enum_values()
     {
         // Arrange & Act & Assert
@@ -117,7 +116,7 @@ public class EnumExtensionsTests
         _ = TestEnum.C.IsNotDefined().Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotDefined_returns_true_for_undefined_enum_value()
     {
         // Arrange
@@ -130,7 +129,7 @@ public class EnumExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotDefined_returns_true_for_negative_undefined_enum_value()
     {
         // Arrange
@@ -143,7 +142,7 @@ public class EnumExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotDefined_returns_false_for_defined_flags_enum_individual_values()
     {
         // Arrange & Act & Assert
@@ -154,7 +153,7 @@ public class EnumExtensionsTests
         _ = FlagsTestEnum.Combined.IsNotDefined().Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotDefined_returns_true_for_combined_flags_enum_values_not_explicitly_defined()
     {
         // Arrange
@@ -167,7 +166,7 @@ public class EnumExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotDefined_returns_true_for_undefined_flags_enum_value()
     {
         // Arrange

@@ -4,10 +4,9 @@ using DevElf.ArgumentValidation;
 
 namespace DevElf.Tests.ArgumentValidation;
 
-[TestClass]
 public class NumberBaseExtensionsTests
 {
-    [TestMethod]
+    [Test]
     public void ThrowIfNegative_should_throw_ArgumentOutOfRangeException_when_value_is_negative()
     {
         // Arrange
@@ -21,7 +20,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().Throw<ArgumentOutOfRangeException>();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNegative_should_not_throw_when_value_is_not_negative()
     {
         // Arrange
@@ -35,7 +34,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNegative_should_throw_ArgumentOutOfRangeException_when_nullable_value_is_negative()
     {
         // Arrange
@@ -49,7 +48,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().Throw<ArgumentOutOfRangeException>();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNegative_should_not_throw_when_nullable_value_is_not_negative()
     {
         // Arrange
@@ -63,7 +62,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNegative_should_not_throw_when_nullable_value_is_null()
     {
         // Arrange
@@ -76,7 +75,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNegativeOrZero_should_throw_ArgumentOutOfRangeException_when_value_is_negative()
     {
         // Arrange
@@ -90,7 +89,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().Throw<ArgumentOutOfRangeException>();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNegativeOrZero_should_throw_ArgumentOutOfRangeException_when_value_is_zero()
     {
         // Arrange
@@ -103,7 +102,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().Throw<ArgumentOutOfRangeException>();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNegativeOrZero_should_not_throw_when_value_is_positive()
     {
         // Arrange
@@ -117,7 +116,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNegativeOrZero_should_throw_ArgumentOutOfRangeException_when_nullable_value_is_negative()
     {
         // Arrange
@@ -131,7 +130,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().Throw<ArgumentOutOfRangeException>();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNegativeOrZero_should_throw_ArgumentOutOfRangeException_when_nullable_value_is_zero()
     {
         // Arrange
@@ -144,7 +143,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().Throw<ArgumentOutOfRangeException>();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNegativeOrZero_should_not_throw_when_nullable_value_is_positive()
     {
         // Arrange
@@ -158,7 +157,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNegativeOrZero_should_not_throw_when_nullable_value_is_null()
     {
         // Arrange
@@ -171,7 +170,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfPositive_should_throw_ArgumentOutOfRangeException_when_value_is_positive()
     {
         // Arrange
@@ -185,7 +184,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().Throw<ArgumentOutOfRangeException>();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfPositive_should_not_throw_when_value_is_not_positive()
     {
         // Arrange
@@ -199,7 +198,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfPositive_should_throw_ArgumentOutOfRangeException_when_nullable_value_is_positive()
     {
         // Arrange
@@ -213,7 +212,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().Throw<ArgumentOutOfRangeException>();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfPositive_should_not_throw_when_nullable_value_is_not_positive()
     {
         // Arrange
@@ -227,7 +226,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfPositive_should_not_throw_when_nullable_value_is_null()
     {
         // Arrange
@@ -240,7 +239,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfZero_should_throw_ArgumentOutOfRangeException_when_value_is_zero()
     {
         // Arrange
@@ -253,7 +252,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().Throw<ArgumentOutOfRangeException>();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfZero_should_not_throw_when_value_is_not_zero()
     {
         // Arrange
@@ -267,7 +266,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfZero_should_throw_ArgumentOutOfRangeException_when_nullable_value_is_zero()
     {
         // Arrange
@@ -280,7 +279,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().Throw<ArgumentOutOfRangeException>();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfZero_should_not_throw_when_nullable_value_is_not_zero()
     {
         // Arrange
@@ -294,7 +293,7 @@ public class NumberBaseExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfZero_should_not_throw_when_nullable_value_is_null()
     {
         // Arrange

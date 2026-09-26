@@ -12,10 +12,23 @@ public interface ILogMessageScope : IDisposable
     /// Sets a property on the current scope.
     /// When multiple scopes are nested, child properties override parent properties with the same key.
     /// </summary>
+    /// <remarks>
+    /// Object values are retained as property values and passed to the logging provider when the scope is
+    /// disposed. Changes to mutable values made before disposal are included. For immutable values, set the
+    /// updated value under the same key. Whether and how an object is destructured depends on the provider.
+    /// </remarks>
     /// <typeparam name="T">The value type.</typeparam>
     /// <param name="key">The property key. Cannot be <see langword="null"/>, empty, or whitespace.</param>
     /// <param name="value">The property value.</param>
     /// <returns>Returns the provided <paramref name="value"/> to enable fluent assignment.</returns>
+    /// <example>
+    /// <code>
+    /// var section = scope.SetProperty("SectionOne", new SectionOne("started", 1, []));
+    /// section.SomeCollection.Add("item");
+    /// section = section with { Count = 2 };
+    /// scope.SetProperty("SectionOne", section);
+    /// </code>
+    /// </example>
     T SetProperty<T>(string key, T value);
 
     /// <summary>

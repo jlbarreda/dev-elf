@@ -3,7 +3,6 @@ using DevElf.ArgumentValidation;
 
 namespace DevElf.Tests.ArgumentValidation;
 
-[TestClass]
 public class EnumExtensionsTests
 {
     private enum TestEnum
@@ -12,7 +11,7 @@ public class EnumExtensionsTests
         B = 1,
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotDefined_does_not_throw_for_defined_value()
     {
         // Arrange
@@ -25,7 +24,7 @@ public class EnumExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotDefined_throws_for_undefined_value()
     {
         // Arrange

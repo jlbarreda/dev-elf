@@ -8,7 +8,7 @@ namespace DevElf;
 /// </summary>
 public sealed class FrozenTimeProvider : TimeProvider
 {
-    private readonly DateTimeOffset _utcNow;
+    private readonly DateTimeOffset utcNow;
 
     /// <summary>
     /// Creates a new instance that will always return the provided instant in UTC.
@@ -16,7 +16,7 @@ public sealed class FrozenTimeProvider : TimeProvider
     /// </summary>
     /// <param name="now">The instant to freeze.</param>
     public FrozenTimeProvider(DateTimeOffset now)
-        => this._utcNow = now.ToUniversalTime();
+        => this.utcNow = now.ToUniversalTime();
 
     /// <summary>
     /// Creates a new instance that is frozen to the current value of the
@@ -28,12 +28,12 @@ public sealed class FrozenTimeProvider : TimeProvider
     {
         timeProvider.ThrowIfNull();
 
-        this._utcNow = timeProvider.GetUtcNow();
+        this.utcNow = timeProvider.GetUtcNow();
     }
 
     /// <summary>
     /// Returns the frozen instant as a UTC <see cref="DateTimeOffset"/>.
     /// </summary>
     /// <returns>The frozen UTC instant.</returns>
-    public override DateTimeOffset GetUtcNow() => this._utcNow;
+    public override DateTimeOffset GetUtcNow() => this.utcNow;
 }

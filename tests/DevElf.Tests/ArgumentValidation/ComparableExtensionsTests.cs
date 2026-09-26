@@ -3,12 +3,11 @@ using DevElf.ArgumentValidation;
 
 namespace DevElf.Tests.ArgumentValidation;
 
-[TestClass]
 public class ComparableExtensionsTests
 {
     #region ThrowIfLessThan - Reference Types
 
-    [TestMethod]
+    [Test]
     public void ThrowIfLessThan_does_not_throw_when_value_is_greater_than_other()
     {
         // Arrange
@@ -22,7 +21,7 @@ public class ComparableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfLessThan_does_not_throw_when_value_equals_other()
     {
         // Arrange
@@ -36,7 +35,7 @@ public class ComparableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfLessThan_throws_ArgumentOutOfRangeException_when_value_is_less_than_other()
     {
         // Arrange
@@ -55,7 +54,7 @@ public class ComparableExtensionsTests
 
     #region ThrowIfLessThan - Value Types
 
-    [TestMethod]
+    [Test]
     public void ThrowIfLessThan_does_not_throw_when_nullable_int_value_is_greater_than_other()
     {
         // Arrange
@@ -69,7 +68,7 @@ public class ComparableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfLessThan_throws_ArgumentOutOfRangeException_when_nullable_int_value_is_less_than_other()
     {
         // Arrange
@@ -88,7 +87,7 @@ public class ComparableExtensionsTests
 
     #region ThrowIfLessThanOrEqualTo - Reference Types
 
-    [TestMethod]
+    [Test]
     public void ThrowIfLessThanOrEqualTo_does_not_throw_when_value_is_greater_than_other()
     {
         // Arrange
@@ -102,7 +101,7 @@ public class ComparableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfLessThanOrEqualTo_throws_ArgumentOutOfRangeException_when_value_equals_other()
     {
         // Arrange
@@ -117,7 +116,7 @@ public class ComparableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfLessThanOrEqualTo_throws_ArgumentOutOfRangeException_when_value_is_less_than_other()
     {
         // Arrange
@@ -136,7 +135,7 @@ public class ComparableExtensionsTests
 
     #region ThrowIfGreaterThan - Reference Types
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThan_does_not_throw_when_value_is_less_than_other()
     {
         // Arrange
@@ -150,7 +149,7 @@ public class ComparableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThan_does_not_throw_when_value_equals_other()
     {
         // Arrange
@@ -164,7 +163,7 @@ public class ComparableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThan_throws_ArgumentOutOfRangeException_when_value_is_greater_than_other()
     {
         // Arrange
@@ -183,7 +182,7 @@ public class ComparableExtensionsTests
 
     #region ThrowIfGreaterThan - Value Types
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThan_does_not_throw_when_nullable_int_value_is_less_than_other()
     {
         // Arrange
@@ -197,7 +196,7 @@ public class ComparableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThan_throws_ArgumentOutOfRangeException_when_nullable_int_value_is_greater_than_other()
     {
         // Arrange
@@ -216,7 +215,7 @@ public class ComparableExtensionsTests
 
     #region ThrowIfGreaterThanOrEqualTo - Reference Types
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThanOrEqualTo_does_not_throw_when_value_is_less_than_other()
     {
         // Arrange
@@ -230,7 +229,7 @@ public class ComparableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThanOrEqualTo_throws_ArgumentOutOfRangeException_when_value_equals_other()
     {
         // Arrange
@@ -245,7 +244,7 @@ public class ComparableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThanOrEqualTo_throws_ArgumentOutOfRangeException_when_value_is_greater_than_other()
     {
         // Arrange
@@ -264,7 +263,7 @@ public class ComparableExtensionsTests
 
     #region ThrowIfGreaterThanOrEqualTo - Value Types
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThanOrEqualTo_does_not_throw_when_nullable_int_value_is_less_than_other()
     {
         // Arrange
@@ -278,7 +277,7 @@ public class ComparableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThanOrEqualTo_throws_ArgumentOutOfRangeException_when_nullable_int_value_equals_other()
     {
         // Arrange
@@ -293,7 +292,7 @@ public class ComparableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThanOrEqualTo_throws_ArgumentOutOfRangeException_when_nullable_int_value_is_greater_than_other()
     {
         // Arrange
@@ -312,7 +311,7 @@ public class ComparableExtensionsTests
 
     #region Mixed Type Tests
 
-    [TestMethod]
+    [Test]
     public void ThrowIfLessThan_works_with_DateTime()
     {
         // Arrange
@@ -327,7 +326,7 @@ public class ComparableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThan_works_with_decimal()
     {
         // Arrange
@@ -346,7 +345,7 @@ public class ComparableExtensionsTests
 
     #region ThrowIfLessThan - Mixed Nullable and Non-Nullable
 
-    [TestMethod]
+    [Test]
     public void ThrowIfLessThan_does_not_throw_when_nullable_value_is_greater_than_non_nullable_other()
     {
         // Arrange
@@ -360,7 +359,7 @@ public class ComparableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfLessThan_throws_ArgumentOutOfRangeException_when_nullable_value_is_less_than_non_nullable_other()
     {
         // Arrange
@@ -379,7 +378,7 @@ public class ComparableExtensionsTests
 
     #region ThrowIfLessThanOrEqualTo - Mixed Nullable and Non-Nullable
 
-    [TestMethod]
+    [Test]
     public void ThrowIfLessThanOrEqualTo_does_not_throw_when_nullable_value_is_greater_than_non_nullable_other()
     {
         // Arrange
@@ -393,7 +392,7 @@ public class ComparableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfLessThanOrEqualTo_throws_ArgumentOutOfRangeException_when_nullable_value_equals_non_nullable_other()
     {
         // Arrange
@@ -408,7 +407,7 @@ public class ComparableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfLessThanOrEqualTo_throws_ArgumentOutOfRangeException_when_nullable_value_is_less_than_non_nullable_other()
     {
         // Arrange
@@ -427,7 +426,7 @@ public class ComparableExtensionsTests
 
     #region ThrowIfGreaterThan - Mixed Nullable and Non-Nullable
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThan_does_not_throw_when_nullable_value_is_less_than_non_nullable_other()
     {
         // Arrange
@@ -441,7 +440,7 @@ public class ComparableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThan_throws_ArgumentOutOfRangeException_when_nullable_value_is_greater_than_non_nullable_other()
     {
         // Arrange
@@ -460,7 +459,7 @@ public class ComparableExtensionsTests
 
     #region ThrowIfGreaterThanOrEqualTo - Mixed Nullable and Non-Nullable
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThanOrEqualTo_does_not_throw_when_nullable_value_is_less_than_non_nullable_other()
     {
         // Arrange
@@ -474,7 +473,7 @@ public class ComparableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThanOrEqualTo_throws_ArgumentOutOfRangeException_when_nullable_value_equals_non_nullable_other()
     {
         // Arrange
@@ -489,7 +488,7 @@ public class ComparableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThanOrEqualTo_throws_ArgumentOutOfRangeException_when_nullable_value_is_greater_than_non_nullable_other()
     {
         // Arrange
@@ -508,7 +507,7 @@ public class ComparableExtensionsTests
 
     #region ThrowIfLessThan - Boundary Values
 
-    [TestMethod]
+    [Test]
     public void ThrowIfLessThan_does_not_throw_when_value_is_int_MaxValue_and_other_is_int_MinValue()
     {
         // Arrange
@@ -522,7 +521,7 @@ public class ComparableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfLessThan_throws_ArgumentOutOfRangeException_when_value_is_int_MinValue_and_other_is_int_MaxValue()
     {
         // Arrange
@@ -541,7 +540,7 @@ public class ComparableExtensionsTests
 
     #region ThrowIfLessThanOrEqualTo - Boundary Values
 
-    [TestMethod]
+    [Test]
     public void ThrowIfLessThanOrEqualTo_does_not_throw_when_value_is_DateTime_MaxValue_and_other_is_DateTime_MinValue()
     {
         // Arrange
@@ -555,7 +554,7 @@ public class ComparableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfLessThanOrEqualTo_throws_ArgumentOutOfRangeException_when_value_is_DateTime_MinValue_and_other_is_DateTime_MaxValue()
     {
         // Arrange
@@ -581,7 +580,7 @@ public class ComparableExtensionsTests
         public int CompareTo(CustomComparable? other) => other == null ? 1 : Value.CompareTo(other.Value);
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThan_does_not_throw_for_custom_comparable_when_value_is_less_than_other()
     {
         // Arrange
@@ -595,7 +594,7 @@ public class ComparableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfGreaterThan_throws_ArgumentOutOfRangeException_for_custom_comparable_when_value_is_greater_than_other()
     {
         // Arrange

@@ -4,12 +4,9 @@ using Microsoft.Extensions.Logging;
 
 namespace DevElf.Logging.Tests;
 
-[TestClass]
 public class LogMessageScopeAccessorTests
 {
-    public TestContext TestContext { get; set; }
-
-    [TestMethod]
+    [Test]
     public void Current_returns_null_when_no_scope_active()
     {
         // Arrange
@@ -22,7 +19,7 @@ public class LogMessageScopeAccessorTests
         _ = current.Should().BeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void Current_tracks_current_scope_with_nesting_and_disposal()
     {
         // Arrange
@@ -49,7 +46,7 @@ public class LogMessageScopeAccessorTests
         _ = accessor.Current.Should().BeNull("After disposing outer, there should be no current scope.");
     }
 
-    [TestMethod]
+    [Test]
     public void Current_is_unchanged_on_out_of_order_dispose_and_recovers_after_correct_order()
     {
         // Arrange
@@ -79,8 +76,8 @@ public class LogMessageScopeAccessorTests
         _ = accessor.Current.Should().BeNull("After disposing outer, there should be no current scope.");
     }
 
-    [TestMethod]
-    public async Task Current_flows_across_async_await()
+    [Test]
+    public async Task Current_flows_across_async_await(CancellationToken cancellationToken)
     {
         // Arrange
         var fixture = new Fixture();
@@ -94,7 +91,7 @@ public class LogMessageScopeAccessorTests
         await Task.Yield();
         _ = accessor.Current.Should().BeSameAs(scope);
 
-        await Task.Delay(1, TestContext.CancellationToken);
+        await Task.Delay(1, cancellationToken);
         _ = accessor.Current.Should().BeSameAs(scope);
 
         // Act & Assert: inside a child task (ExecutionContext flows by default)
@@ -105,12 +102,53 @@ public class LogMessageScopeAccessorTests
                 await Task.Yield();
                 _ = accessor.Current.Should().BeSameAs(scope);
             },
-            TestContext.CancellationToken);
+            cancellationToken);
 
         // Act
         scope.Dispose();
 
         // Assert
+        _ = accessor.Current.Should().BeNull();
+    }
+
+    [Test]
+    public async Task Current_is_isolated_between_concurrent_child_flows()
+    {
+        // Arrange
+        var fixture = new Fixture();
+        ILogger logger = LoggerFactory.Create(b => { }).CreateLogger(fixture.Create<string>());
+        var accessor = new LogMessageScopeAccessor();
+        var parent = logger.BeginMessageScope(LogLevel.Information, fixture.Create<string>());
+        int started = 0;
+        var allStarted = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        async Task RunChild()
+        {
+            var child = logger.BeginMessageScope(LogLevel.Information, fixture.Create<string>());
+
+            if (Interlocked.Increment(ref started) == 2)
+            {
+                _ = allStarted.TrySetResult(true);
+            }
+
+            await release.Task;
+            _ = accessor.Current.Should().BeSameAs(child);
+            child.Dispose();
+        }
+
+        Task[] tasks = [Task.Run(RunChild), Task.Run(RunChild)];
+
+        // Act
+        await allStarted.Task;
+
+        // Assert
+        _ = accessor.Current.Should().BeSameAs(parent);
+        _ = release.TrySetResult(true);
+        await Task.WhenAll(tasks);
+        _ = accessor.Current.Should().BeSameAs(parent);
+
+        parent.Dispose();
         _ = accessor.Current.Should().BeNull();
     }
 }

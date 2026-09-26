@@ -52,7 +52,7 @@ file_header_template = unset
 
 # this. and Me. preferences
 dotnet_style_qualification_for_event = false:warning
-dotnet_style_qualification_for_field = false
+dotnet_style_qualification_for_field = true:warning
 dotnet_style_qualification_for_method = false:warning
 dotnet_style_qualification_for_property = false:warning
 
@@ -231,8 +231,6 @@ csharp_preserve_single_line_statements = false
 # Styles
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
 dotnet_naming_style.camel_case_style.capitalization = camel_case
-dotnet_naming_style.underscore_prefix_style.capitalization = camel_case
-dotnet_naming_style.underscore_prefix_style.required_prefix = _
 
 # Symbols
 dotnet_naming_symbols.all_types.applicable_kinds = class, struct, enum, interface, record
@@ -264,10 +262,6 @@ dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case_style
 dotnet_naming_rule.public_members_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.public_members_should_be_pascal_case.symbols = public_members
 dotnet_naming_rule.public_members_should_be_pascal_case.style = pascal_case_style
-
-dotnet_naming_rule.private_fields_should_have_underscore_prefix.severity = suggestion
-dotnet_naming_rule.private_fields_should_have_underscore_prefix.symbols = private_fields
-dotnet_naming_rule.private_fields_should_have_underscore_prefix.style = underscore_prefix_style
 
 ############################################################
 # Disabled rules

@@ -3,10 +3,9 @@ using DevElf.Extensions;
 
 namespace DevElf.Tests.Extensions;
 
-[TestClass]
 public class StringExtensionsTests
 {
-    [TestMethod]
+    [Test]
     public void IsNull_returns_true_when_string_is_null()
     {
         // Arrange
@@ -19,7 +18,7 @@ public class StringExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNull_returns_false_when_string_is_empty()
     {
         // Arrange
@@ -32,7 +31,7 @@ public class StringExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNull_returns_false_when_string_has_value()
     {
         // Arrange
@@ -45,7 +44,7 @@ public class StringExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNull_returns_false_when_string_is_whitespace()
     {
         // Arrange
@@ -58,7 +57,7 @@ public class StringExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNull_returns_false_when_string_is_null()
     {
         // Arrange
@@ -71,7 +70,7 @@ public class StringExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNull_returns_true_when_string_is_empty()
     {
         // Arrange
@@ -84,7 +83,7 @@ public class StringExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNull_returns_true_when_string_has_value()
     {
         // Arrange
@@ -97,7 +96,7 @@ public class StringExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNull_returns_true_when_string_is_whitespace()
     {
         // Arrange
@@ -110,7 +109,7 @@ public class StringExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrEmpty_returns_true_when_string_is_null()
     {
         // Arrange
@@ -123,7 +122,7 @@ public class StringExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrEmpty_returns_true_when_string_is_empty()
     {
         // Arrange
@@ -136,7 +135,7 @@ public class StringExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrEmpty_returns_false_when_string_is_not_empty()
     {
         // Arrange
@@ -149,7 +148,7 @@ public class StringExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrEmpty_returns_false_when_string_is_whitespace()
     {
         // Arrange
@@ -162,7 +161,7 @@ public class StringExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrEmpty_returns_false_when_string_is_null()
     {
         // Arrange
@@ -175,7 +174,7 @@ public class StringExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrEmpty_returns_false_when_string_is_empty()
     {
         // Arrange
@@ -188,7 +187,7 @@ public class StringExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrEmpty_returns_true_when_string_is_not_empty()
     {
         // Arrange
@@ -201,7 +200,7 @@ public class StringExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrEmpty_returns_true_when_string_is_whitespace()
     {
         // Arrange
@@ -214,7 +213,7 @@ public class StringExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrWhiteSpace_returns_true_when_string_is_null()
     {
         // Arrange
@@ -227,7 +226,7 @@ public class StringExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrWhiteSpace_returns_true_when_string_is_empty()
     {
         // Arrange
@@ -240,7 +239,7 @@ public class StringExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrWhiteSpace_returns_true_when_string_is_whitespace()
     {
         // Arrange
@@ -253,7 +252,7 @@ public class StringExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrWhiteSpace_returns_false_when_string_is_not_whitespace()
     {
         // Arrange
@@ -266,7 +265,7 @@ public class StringExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrWhiteSpace_returns_false_when_string_is_null()
     {
         // Arrange
@@ -279,7 +278,7 @@ public class StringExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrWhiteSpace_returns_false_when_string_is_empty()
     {
         // Arrange
@@ -292,7 +291,7 @@ public class StringExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrWhiteSpace_returns_false_when_string_is_whitespace()
     {
         // Arrange
@@ -305,7 +304,7 @@ public class StringExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrWhiteSpace_returns_true_when_string_is_not_whitespace()
     {
         // Arrange
@@ -318,7 +317,7 @@ public class StringExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrWhiteSpace_returns_true_when_string_has_content()
     {
         // Arrange
@@ -331,7 +330,7 @@ public class StringExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrWhiteSpace_returns_true_when_string_has_single_character()
     {
         // Arrange
@@ -344,7 +343,7 @@ public class StringExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrWhiteSpace_returns_true_when_string_contains_only_spaces()
     {
         // Arrange
@@ -357,7 +356,7 @@ public class StringExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrWhiteSpace_returns_true_when_string_contains_only_tabs()
     {
         // Arrange
@@ -370,7 +369,7 @@ public class StringExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrWhiteSpace_returns_true_when_string_contains_only_newlines()
     {
         // Arrange

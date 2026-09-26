@@ -3,10 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DevElf.Logging.Tests;
 
-[TestClass]
 public class ServiceCollectionExtensionsTests
 {
-    [TestMethod]
+    [Test]
     public void AddLogMessageScopes_registers_accessor_if_not_present()
     {
         // Arrange
@@ -21,7 +20,7 @@ public class ServiceCollectionExtensionsTests
         _ = accessor.Should().NotBeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void AddLogMessageScopes_is_idempotent()
     {
         // Arrange

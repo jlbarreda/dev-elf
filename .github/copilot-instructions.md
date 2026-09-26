@@ -25,13 +25,29 @@
 - Use documentation comments with summaries and parameter descriptions.
 - Use consistent naming rules for interfaces, type parameters, and fields.
 - Use static local functions and simplified `new` expressions.
+- Make only high confidence suggestions when reviewing code changes.
+- Write code with good maintainability practices, including comments on why certain design decisions were made.
+- Handle edge cases and write clear exception handling.
+- For libraries or external dependencies, mention their usage and purpose in comments.
+- Insert a newline before the opening curly brace of any code block (e.g., after `if`, `for`, `while`, `foreach`, `using`, `try`, etc.).
+- Ensure that the final return statement of a method is on its own line.
+- Use pattern matching and switch expressions wherever possible.
+- Use `nameof` instead of string literals when referring to member names.
+- Ensure that XML doc comments are created for any public APIs. When applicable, include `<example>` and `<code>` documentation in the comments.
 
 ---
 
+## C# Instructions
+- Always use the latest version C#, currently C# 14 features.
+- Write clear and concise comments for each function.
+
+
 ## C# Style Preferences
+- Apply code-formatting style defined in `.editorconfig`.
 - Never add more than one class/interface/enum/struct per file.
 - Use PascalCase for public constants and static readonly fields.
-- Use camelCase with and underscore prefix for private fields and local variables.
+- Use camelCase for private fields and local variables.
+- Use camelCase for private readonly fields.
 - Prefix interfaces with `I` and type parameters with `T`.
 - Use explicit types for built-in types (`string`, `int`, `bool`, etc.)
 - Use `var` for complex types when the type is obvious from the right side
@@ -54,7 +70,7 @@
 - Prefer `nameof` over `typeof` where applicable.
 - Use tuple swap syntax for swapping values.
 - Use static local functions where possible.
-- Add an empty line before `return`, `throw`, `break`, `yield`, and `continue`, when it's not the only line. If the previous line is a comment, the empty line should be added before the comment.
+- Add an empty line before `return`, `throw`, `break`, `yield`, and `continue`, when it's not the only line in a block. If the previous line is a comment and there's a code line before it, the empty line should be added before the comment.
 - Place a blank line between method declarations.
 - Avoid multiple statements on a single line.
 - Align parameters and arguments vertically with one level of indentation.
@@ -64,6 +80,12 @@
 - Use discard `_` to comply with IDE0058.
 - Don't add unnecessary using statements.
 - Always add an empty line between lines of code and statement blocks.
+
+### Nullable Reference Types
+
+- Declare variables non-nullable, and check for `null` at entry points.
+- Always use `is null` or `is not null` instead of `== null` or `!= null`.
+- Trust the C# null annotations and don't add null checks when the type system says a value cannot be null.
 
 ### Documentation Preferences
 - Use XML documentation comments for public members.

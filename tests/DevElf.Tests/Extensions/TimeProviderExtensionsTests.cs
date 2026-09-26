@@ -3,10 +3,9 @@ using DevElf.Extensions;
 
 namespace DevElf.Tests.Extensions;
 
-[TestClass]
 public class TimeProviderExtensionsTests
 {
-    [TestMethod]
+    [Test]
     public void FrozenTimeProvider_GetUtcNow_returns_utc_instant()
     {
         // Arrange
@@ -19,7 +18,7 @@ public class TimeProviderExtensionsTests
         _ = frozen.GetUtcNow().Should().Be(dto.ToUniversalTime());
     }
 
-    [TestMethod]
+    [Test]
     public void Freeze_returns_frozen_provider_with_same_utc()
     {
         // Arrange
@@ -33,7 +32,7 @@ public class TimeProviderExtensionsTests
         _ = frozen2.GetUtcNow().Should().Be(frozen.GetUtcNow());
     }
 
-    [TestMethod]
+    [Test]
     public void GetUtcNowAsDateTime_returns_utc_date_time()
     {
         // Arrange
@@ -47,7 +46,7 @@ public class TimeProviderExtensionsTests
         _ = result.Should().Be(frozen.GetUtcNow().UtcDateTime);
     }
 
-    [TestMethod]
+    [Test]
     public void GetLocalNowAsDateTime_returns_local_date_time()
     {
         // Arrange
@@ -61,7 +60,7 @@ public class TimeProviderExtensionsTests
         _ = result.Should().Be(frozen.GetLocalNow().LocalDateTime);
     }
 
-    [TestMethod]
+    [Test]
     public void GetToday_and_GetUtcToday_and_time_of_day_methods_return_expected_values()
     {
         // Arrange
@@ -81,7 +80,7 @@ public class TimeProviderExtensionsTests
         _ = utcTimeOfDay.Should().Be(TimeOnly.FromTimeSpan(frozen.GetUtcNow().TimeOfDay));
     }
 
-    [TestMethod]
+    [Test]
     public void Freeze_throws_ArgumentNullException_when_timeProvider_is_null()
     {
         // Arrange

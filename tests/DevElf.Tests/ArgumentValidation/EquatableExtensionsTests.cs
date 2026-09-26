@@ -3,12 +3,11 @@ using DevElf.ArgumentValidation;
 
 namespace DevElf.Tests.ArgumentValidation;
 
-[TestClass]
 public class EquatableExtensionsTests
 {
     #region ThrowIfEqual - Reference Types
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_does_not_throw_when_reference_values_are_different()
     {
         // Arrange
@@ -22,7 +21,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_does_not_throw_when_value_is_null_and_other_is_not_null()
     {
         // Arrange
@@ -36,7 +35,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_does_not_throw_when_value_is_not_null_and_other_is_null()
     {
         // Arrange
@@ -50,7 +49,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_throws_ArgumentOutOfRangeException_when_reference_values_are_equal()
     {
         // Arrange
@@ -69,7 +68,7 @@ public class EquatableExtensionsTests
 
     #region ThrowIfEqual - Value Types (Nullable)
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_does_not_throw_when_nullable_values_are_different()
     {
         // Arrange
@@ -83,7 +82,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_does_not_throw_when_nullable_value_is_null_and_other_has_value()
     {
         // Arrange
@@ -97,7 +96,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_does_not_throw_when_nullable_value_has_value_and_other_is_null()
     {
         // Arrange
@@ -111,7 +110,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_throws_ArgumentOutOfRangeException_when_nullable_values_are_equal()
     {
         // Arrange
@@ -126,7 +125,7 @@ public class EquatableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_throws_ArgumentOutOfRangeException_when_both_nullable_values_are_null()
     {
         // Arrange
@@ -145,7 +144,7 @@ public class EquatableExtensionsTests
 
     #region ThrowIfEqual - Mixed Nullable and Non-Nullable
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_does_not_throw_when_nullable_value_is_null_and_other_is_non_nullable()
     {
         // Arrange
@@ -159,7 +158,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_does_not_throw_when_nullable_value_is_different_from_non_nullable_other()
     {
         // Arrange
@@ -173,7 +172,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_throws_ArgumentOutOfRangeException_when_nullable_value_equals_non_nullable_other()
     {
         // Arrange
@@ -188,7 +187,7 @@ public class EquatableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_does_not_throw_when_non_nullable_value_is_different_from_nullable_other()
     {
         // Arrange
@@ -202,7 +201,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_does_not_throw_when_non_nullable_value_and_nullable_other_is_null()
     {
         // Arrange
@@ -216,7 +215,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_throws_ArgumentOutOfRangeException_when_non_nullable_value_equals_nullable_other()
     {
         // Arrange
@@ -235,7 +234,7 @@ public class EquatableExtensionsTests
 
     #region ThrowIfNotEqual - Reference Types
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_does_not_throw_when_reference_values_are_equal()
     {
         // Arrange
@@ -249,7 +248,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_does_not_throw_when_both_reference_values_are_null()
     {
         // Arrange
@@ -263,7 +262,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_throws_ArgumentOutOfRangeException_when_reference_values_are_different()
     {
         // Arrange
@@ -278,7 +277,7 @@ public class EquatableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_throws_ArgumentOutOfRangeException_when_value_is_null_and_other_is_not_null()
     {
         // Arrange
@@ -293,7 +292,7 @@ public class EquatableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_throws_ArgumentOutOfRangeException_when_value_is_not_null_and_other_is_null()
     {
         // Arrange
@@ -312,7 +311,7 @@ public class EquatableExtensionsTests
 
     #region ThrowIfNotEqual - Value Types (Nullable)
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_does_not_throw_when_nullable_values_are_equal()
     {
         // Arrange
@@ -326,7 +325,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_does_not_throw_when_both_nullable_values_are_null()
     {
         // Arrange
@@ -340,7 +339,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_throws_ArgumentOutOfRangeException_when_nullable_values_are_different()
     {
         // Arrange
@@ -355,7 +354,7 @@ public class EquatableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_throws_ArgumentOutOfRangeException_when_nullable_value_is_null_and_other_has_value()
     {
         // Arrange
@@ -370,7 +369,7 @@ public class EquatableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_throws_ArgumentOutOfRangeException_when_nullable_value_has_value_and_other_is_null()
     {
         // Arrange
@@ -389,7 +388,7 @@ public class EquatableExtensionsTests
 
     #region ThrowIfNotEqual - Mixed Nullable and Non-Nullable
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_does_not_throw_when_nullable_value_equals_non_nullable_other()
     {
         // Arrange
@@ -403,7 +402,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_throws_ArgumentOutOfRangeException_when_nullable_value_is_null()
     {
         // Arrange
@@ -418,7 +417,7 @@ public class EquatableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_throws_ArgumentOutOfRangeException_when_nullable_value_is_different_from_non_nullable_other()
     {
         // Arrange
@@ -433,7 +432,7 @@ public class EquatableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_does_not_throw_when_non_nullable_value_equals_nullable_other()
     {
         // Arrange
@@ -447,7 +446,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_throws_ArgumentOutOfRangeException_when_nullable_other_is_null()
     {
         // Arrange
@@ -462,7 +461,7 @@ public class EquatableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_throws_ArgumentOutOfRangeException_when_non_nullable_value_is_different_from_nullable_other()
     {
         // Arrange
@@ -496,7 +495,7 @@ public class EquatableExtensionsTests
         public override string ToString() => $"{Name}({Id})";
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_does_not_throw_for_custom_equatable_when_values_are_different()
     {
         // Arrange
@@ -510,7 +509,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_throws_ArgumentOutOfRangeException_for_custom_equatable_when_values_are_equal()
     {
         // Arrange
@@ -525,7 +524,7 @@ public class EquatableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_does_not_throw_for_custom_equatable_when_values_are_equal()
     {
         // Arrange
@@ -539,7 +538,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_throws_ArgumentOutOfRangeException_for_custom_equatable_when_values_are_different()
     {
         // Arrange
@@ -558,7 +557,7 @@ public class EquatableExtensionsTests
 
     #region Built-in Types
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_works_with_DateTime()
     {
         // Arrange
@@ -573,7 +572,7 @@ public class EquatableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_works_with_Guid()
     {
         // Arrange
@@ -588,7 +587,7 @@ public class EquatableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_works_with_decimal()
     {
         // Arrange
@@ -603,7 +602,7 @@ public class EquatableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_works_with_bool()
     {
         // Arrange
@@ -622,7 +621,7 @@ public class EquatableExtensionsTests
 
     #region Boundary Values
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_works_with_boundary_values()
     {
         // Arrange
@@ -637,7 +636,7 @@ public class EquatableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_does_not_throw_with_boundary_values()
     {
         // Arrange
@@ -655,7 +654,7 @@ public class EquatableExtensionsTests
 
     #region Error Message Validation
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_exception_contains_correct_message()
     {
         // Arrange
@@ -670,7 +669,7 @@ public class EquatableExtensionsTests
             .WithMessage("'value' must not be equal to 'test'.*");
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_exception_contains_correct_message()
     {
         // Arrange
@@ -689,7 +688,7 @@ public class EquatableExtensionsTests
 
     #region Special Cases
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_works_with_empty_strings()
     {
         // Arrange
@@ -704,7 +703,7 @@ public class EquatableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNotEqual_does_not_throw_with_empty_strings()
     {
         // Arrange
@@ -718,7 +717,7 @@ public class EquatableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_works_with_zero_values()
     {
         // Arrange
@@ -733,7 +732,7 @@ public class EquatableExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfEqual_works_with_negative_zero()
     {
         // Arrange

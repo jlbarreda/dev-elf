@@ -4,13 +4,13 @@ using AwesomeAssertions;
 using DevElf.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Testing;
+using NSubstitute;
 
 namespace DevElf.Logging.Tests;
 
-[TestClass]
 public class LogMessageScopeTests
 {
-    [TestMethod]
+    [Test]
     public void Constructor_throws_when_logger_is_null()
     {
         // Arrange
@@ -26,7 +26,7 @@ public class LogMessageScopeTests
             .WithParameterName(nameof(logger));
     }
 
-    [TestMethod]
+    [Test]
     public void Constructor_throws_when_logLevel_is_invalid()
     {
         // Arrange
@@ -42,7 +42,7 @@ public class LogMessageScopeTests
             .WithParameterName(nameof(logLevel));
     }
 
-    [TestMethod]
+    [Test]
     public void Constructor_throws_when_message_is_null()
     {
         // Arrange
@@ -58,7 +58,7 @@ public class LogMessageScopeTests
             .WithParameterName(nameof(message));
     }
 
-    [TestMethod]
+    [Test]
     public void Constructor_throws_when_message_is_empty()
     {
         // Arrange
@@ -74,7 +74,7 @@ public class LogMessageScopeTests
             .WithParameterName(nameof(message));
     }
 
-    [TestMethod]
+    [Test]
     public void Constructor_throws_when_message_is_white_space()
     {
         // Arrange
@@ -90,7 +90,7 @@ public class LogMessageScopeTests
             .WithParameterName(nameof(message));
     }
 
-    [TestMethod]
+    [Test]
     public void SetException_does_not_add_property_when_flag_is_false()
     {
         // Arrange
@@ -114,7 +114,7 @@ public class LogMessageScopeTests
         _ = lastScopeState.Should().NotContainKey("Exception");
     }
 
-    [TestMethod]
+    [Test]
     public void SetException_adds_property_when_flag_is_true()
     {
         // Arrange
@@ -138,7 +138,7 @@ public class LogMessageScopeTests
         _ = lastScopeState.Should().ContainKey("Exception");
     }
 
-    [TestMethod]
+    [Test]
     public void SetProperty_is_case_insensitive_and_overrides()
     {
         // Arrange
@@ -162,9 +162,40 @@ public class LogMessageScopeTests
         _ = scopes["key"].Should().Be(2);
         _ = scopes.Should().ContainKey("KEY");
         _ = scopes.Should().ContainKey("key");
+        _ = scopes.Should().ContainKey("Key");
     }
 
-    [TestMethod]
+    [Test]
+    public void SetProperty_emits_updated_object_as_named_scope_property()
+    {
+        // Arrange
+        var fake = new FakeLogger();
+        ILogger logger = fake;
+        var sut = logger.BeginMessageScope(LogLevel.Information, "message");
+        var sectionOne = new SectionOne("started", 1, []);
+        _ = sut.SetProperty("SectionOne", sectionOne);
+
+        sectionOne.SomeCollection.Add("item");
+        sectionOne = sectionOne with { Count = 2 };
+        _ = sut.SetProperty("SectionOne", sectionOne);
+
+        // Act
+        sut.Dispose();
+
+        // Assert
+        var records = fake.Collector.GetSnapshot();
+        _ = records.Should().ContainSingle();
+        var properties = records[0].Scopes[^1] as IReadOnlyDictionary<string, object?>;
+        _ = properties.Should().NotBeNull();
+        _ = properties.Should().ContainSingle();
+        _ = properties!["SectionOne"].Should().BeSameAs(sectionOne);
+
+        var loggedSection = (SectionOne)properties["SectionOne"]!;
+        _ = loggedSection.Count.Should().Be(2);
+        _ = loggedSection.SomeCollection.Should().ContainSingle().Which.Should().Be("item");
+    }
+
+    [Test]
     public void Out_of_order_dispose_logs_warning_then_messages()
     {
         // Arrange
@@ -188,4 +219,30 @@ public class LogMessageScopeTests
         _ = records[1].Message.Should().Be(innerMsg);
         _ = records[2].Message.Should().Be(outerMsg);
     }
+
+    [Test]
+    public void Dispose_marks_scope_disposed_when_logging_throws()
+    {
+        // Arrange
+        ILogger logger = Substitute.For<ILogger>();
+        logger.IsEnabled(Arg.Any<LogLevel>()).Returns(true);
+        logger.BeginScope(Arg.Any<IReadOnlyDictionary<string, object?>>())
+            .Returns(_ => throw new InvalidOperationException("BeginScope failed."));
+        var accessor = new LogMessageScopeAccessor();
+        var sut = logger.BeginMessageScope(LogLevel.Information, "message");
+
+        // Act
+        Action dispose = sut.Dispose;
+
+        // Assert
+        _ = dispose.Should().Throw<InvalidOperationException>()
+            .WithMessage("BeginScope failed.");
+        _ = accessor.Current.Should().BeNull();
+        _ = dispose.Should().NotThrow();
+
+        Action setProperty = () => sut.SetProperty("key", "value");
+        _ = setProperty.Should().Throw<ObjectDisposedException>();
+    }
+
+    private sealed record SectionOne(string Event, int Count, List<string> SomeCollection);
 }
