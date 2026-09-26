@@ -33,3 +33,17 @@ The property value\.
 #### Returns
 [T](ILogMessageScope.SetProperty.W33WIH8SSDTY69PIOC9JED2Q2.md#DevElf.Logging.ILogMessageScope.SetProperty_T_(string,T).T 'DevElf\.Logging\.ILogMessageScope\.SetProperty\<T\>\(string, T\)\.T')  
 Returns the provided [value](ILogMessageScope.SetProperty.W33WIH8SSDTY69PIOC9JED2Q2.md#DevElf.Logging.ILogMessageScope.SetProperty_T_(string,T).value 'DevElf\.Logging\.ILogMessageScope\.SetProperty\<T\>\(string, T\)\.value') to enable fluent assignment\.
+
+### Example
+
+```csharp
+var section = scope.SetProperty("SectionOne", new SectionOne("started", 1, []));
+section.SomeCollection.Add("item");
+section = section with { Count = 2 };
+scope.SetProperty("SectionOne", section);
+```
+
+### Remarks
+Object values are retained as property values and passed to the logging provider when the scope is
+disposed\. Changes to mutable values made before disposal are included\. For immutable values, set the
+updated value under the same key\. Whether and how an object is destructured depends on the provider\.

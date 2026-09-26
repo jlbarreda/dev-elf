@@ -167,6 +167,36 @@ public class LogMessageScopeTests
     }
 
     [TestMethod]
+    public void SetProperty_emits_updated_object_as_named_scope_property()
+    {
+        // Arrange
+        var fake = new FakeLogger();
+        ILogger logger = fake;
+        var sut = logger.BeginMessageScope(LogLevel.Information, "message");
+        var sectionOne = new SectionOne("started", 1, []);
+        _ = sut.SetProperty("SectionOne", sectionOne);
+
+        sectionOne.SomeCollection.Add("item");
+        sectionOne = sectionOne with { Count = 2 };
+        _ = sut.SetProperty("SectionOne", sectionOne);
+
+        // Act
+        sut.Dispose();
+
+        // Assert
+        var records = fake.Collector.GetSnapshot();
+        _ = records.Should().ContainSingle();
+        var properties = records[0].Scopes[^1] as IReadOnlyDictionary<string, object?>;
+        _ = properties.Should().NotBeNull();
+        _ = properties.Should().ContainSingle();
+        _ = properties!["SectionOne"].Should().BeSameAs(sectionOne);
+
+        var loggedSection = (SectionOne)properties["SectionOne"]!;
+        _ = loggedSection.Count.Should().Be(2);
+        _ = loggedSection.SomeCollection.Should().ContainSingle().Which.Should().Be("item");
+    }
+
+    [TestMethod]
     public void Out_of_order_dispose_logs_warning_then_messages()
     {
         // Arrange
@@ -214,4 +244,6 @@ public class LogMessageScopeTests
         Action setProperty = () => sut.SetProperty("key", "value");
         _ = setProperty.Should().Throw<ObjectDisposedException>();
     }
+
+    private sealed record SectionOne(string Event, int Count, List<string> SomeCollection);
 }
