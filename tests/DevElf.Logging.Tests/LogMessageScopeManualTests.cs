@@ -6,6 +6,7 @@ public class LogMessageScopeManualTests
 {
     // This test is mainly to demonstrate usage and manually verify the output.
     [Test]
+    [Explicit]
     public void Test()
     {
         ILogger logger = LoggerFactory
