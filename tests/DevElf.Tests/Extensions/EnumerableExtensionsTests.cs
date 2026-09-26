@@ -3,10 +3,9 @@ using DevElf.Extensions;
 
 namespace DevElf.Tests.Extensions;
 
-[TestClass]
 public class EnumerableExtensionsTests
 {
-    [TestMethod]
+    [Test]
     public void IsEmpty_throws_ArgumentNullException_when_source_is_null()
     {
         // Arrange
@@ -19,7 +18,7 @@ public class EnumerableExtensionsTests
         _ = act.Should().Throw<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public void IsEmpty_returns_true_when_collection_is_empty()
     {
         // Arrange
@@ -32,7 +31,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsEmpty_returns_true_when_list_is_empty()
     {
         // Arrange
@@ -45,7 +44,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsEmpty_returns_true_when_array_is_empty()
     {
         // Arrange
@@ -58,7 +57,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsEmpty_returns_false_when_collection_has_elements()
     {
         // Arrange
@@ -71,7 +70,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsEmpty_returns_false_when_list_has_elements()
     {
         // Arrange
@@ -84,7 +83,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsEmpty_returns_false_when_array_has_elements()
     {
         // Arrange
@@ -97,7 +96,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsEmpty_returns_false_when_enumerable_has_single_element()
     {
         // Arrange
@@ -110,7 +109,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotEmpty_throws_ArgumentNullException_when_source_is_null()
     {
         // Arrange
@@ -123,7 +122,7 @@ public class EnumerableExtensionsTests
         _ = act.Should().Throw<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotEmpty_returns_false_when_collection_is_empty()
     {
         // Arrange
@@ -136,7 +135,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotEmpty_returns_false_when_list_is_empty()
     {
         // Arrange
@@ -149,7 +148,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotEmpty_returns_false_when_array_is_empty()
     {
         // Arrange
@@ -162,7 +161,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotEmpty_returns_true_when_collection_has_elements()
     {
         // Arrange
@@ -175,7 +174,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotEmpty_returns_true_when_list_has_elements()
     {
         // Arrange
@@ -188,7 +187,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotEmpty_returns_true_when_array_has_elements()
     {
         // Arrange
@@ -201,7 +200,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotEmpty_returns_true_when_enumerable_has_single_element()
     {
         // Arrange
@@ -214,7 +213,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrEmpty_returns_true_when_source_is_null()
     {
         // Arrange
@@ -227,7 +226,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrEmpty_returns_true_when_collection_is_empty()
     {
         // Arrange
@@ -240,7 +239,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrEmpty_returns_true_when_list_is_empty()
     {
         // Arrange
@@ -253,7 +252,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrEmpty_returns_true_when_array_is_empty()
     {
         // Arrange
@@ -266,7 +265,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrEmpty_returns_false_when_collection_has_elements()
     {
         // Arrange
@@ -279,7 +278,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrEmpty_returns_false_when_list_has_elements()
     {
         // Arrange
@@ -292,7 +291,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrEmpty_returns_false_when_array_has_elements()
     {
         // Arrange
@@ -305,7 +304,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNullOrEmpty_returns_false_when_enumerable_has_single_element()
     {
         // Arrange
@@ -318,7 +317,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrEmpty_returns_false_when_source_is_null()
     {
         // Arrange
@@ -331,7 +330,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrEmpty_returns_false_when_collection_is_empty()
     {
         // Arrange
@@ -344,7 +343,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrEmpty_returns_false_when_list_is_empty()
     {
         // Arrange
@@ -357,7 +356,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrEmpty_returns_false_when_array_is_empty()
     {
         // Arrange
@@ -370,7 +369,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrEmpty_returns_true_when_collection_has_elements()
     {
         // Arrange
@@ -383,7 +382,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrEmpty_returns_true_when_list_has_elements()
     {
         // Arrange
@@ -396,7 +395,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrEmpty_returns_true_when_array_has_elements()
     {
         // Arrange
@@ -409,7 +408,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrEmpty_returns_true_when_enumerable_has_single_element()
     {
         // Arrange
@@ -422,7 +421,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotEmpty_returns_false_when_enumerable_is_empty()
     {
         // Arrange
@@ -435,7 +434,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrEmpty_returns_false_when_enumerable_is_empty()
     {
         // Arrange
@@ -448,7 +447,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotEmpty_works_with_lazy_enumerable()
     {
         // Arrange
@@ -462,7 +461,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotEmpty_returns_false_with_empty_lazy_enumerable()
     {
         // Arrange
@@ -476,7 +475,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrEmpty_works_with_lazy_enumerable()
     {
         // Arrange
@@ -490,7 +489,7 @@ public class EnumerableExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsNotNullOrEmpty_returns_false_with_empty_lazy_enumerable()
     {
         // Arrange

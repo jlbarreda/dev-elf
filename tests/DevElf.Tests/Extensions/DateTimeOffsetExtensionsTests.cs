@@ -3,10 +3,9 @@ using DevElf.Extensions;
 
 namespace DevElf.Tests.Extensions;
 
-[TestClass]
 public class DateTimeOffsetExtensionsTests
 {
-    [TestMethod]
+    [Test]
     public void ToDateOnly_returns_date_component()
     {
         // Arrange
@@ -21,7 +20,7 @@ public class DateTimeOffsetExtensionsTests
         _ = result.Day.Should().Be(5);
     }
 
-    [TestMethod]
+    [Test]
     public void ToLocalDateOnly_returns_local_date_component()
     {
         // Arrange
@@ -34,7 +33,7 @@ public class DateTimeOffsetExtensionsTests
         _ = result.Should().Be(DateOnly.FromDateTime(dto.LocalDateTime));
     }
 
-    [TestMethod]
+    [Test]
     public void ToUtcDateOnly_returns_utc_date_component()
     {
         // Arrange
@@ -47,7 +46,7 @@ public class DateTimeOffsetExtensionsTests
         _ = result.Should().Be(DateOnly.FromDateTime(dto.UtcDateTime));
     }
 
-    [TestMethod]
+    [Test]
     public void TimeOfDayAsTimeOnly_returns_time_of_day()
     {
         // Arrange
@@ -60,7 +59,7 @@ public class DateTimeOffsetExtensionsTests
         _ = result.Should().Be(TimeOnly.FromTimeSpan(dto.TimeOfDay));
     }
 
-    [TestMethod]
+    [Test]
     public void LocalTimeOfDayAsTimeOnly_returns_local_time_of_day()
     {
         // Arrange
@@ -73,7 +72,7 @@ public class DateTimeOffsetExtensionsTests
         _ = result.Should().Be(TimeOnly.FromTimeSpan(dto.LocalDateTime.TimeOfDay));
     }
 
-    [TestMethod]
+    [Test]
     public void ToDateOnly_and_ToUtcDateOnly_do_not_convert_each_other_when_offset_changes_day()
     {
         // Arrange: choose a local date/time that when converted to UTC falls on the previous day
@@ -89,7 +88,7 @@ public class DateTimeOffsetExtensionsTests
         _ = localDate.Should().NotBe(utcDate);
     }
 
-    [TestMethod]
+    [Test]
     public void TimeOfDayAsTimeOnly_is_not_converted_to_utc_time_of_day()
     {
         // Arrange: choose an offseted time where UTC time-of-day differs
@@ -104,7 +103,7 @@ public class DateTimeOffsetExtensionsTests
         _ = localTimeOnly.Should().NotBe(utcTimeOnly);
     }
 
-    [TestMethod]
+    [Test]
     public void ToLocalDateOnly_differs_from_ToDateOnly_when_system_timezone_differs_from_offset()
     {
         // Arrange: create a DateTimeOffset with an offset different from the system's local time

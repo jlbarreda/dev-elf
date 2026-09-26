@@ -2,11 +2,10 @@ using Microsoft.Extensions.Logging;
 
 namespace DevElf.Logging.Tests;
 
-[TestClass]
 public class LogMessageScopeManualTests
 {
     // This test is mainly to demonstrate usage and manually verify the output.
-    [TestMethod]
+    [Test]
     public void Test()
     {
         ILogger logger = LoggerFactory

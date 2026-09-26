@@ -2,10 +2,9 @@ using AwesomeAssertions;
 
 namespace DevElf.Tests;
 
-[TestClass]
 public class EnterCatchTests
 {
-    [TestMethod]
+    [Test]
     public void Never_returns_false_after_executing_action()
     {
         // Arrange
@@ -19,7 +18,7 @@ public class EnterCatchTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void Never_throws_when_action_is_null()
     {
         // Arrange
@@ -30,7 +29,7 @@ public class EnterCatchTests
         _ = act.Should().Throw<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public void Never_allows_exception_to_propagate_when_used_in_catch_filter()
     {
         // Arrange
@@ -56,7 +55,7 @@ public class EnterCatchTests
         _ = catchBlockEntered.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void AfterAction_executes_action_and_returns_true()
     {
         // Arrange
@@ -70,7 +69,7 @@ public class EnterCatchTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void AfterAction_throws_when_action_is_null()
     {
         // Arrange
@@ -81,7 +80,7 @@ public class EnterCatchTests
         _ = act.Should().Throw<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public void AfterAction_causes_catch_block_to_execute_when_used_in_catch_filter()
     {
         // Arrange
@@ -107,7 +106,7 @@ public class EnterCatchTests
         _ = caughtException!.Message.Should().Be("Test exception");
     }
 
-    [TestMethod]
+    [Test]
     public void AfterAction_preserves_exception_context_for_logging()
     {
         // Arrange
@@ -133,7 +132,7 @@ public class EnterCatchTests
         _ = loggedStackTrace.Should().NotBeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void AfterActionIf_executes_action_and_returns_condition_result_when_true()
     {
         // Arrange
@@ -149,7 +148,7 @@ public class EnterCatchTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void AfterActionIf_executes_action_and_returns_condition_result_when_false()
     {
         // Arrange
@@ -165,7 +164,7 @@ public class EnterCatchTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void AfterActionIf_throws_when_action_is_null()
     {
         // Arrange
@@ -176,7 +175,7 @@ public class EnterCatchTests
         _ = act.Should().Throw<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public void AfterActionIf_throws_when_condition_is_null()
     {
         // Arrange
@@ -187,7 +186,7 @@ public class EnterCatchTests
         _ = act.Should().Throw<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public void AfterActionIf_enters_catch_block_when_condition_returns_true()
     {
         // Arrange
@@ -215,7 +214,7 @@ public class EnterCatchTests
         _ = retryCount.Should().Be(1);
     }
 
-    [TestMethod]
+    [Test]
     public void AfterActionIf_does_not_enter_catch_block_when_condition_returns_false()
     {
         // Arrange
@@ -245,7 +244,7 @@ public class EnterCatchTests
         _ = catchBlockEntered.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void AfterActionIf_executes_action_before_evaluating_condition()
     {
         // Arrange
@@ -268,7 +267,7 @@ public class EnterCatchTests
         _ = conditionExecutionOrder.Should().Be(2);
     }
 
-    [TestMethod]
+    [Test]
     public void AfterActionIf_allows_condition_to_access_state_modified_by_action()
     {
         // Arrange

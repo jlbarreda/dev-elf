@@ -1,13 +1,11 @@
-using System;
 using AwesomeAssertions;
 using DevElf.Extensions;
 
 namespace DevElf.Tests.Extensions;
 
-[TestClass]
 public class LambdaExtensionsTests
 {
-    [TestMethod]
+    [Test]
     public void UnwrapAndReThrow_Action_throws_ArgumentNullException_when_action_is_null()
     {
         // Arrange
@@ -21,7 +19,7 @@ public class LambdaExtensionsTests
             .WithParameterName(nameof(action));
     }
 
-    [TestMethod]
+    [Test]
     public void UnwrapAndReThrow_Action_executes_without_exception_when_action_succeeds()
     {
         // Arrange
@@ -36,7 +34,7 @@ public class LambdaExtensionsTests
         _ = called.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void UnwrapAndReThrow_Action_re_throws_innermost_exception_preserving_stack_trace()
     {
         // Arrange
@@ -53,7 +51,7 @@ public class LambdaExtensionsTests
             .WithMessage("inner-most");
     }
 
-    [TestMethod]
+    [Test]
     public void UnwrapAndReThrow_Func_throws_ArgumentNullException_when_func_is_null()
     {
         // Arrange
@@ -67,7 +65,7 @@ public class LambdaExtensionsTests
             .WithParameterName(nameof(function));
     }
 
-    [TestMethod]
+    [Test]
     public void UnwrapAndReThrow_Func_executes_and_returns_value_when_function_succeeds()
     {
         // Arrange
@@ -81,7 +79,7 @@ public class LambdaExtensionsTests
         _ = result.Should().Be("OK");
     }
 
-    [TestMethod]
+    [Test]
     public void UnwrapAndReThrow_Func_re_throws_innermost_exception_preserving_stack_trace()
     {
         // Arrange

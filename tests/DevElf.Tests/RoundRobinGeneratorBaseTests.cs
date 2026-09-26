@@ -2,10 +2,9 @@ using AwesomeAssertions;
 
 namespace DevElf.Tests;
 
-[TestClass]
 public class RoundRobinGeneratorBaseTests
 {
-    [TestMethod]
+    [Test]
     public void NextValue_returns_start_when_start_equals_end()
     {
         // Arrange
@@ -18,7 +17,7 @@ public class RoundRobinGeneratorBaseTests
         _ = result.Should().Be(7);
     }
 
-    [TestMethod]
+    [Test]
     public void NextValue_cycles_through_range_and_wraps_to_start()
     {
         // Arrange
@@ -39,7 +38,7 @@ public class RoundRobinGeneratorBaseTests
         _ = fifth.Should().Be(3);
     }
 
-    [TestMethod]
+    [Test]
     public void Constructor_throws_when_start_greater_than_end()
     {
         // Arrange

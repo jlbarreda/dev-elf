@@ -4,12 +4,11 @@ using NSubstitute;
 
 namespace DevElf.Logging.Tests;
 
-[TestClass]
 public class LoggingScopePropertiesBuilderTests
 {
     #region AddProperty Tests
 
-    [TestMethod]
+    [Test]
     public void AddProperty_adds_multiple_properties()
     {
         // Arrange
@@ -30,7 +29,7 @@ public class LoggingScopePropertiesBuilderTests
         _ = capturedProperties["Property3"].Should().Be(true);
     }
 
-    [TestMethod]
+    [Test]
     public void AddProperty_returns_same_builder_instance()
     {
         // Arrange
@@ -44,7 +43,7 @@ public class LoggingScopePropertiesBuilderTests
         _ = result.Should().BeSameAs(builder);
     }
 
-    [TestMethod]
+    [Test]
     public void AddProperty_overwrites_existing_property_with_same_name()
     {
         // Arrange
@@ -61,7 +60,7 @@ public class LoggingScopePropertiesBuilderTests
         _ = capturedProperties["Property1"].Should().Be("UpdatedValue");
     }
 
-    [TestMethod]
+    [Test]
     public void AddProperty_accepts_null_values()
     {
         // Arrange
@@ -78,7 +77,7 @@ public class LoggingScopePropertiesBuilderTests
         _ = capturedProperties["Property2"].Should().BeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void AddProperty_throws_ArgumentNullException_when_name_is_null()
     {
         // Arrange
@@ -93,7 +92,7 @@ public class LoggingScopePropertiesBuilderTests
             .WithParameterName("name");
     }
 
-    [TestMethod]
+    [Test]
     public void AddProperty_throws_ArgumentException_when_name_is_empty()
     {
         // Arrange
@@ -108,7 +107,7 @@ public class LoggingScopePropertiesBuilderTests
             .WithParameterName("name");
     }
 
-    [TestMethod]
+    [Test]
     public void AddProperty_throws_ArgumentException_when_name_is_whitespace()
     {
         // Arrange
@@ -127,7 +126,7 @@ public class LoggingScopePropertiesBuilderTests
 
     #region BeginScope Tests
 
-    [TestMethod]
+    [Test]
     public void BeginScope_calls_logger_with_all_properties()
     {
         // Arrange
@@ -146,7 +145,7 @@ public class LoggingScopePropertiesBuilderTests
         _ = capturedProperties.Should().HaveCount(2);
     }
 
-    [TestMethod]
+    [Test]
     public void BeginScope_returns_disposable_from_logger()
     {
         // Arrange
@@ -162,7 +161,7 @@ public class LoggingScopePropertiesBuilderTests
         _ = result.Should().BeSameAs(expectedDisposable);
     }
 
-    [TestMethod]
+    [Test]
     public void BeginScope_returns_null_when_logger_returns_null()
     {
         // Arrange
@@ -177,7 +176,7 @@ public class LoggingScopePropertiesBuilderTests
         _ = result.Should().BeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void BeginScope_can_be_called_multiple_times()
     {
         // Arrange
@@ -196,7 +195,7 @@ public class LoggingScopePropertiesBuilderTests
 
     #region Constructor and Initial Property Tests
 
-    [TestMethod]
+    [Test]
     public void Builder_includes_initial_property_from_constructor()
     {
         // Arrange
@@ -216,7 +215,7 @@ public class LoggingScopePropertiesBuilderTests
 
     #region Property Order and Type Tests
 
-    [TestMethod]
+    [Test]
     public void Builder_preserves_property_order()
     {
         // Arrange
@@ -237,7 +236,7 @@ public class LoggingScopePropertiesBuilderTests
         _ = keys[2].Should().Be("Third");
     }
 
-    [TestMethod]
+    [Test]
     public void Builder_works_with_various_value_types()
     {
         // Arrange

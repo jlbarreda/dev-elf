@@ -4,12 +4,12 @@ using DevElf.Threading.RateLimiting;
 
 namespace DevElf.Tests.Threading.RateLimiting;
 
-[TestClass]
 public class RateLimiterExtensionsTests
 {
-    public TestContext TestContext { get; set; } = null!;
+    private static CancellationToken TestCancellationToken =>
+        TestContext.Current?.Execution.CancellationToken ?? CancellationToken.None;
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_action_throws_ArgumentNullException_when_limiter_is_null()
     {
         // Arrange
@@ -17,13 +17,13 @@ public class RateLimiterExtensionsTests
         Func<CancellationToken, Task> action = _ => Task.CompletedTask;
 
         // Act
-        var act = async () => await limiter.ApplyToAsync(action, cancellationToken: TestContext.CancellationToken);
+        var act = async () => await limiter.ApplyToAsync(action, cancellationToken: TestCancellationToken);
 
         // Assert
         _ = await act.Should().ThrowAsync<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_action_throws_ArgumentNullException_when_action_is_null()
     {
         // Arrange
@@ -36,13 +36,13 @@ public class RateLimiterExtensionsTests
         Func<CancellationToken, Task> action = null!;
 
         // Act
-        var act = async () => await limiter.ApplyToAsync(action, cancellationToken: TestContext.CancellationToken);
+        var act = async () => await limiter.ApplyToAsync(action, cancellationToken: TestCancellationToken);
 
         // Assert
         _ = await act.Should().ThrowAsync<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_action_executes_action_when_permits_are_available()
     {
         // Arrange
@@ -62,13 +62,13 @@ public class RateLimiterExtensionsTests
 
                 return Task.CompletedTask;
             },
-            cancellationToken: TestContext.CancellationToken);
+            cancellationToken: TestCancellationToken);
 
         // Assert
         _ = actionExecuted.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_action_acquires_and_releases_permit()
     {
         // Arrange
@@ -81,14 +81,14 @@ public class RateLimiterExtensionsTests
         // Act
         await limiter.ApplyToAsync(
             _ => Task.CompletedTask,
-            cancellationToken: TestContext.CancellationToken);
+            cancellationToken: TestCancellationToken);
 
         // Assert: after execution, permit should be available again
-        using var lease = await limiter.AcquireAsync(1, TestContext.CancellationToken);
+        using var lease = await limiter.AcquireAsync(1, TestCancellationToken);
         _ = lease.IsAcquired.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_action_releases_permit_even_when_action_throws()
     {
         // Arrange
@@ -101,17 +101,17 @@ public class RateLimiterExtensionsTests
         // Act
         var act = async () => await limiter.ApplyToAsync(
             _ => throw new InvalidOperationException("Test exception"),
-            cancellationToken: TestContext.CancellationToken);
+            cancellationToken: TestCancellationToken);
 
         // Assert
         _ = await act.Should().ThrowAsync<InvalidOperationException>();
 
         // verify permit is available again
-        using var lease = await limiter.AcquireAsync(1, TestContext.CancellationToken);
+        using var lease = await limiter.AcquireAsync(1, TestCancellationToken);
         _ = lease.IsAcquired.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_action_waits_and_retries_when_permits_not_immediately_available()
     {
         // Arrange
@@ -122,7 +122,7 @@ public class RateLimiterExtensionsTests
         });
 
         // acquire the only permit
-        var blockingLease = await limiter.AcquireAsync(1, TestContext.CancellationToken);
+        var blockingLease = await limiter.AcquireAsync(1, TestCancellationToken);
         _ = blockingLease.IsAcquired.Should().BeTrue();
 
         bool actionExecuted = false;
@@ -135,11 +135,11 @@ public class RateLimiterExtensionsTests
                     return Task.CompletedTask;
                 },
                 idleTime: TimeSpan.FromMilliseconds(10),
-                cancellationToken: TestContext.CancellationToken),
-            TestContext.CancellationToken);
+                cancellationToken: TestCancellationToken),
+            TestCancellationToken);
 
         // wait a bit to ensure the action is waiting
-        await Task.Delay(50, TestContext.CancellationToken);
+        await Task.Delay(50, TestCancellationToken);
         _ = actionExecuted.Should().BeFalse();
 
         // Act: release the permit
@@ -152,7 +152,7 @@ public class RateLimiterExtensionsTests
         _ = actionExecuted.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_action_respects_permitCount_parameter()
     {
         // Arrange
@@ -175,13 +175,13 @@ public class RateLimiterExtensionsTests
                 canAcquireRemaining = remainingLease.IsAcquired;
             },
             permitCount: permitCount,
-            cancellationToken: TestContext.CancellationToken);
+            cancellationToken: TestCancellationToken);
 
         // Assert: we should have been able to acquire the remaining 2 permits
         _ = canAcquireRemaining.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_action_respects_cancellationToken()
     {
         // Arrange
@@ -192,7 +192,7 @@ public class RateLimiterExtensionsTests
         });
 
         // acquire the only permit
-        using var blockingLease = await limiter.AcquireAsync(1, TestContext.CancellationToken);
+        using var blockingLease = await limiter.AcquireAsync(1, TestCancellationToken);
 
         using var cts = new CancellationTokenSource();
 
@@ -202,10 +202,10 @@ public class RateLimiterExtensionsTests
                 _ => Task.CompletedTask,
                 idleTime: TimeSpan.FromMilliseconds(10),
                 cancellationToken: cts.Token),
-            TestContext.CancellationToken);
+            TestCancellationToken);
 
         // wait a bit to ensure we're waiting for permits
-        await Task.Delay(50, TestContext.CancellationToken);
+        await Task.Delay(50, TestCancellationToken);
 
         await cts.CancelAsync();
 
@@ -215,7 +215,7 @@ public class RateLimiterExtensionsTests
         _ = await act.Should().ThrowAsync<OperationCanceledException>();
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_request_throws_ArgumentNullException_when_limiter_is_null()
     {
         // Arrange
@@ -223,13 +223,13 @@ public class RateLimiterExtensionsTests
         Func<CancellationToken, Task<int>> request = _ => Task.FromResult(42);
 
         // Act
-        var act = async () => await limiter.ApplyToAsync(request, cancellationToken: TestContext.CancellationToken);
+        var act = async () => await limiter.ApplyToAsync(request, cancellationToken: TestCancellationToken);
 
         // Assert
         _ = await act.Should().ThrowAsync<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_request_throws_ArgumentNullException_when_request_is_null()
     {
         // Arrange
@@ -242,13 +242,13 @@ public class RateLimiterExtensionsTests
         Func<CancellationToken, Task<int>> request = null!;
 
         // Act
-        var act = async () => await limiter.ApplyToAsync(request, cancellationToken: TestContext.CancellationToken);
+        var act = async () => await limiter.ApplyToAsync(request, cancellationToken: TestCancellationToken);
 
         // Assert
         _ = await act.Should().ThrowAsync<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_request_executes_request_and_returns_result_when_permits_are_available()
     {
         // Arrange
@@ -263,13 +263,13 @@ public class RateLimiterExtensionsTests
         // Act
         int result = await limiter.ApplyToAsync(
             _ => Task.FromResult(expectedResult),
-            cancellationToken: TestContext.CancellationToken);
+            cancellationToken: TestCancellationToken);
 
         // Assert
         _ = result.Should().Be(expectedResult);
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_request_acquires_and_releases_permit()
     {
         // Arrange
@@ -282,14 +282,14 @@ public class RateLimiterExtensionsTests
         // Act
         _ = await limiter.ApplyToAsync(
             _ => Task.FromResult("result"),
-            cancellationToken: TestContext.CancellationToken);
+            cancellationToken: TestCancellationToken);
 
         // Assert: after execution, permit should be available again
-        using var lease = await limiter.AcquireAsync(1, TestContext.CancellationToken);
+        using var lease = await limiter.AcquireAsync(1, TestCancellationToken);
         _ = lease.IsAcquired.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_request_releases_permit_even_when_request_throws()
     {
         // Arrange
@@ -302,17 +302,17 @@ public class RateLimiterExtensionsTests
         // Act
         var act = async () => await limiter.ApplyToAsync<string>(
             _ => throw new InvalidOperationException("Test exception"),
-            cancellationToken: TestContext.CancellationToken);
+            cancellationToken: TestCancellationToken);
 
         // Assert
         _ = await act.Should().ThrowAsync<InvalidOperationException>();
 
         // verify permit is available again
-        using var lease = await limiter.AcquireAsync(1, TestContext.CancellationToken);
+        using var lease = await limiter.AcquireAsync(1, TestCancellationToken);
         _ = lease.IsAcquired.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_request_waits_and_retries_when_permits_not_immediately_available()
     {
         // Arrange
@@ -323,7 +323,7 @@ public class RateLimiterExtensionsTests
         });
 
         // acquire the only permit
-        var blockingLease = await limiter.AcquireAsync(1, TestContext.CancellationToken);
+        var blockingLease = await limiter.AcquireAsync(1, TestCancellationToken);
         _ = blockingLease.IsAcquired.Should().BeTrue();
 
         bool requestExecuted = false;
@@ -336,11 +336,11 @@ public class RateLimiterExtensionsTests
                     return Task.FromResult(100);
                 },
                 idleTime: TimeSpan.FromMilliseconds(10),
-                cancellationToken: TestContext.CancellationToken),
-            TestContext.CancellationToken);
+                cancellationToken: TestCancellationToken),
+            TestCancellationToken);
 
         // wait a bit to ensure the request is waiting
-        await Task.Delay(50, TestContext.CancellationToken);
+        await Task.Delay(50, TestCancellationToken);
         _ = requestExecuted.Should().BeFalse();
 
         // Act: release the permit
@@ -354,7 +354,7 @@ public class RateLimiterExtensionsTests
         _ = result.Should().Be(100);
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_request_respects_permitCount_parameter()
     {
         // Arrange
@@ -379,14 +379,14 @@ public class RateLimiterExtensionsTests
                 return "success";
             },
             permitCount: permitCount,
-            cancellationToken: TestContext.CancellationToken);
+            cancellationToken: TestCancellationToken);
 
         // Assert
         _ = result.Should().Be("success");
         _ = canAcquireRemaining.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_request_respects_cancellationToken()
     {
         // Arrange
@@ -397,7 +397,7 @@ public class RateLimiterExtensionsTests
         });
 
         // acquire the only permit
-        using var blockingLease = await limiter.AcquireAsync(1, TestContext.CancellationToken);
+        using var blockingLease = await limiter.AcquireAsync(1, TestCancellationToken);
 
         using var cts = new CancellationTokenSource();
 
@@ -407,10 +407,10 @@ public class RateLimiterExtensionsTests
                 _ => Task.FromResult(42),
                 idleTime: TimeSpan.FromMilliseconds(10),
                 cancellationToken: cts.Token),
-            TestContext.CancellationToken);
+            TestCancellationToken);
 
         // wait a bit to ensure we're waiting for permits
-        await Task.Delay(50, TestContext.CancellationToken);
+        await Task.Delay(50, TestCancellationToken);
 
         await cts.CancelAsync();
 
@@ -420,7 +420,7 @@ public class RateLimiterExtensionsTests
         _ = await act.Should().ThrowAsync<OperationCanceledException>();
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_action_uses_custom_idleTime()
     {
         // Arrange
@@ -431,7 +431,7 @@ public class RateLimiterExtensionsTests
         });
 
         // acquire the only permit
-        using var blockingLease = await limiter.AcquireAsync(1, TestContext.CancellationToken);
+        using var blockingLease = await limiter.AcquireAsync(1, TestCancellationToken);
 
         var customIdleTime = TimeSpan.FromMilliseconds(100);
         var stopwatch = System.Diagnostics.Stopwatch.StartNew();
@@ -442,12 +442,12 @@ public class RateLimiterExtensionsTests
                 await limiter.ApplyToAsync(
                     _ => Task.CompletedTask,
                     idleTime: customIdleTime,
-                    cancellationToken: TestContext.CancellationToken);
+                    cancellationToken: TestCancellationToken);
             },
-            TestContext.CancellationToken);
+            TestCancellationToken);
 
         // wait to ensure multiple retry attempts
-        await Task.Delay(250, TestContext.CancellationToken);
+        await Task.Delay(250, TestCancellationToken);
 
         blockingLease.Dispose();
         await actionTask;
@@ -458,7 +458,7 @@ public class RateLimiterExtensionsTests
         _ = stopwatch.ElapsedMilliseconds.Should().BeGreaterThanOrEqualTo(200);
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_request_works_with_complex_return_types()
     {
         // Arrange
@@ -473,13 +473,13 @@ public class RateLimiterExtensionsTests
         // Act
         List<string> result = await limiter.ApplyToAsync(
             _ => Task.FromResult(expectedList),
-            cancellationToken: TestContext.CancellationToken);
+            cancellationToken: TestCancellationToken);
 
         // Assert
         _ = result.Should().BeSameAs(expectedList);
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_action_uses_custom_timeProvider()
     {
         // Arrange
@@ -490,7 +490,7 @@ public class RateLimiterExtensionsTests
         });
 
         // acquire the only permit
-        using var blockingLease = await limiter.AcquireAsync(1, TestContext.CancellationToken);
+        using var blockingLease = await limiter.AcquireAsync(1, TestCancellationToken);
 
         var frozenTime = new DateTimeOffset(2024, 1, 1, 12, 0, 0, TimeSpan.Zero);
         var timeProvider = new FrozenTimeProvider(frozenTime);
@@ -508,12 +508,12 @@ public class RateLimiterExtensionsTests
                     },
                     idleTime: TimeSpan.FromMilliseconds(100),
                     timeProvider: timeProvider,
-                    cancellationToken: TestContext.CancellationToken);
+                    cancellationToken: TestCancellationToken);
             },
-            TestContext.CancellationToken);
+            TestCancellationToken);
 
         // wait to ensure the action is waiting
-        await Task.Delay(50, TestContext.CancellationToken);
+        await Task.Delay(50, TestCancellationToken);
 
         // Act: release the permit
         blockingLease.Dispose();
@@ -523,7 +523,7 @@ public class RateLimiterExtensionsTests
         _ = actionExecuted.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_request_uses_custom_timeProvider()
     {
         // Arrange
@@ -534,7 +534,7 @@ public class RateLimiterExtensionsTests
         });
 
         // acquire the only permit
-        using var blockingLease = await limiter.AcquireAsync(1, TestContext.CancellationToken);
+        using var blockingLease = await limiter.AcquireAsync(1, TestCancellationToken);
 
         var frozenTime = new DateTimeOffset(2024, 1, 1, 12, 0, 0, TimeSpan.Zero);
         var timeProvider = new FrozenTimeProvider(frozenTime);
@@ -544,11 +544,11 @@ public class RateLimiterExtensionsTests
                 _ => Task.FromResult(42),
                 idleTime: TimeSpan.FromMilliseconds(100),
                 timeProvider: timeProvider,
-                cancellationToken: TestContext.CancellationToken),
-            TestContext.CancellationToken);
+                cancellationToken: TestCancellationToken),
+            TestCancellationToken);
 
         // wait to ensure the request is waiting
-        await Task.Delay(50, TestContext.CancellationToken);
+        await Task.Delay(50, TestCancellationToken);
 
         // Act: release the permit
         blockingLease.Dispose();
@@ -558,7 +558,7 @@ public class RateLimiterExtensionsTests
         _ = result.Should().Be(42);
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_action_uses_System_timeProvider_when_null()
     {
         // Arrange
@@ -579,13 +579,13 @@ public class RateLimiterExtensionsTests
                 return Task.CompletedTask;
             },
             timeProvider: null,
-            cancellationToken: TestContext.CancellationToken);
+            cancellationToken: TestCancellationToken);
 
         // Assert
         _ = actionExecuted.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public async Task ApplyToAsync_request_uses_System_timeProvider_when_null()
     {
         // Arrange
@@ -599,7 +599,7 @@ public class RateLimiterExtensionsTests
         int result = await limiter.ApplyToAsync(
             _ => Task.FromResult(100),
             timeProvider: null,
-            cancellationToken: TestContext.CancellationToken);
+            cancellationToken: TestCancellationToken);
 
         // Assert
         _ = result.Should().Be(100);

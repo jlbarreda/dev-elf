@@ -4,12 +4,11 @@ using DevElf.ArgumentValidation;
 
 namespace DevElf.Tests.ArgumentValidation;
 
-[TestClass]
 public class GenericExtensionsTests
 {
     #region ThrowIfNull - Reference Types
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_does_not_throw_for_non_null_reference_type()
     {
         // Arrange
@@ -22,7 +21,7 @@ public class GenericExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_throws_ArgumentNullException_for_null_reference_type()
     {
         // Arrange
@@ -36,7 +35,7 @@ public class GenericExtensionsTests
             .WithParameterName(nameof(sut));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_does_not_throw_for_non_null_string()
     {
         // Arrange
@@ -50,7 +49,7 @@ public class GenericExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_throws_ArgumentNullException_for_null_string()
     {
         // Arrange
@@ -64,7 +63,7 @@ public class GenericExtensionsTests
             .WithParameterName(nameof(sut));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_does_not_throw_for_empty_string()
     {
         // Arrange
@@ -77,7 +76,7 @@ public class GenericExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_does_not_throw_for_custom_class()
     {
         // Arrange
@@ -90,7 +89,7 @@ public class GenericExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_throws_ArgumentNullException_for_null_custom_class()
     {
         // Arrange
@@ -108,7 +107,7 @@ public class GenericExtensionsTests
 
     #region ThrowIfNull - Nullable Value Types
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_does_not_throw_for_nullable_int_with_value()
     {
         // Arrange
@@ -121,7 +120,7 @@ public class GenericExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_throws_ArgumentNullException_for_null_nullable_int()
     {
         // Arrange
@@ -135,7 +134,7 @@ public class GenericExtensionsTests
             .WithParameterName(nameof(sut));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_does_not_throw_for_nullable_bool_with_value()
     {
         // Arrange
@@ -148,7 +147,7 @@ public class GenericExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_throws_ArgumentNullException_for_null_nullable_bool()
     {
         // Arrange
@@ -162,7 +161,7 @@ public class GenericExtensionsTests
             .WithParameterName(nameof(sut));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_does_not_throw_for_nullable_decimal_with_value()
     {
         // Arrange
@@ -175,7 +174,7 @@ public class GenericExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_throws_ArgumentNullException_for_null_nullable_decimal()
     {
         // Arrange
@@ -189,7 +188,7 @@ public class GenericExtensionsTests
             .WithParameterName(nameof(sut));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_does_not_throw_for_nullable_DateTime_with_value()
     {
         // Arrange
@@ -202,7 +201,7 @@ public class GenericExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_throws_ArgumentNullException_for_null_nullable_DateTime()
     {
         // Arrange
@@ -216,7 +215,7 @@ public class GenericExtensionsTests
             .WithParameterName(nameof(sut));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_does_not_throw_for_nullable_Guid_with_value()
     {
         // Arrange
@@ -229,7 +228,7 @@ public class GenericExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_throws_ArgumentNullException_for_null_nullable_Guid()
     {
         // Arrange
@@ -243,7 +242,7 @@ public class GenericExtensionsTests
             .WithParameterName(nameof(sut));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_does_not_throw_for_nullable_enum_with_value()
     {
         // Arrange
@@ -256,7 +255,7 @@ public class GenericExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_throws_ArgumentNullException_for_null_nullable_enum()
     {
         // Arrange
@@ -270,7 +269,7 @@ public class GenericExtensionsTests
             .WithParameterName(nameof(sut));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_does_not_throw_for_nullable_struct_with_value()
     {
         // Arrange
@@ -283,7 +282,7 @@ public class GenericExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_throws_ArgumentNullException_for_null_nullable_struct()
     {
         // Arrange
@@ -301,7 +300,7 @@ public class GenericExtensionsTests
 
     #region Boundary Values
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_does_not_throw_for_nullable_int_with_zero_value()
     {
         // Arrange
@@ -314,7 +313,7 @@ public class GenericExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_does_not_throw_for_nullable_int_with_min_value()
     {
         // Arrange
@@ -327,7 +326,7 @@ public class GenericExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_does_not_throw_for_nullable_int_with_max_value()
     {
         // Arrange
@@ -340,7 +339,7 @@ public class GenericExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_does_not_throw_for_nullable_double_with_positive_infinity()
     {
         // Arrange
@@ -353,7 +352,7 @@ public class GenericExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_does_not_throw_for_nullable_double_with_negative_infinity()
     {
         // Arrange
@@ -366,7 +365,7 @@ public class GenericExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNull_does_not_throw_for_nullable_double_with_NaN()
     {
         // Arrange

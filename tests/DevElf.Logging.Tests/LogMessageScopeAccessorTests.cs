@@ -4,12 +4,9 @@ using Microsoft.Extensions.Logging;
 
 namespace DevElf.Logging.Tests;
 
-[TestClass]
 public class LogMessageScopeAccessorTests
 {
-    public TestContext TestContext { get; set; }
-
-    [TestMethod]
+    [Test]
     public void Current_returns_null_when_no_scope_active()
     {
         // Arrange
@@ -22,7 +19,7 @@ public class LogMessageScopeAccessorTests
         _ = current.Should().BeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void Current_tracks_current_scope_with_nesting_and_disposal()
     {
         // Arrange
@@ -49,7 +46,7 @@ public class LogMessageScopeAccessorTests
         _ = accessor.Current.Should().BeNull("After disposing outer, there should be no current scope.");
     }
 
-    [TestMethod]
+    [Test]
     public void Current_is_unchanged_on_out_of_order_dispose_and_recovers_after_correct_order()
     {
         // Arrange
@@ -79,8 +76,8 @@ public class LogMessageScopeAccessorTests
         _ = accessor.Current.Should().BeNull("After disposing outer, there should be no current scope.");
     }
 
-    [TestMethod]
-    public async Task Current_flows_across_async_await()
+    [Test]
+    public async Task Current_flows_across_async_await(CancellationToken cancellationToken)
     {
         // Arrange
         var fixture = new Fixture();
@@ -94,7 +91,7 @@ public class LogMessageScopeAccessorTests
         await Task.Yield();
         _ = accessor.Current.Should().BeSameAs(scope);
 
-        await Task.Delay(1, TestContext.CancellationToken);
+        await Task.Delay(1, cancellationToken);
         _ = accessor.Current.Should().BeSameAs(scope);
 
         // Act & Assert: inside a child task (ExecutionContext flows by default)
@@ -105,7 +102,7 @@ public class LogMessageScopeAccessorTests
                 await Task.Yield();
                 _ = accessor.Current.Should().BeSameAs(scope);
             },
-            TestContext.CancellationToken);
+            cancellationToken);
 
         // Act
         scope.Dispose();
@@ -114,7 +111,7 @@ public class LogMessageScopeAccessorTests
         _ = accessor.Current.Should().BeNull();
     }
 
-    [TestMethod]
+    [Test]
     public async Task Current_is_isolated_between_concurrent_child_flows()
     {
         // Arrange

@@ -42,7 +42,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test --configuration Release --no-build --verbosity normal --logger trx --results-directory TestResults
+        run: dotnet test --configuration Release --no-build --verbosity normal --report-trx --results-directory TestResults --coverage --coverage-output-format cobertura
 
       - name: Publish test results
         uses: dorny/test-reporter@v2

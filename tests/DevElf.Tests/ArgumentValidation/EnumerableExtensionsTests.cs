@@ -4,10 +4,9 @@ using DevElf.ArgumentValidation;
 
 namespace DevElf.Tests.ArgumentValidation;
 
-[TestClass]
 public class EnumerableExtensionsTests
 {
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_does_not_throw_for_collection_with_elements()
     {
         // Arrange
@@ -21,7 +20,7 @@ public class EnumerableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_does_not_throw_for_list_with_elements()
     {
         // Arrange
@@ -35,7 +34,7 @@ public class EnumerableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_does_not_throw_for_array_with_elements()
     {
         // Arrange
@@ -49,7 +48,7 @@ public class EnumerableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_does_not_throw_for_single_element_collection()
     {
         // Arrange
@@ -63,7 +62,7 @@ public class EnumerableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_does_not_throw_for_enumerable_with_single_character()
     {
         // Arrange
@@ -76,7 +75,7 @@ public class EnumerableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_throws_ArgumentNullException_for_null_collection()
     {
         // Arrange
@@ -90,7 +89,7 @@ public class EnumerableExtensionsTests
             .WithParameterName(nameof(sut));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_throws_ArgumentNullException_for_null_list()
     {
         // Arrange
@@ -104,7 +103,7 @@ public class EnumerableExtensionsTests
             .WithParameterName(nameof(sut));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_throws_ArgumentNullException_for_null_array()
     {
         // Arrange
@@ -118,7 +117,7 @@ public class EnumerableExtensionsTests
             .WithParameterName(nameof(sut));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_throws_ArgumentException_for_empty_collection()
     {
         // Arrange
@@ -133,7 +132,7 @@ public class EnumerableExtensionsTests
             .WithMessage("The collection cannot be empty. (Parameter 'sut')");
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_throws_ArgumentException_for_empty_list()
     {
         // Arrange
@@ -148,7 +147,7 @@ public class EnumerableExtensionsTests
             .WithMessage("The collection cannot be empty. (Parameter 'sut')");
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_throws_ArgumentException_for_empty_array()
     {
         // Arrange
@@ -163,7 +162,7 @@ public class EnumerableExtensionsTests
             .WithMessage("The collection cannot be empty. (Parameter 'sut')");
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_throws_ArgumentException_for_empty_enumerable()
     {
         // Arrange
@@ -178,7 +177,7 @@ public class EnumerableExtensionsTests
             .WithMessage("The collection cannot be empty. (Parameter 'sut')");
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_uses_caller_argument_expression_for_parameter_name()
     {
         // Arrange
@@ -192,7 +191,7 @@ public class EnumerableExtensionsTests
             .WithParameterName(nameof(myList));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_uses_caller_argument_expression_for_null_parameter_name()
     {
         // Arrange
@@ -206,7 +205,7 @@ public class EnumerableExtensionsTests
             .WithParameterName(nameof(nullCollection));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_works_with_complex_expression()
     {
         // Arrange
@@ -220,7 +219,7 @@ public class EnumerableExtensionsTests
             .WithParameterName("data.Items");
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_works_with_method_call_result()
     {
         // Arrange
@@ -235,7 +234,7 @@ public class EnumerableExtensionsTests
             .WithParameterName("data.Where(x => x < 0)");
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_works_with_different_generic_types()
     {
         // Arrange
@@ -257,7 +256,7 @@ public class EnumerableExtensionsTests
         _ = nullableAct.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_works_with_lazy_enumerable()
     {
         // Arrange
@@ -271,7 +270,7 @@ public class EnumerableExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_works_with_empty_lazy_enumerable()
     {
         // Arrange

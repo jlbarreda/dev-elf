@@ -8,10 +8,9 @@ using NSubstitute;
 
 namespace DevElf.Logging.Tests;
 
-[TestClass]
 public class LogMessageScopeTests
 {
-    [TestMethod]
+    [Test]
     public void Constructor_throws_when_logger_is_null()
     {
         // Arrange
@@ -27,7 +26,7 @@ public class LogMessageScopeTests
             .WithParameterName(nameof(logger));
     }
 
-    [TestMethod]
+    [Test]
     public void Constructor_throws_when_logLevel_is_invalid()
     {
         // Arrange
@@ -43,7 +42,7 @@ public class LogMessageScopeTests
             .WithParameterName(nameof(logLevel));
     }
 
-    [TestMethod]
+    [Test]
     public void Constructor_throws_when_message_is_null()
     {
         // Arrange
@@ -59,7 +58,7 @@ public class LogMessageScopeTests
             .WithParameterName(nameof(message));
     }
 
-    [TestMethod]
+    [Test]
     public void Constructor_throws_when_message_is_empty()
     {
         // Arrange
@@ -75,7 +74,7 @@ public class LogMessageScopeTests
             .WithParameterName(nameof(message));
     }
 
-    [TestMethod]
+    [Test]
     public void Constructor_throws_when_message_is_white_space()
     {
         // Arrange
@@ -91,7 +90,7 @@ public class LogMessageScopeTests
             .WithParameterName(nameof(message));
     }
 
-    [TestMethod]
+    [Test]
     public void SetException_does_not_add_property_when_flag_is_false()
     {
         // Arrange
@@ -115,7 +114,7 @@ public class LogMessageScopeTests
         _ = lastScopeState.Should().NotContainKey("Exception");
     }
 
-    [TestMethod]
+    [Test]
     public void SetException_adds_property_when_flag_is_true()
     {
         // Arrange
@@ -139,7 +138,7 @@ public class LogMessageScopeTests
         _ = lastScopeState.Should().ContainKey("Exception");
     }
 
-    [TestMethod]
+    [Test]
     public void SetProperty_is_case_insensitive_and_overrides()
     {
         // Arrange
@@ -166,7 +165,7 @@ public class LogMessageScopeTests
         _ = scopes.Should().ContainKey("Key");
     }
 
-    [TestMethod]
+    [Test]
     public void SetProperty_emits_updated_object_as_named_scope_property()
     {
         // Arrange
@@ -196,7 +195,7 @@ public class LogMessageScopeTests
         _ = loggedSection.SomeCollection.Should().ContainSingle().Which.Should().Be("item");
     }
 
-    [TestMethod]
+    [Test]
     public void Out_of_order_dispose_logs_warning_then_messages()
     {
         // Arrange
@@ -221,7 +220,7 @@ public class LogMessageScopeTests
         _ = records[2].Message.Should().Be(outerMsg);
     }
 
-    [TestMethod]
+    [Test]
     public void Dispose_marks_scope_disposed_when_logging_throws()
     {
         // Arrange

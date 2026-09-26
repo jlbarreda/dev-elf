@@ -5,12 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DevElf.Tests.DependencyInjection;
 
-[TestClass]
 public class ServiceCollectionExtensionsTests
 {
     #region AddWithFactoryFunc<TService> Tests
 
-    [TestMethod]
+    [Test]
     public void AddWithFactoryFunc_registers_service_and_factory_function()
     {
         // Arrange
@@ -28,7 +27,7 @@ public class ServiceCollectionExtensionsTests
         _ = factory.Should().NotBeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void AddWithFactoryFunc_factory_function_creates_service_instances()
     {
         // Arrange
@@ -47,7 +46,7 @@ public class ServiceCollectionExtensionsTests
         _ = instance1.Should().NotBeSameAs(instance2);
     }
 
-    [TestMethod]
+    [Test]
     public void AddWithFactoryFunc_respects_service_lifetime()
     {
         // Arrange
@@ -63,7 +62,7 @@ public class ServiceCollectionExtensionsTests
         _ = service1.Should().BeSameAs(service2);
     }
 
-    [TestMethod]
+    [Test]
     public void AddWithFactoryFunc_throws_ArgumentNullException_when_services_is_null()
     {
         // Arrange
@@ -83,7 +82,7 @@ public class ServiceCollectionExtensionsTests
 
     #region AddWithFactoryFunc<TService> with Factory Tests
 
-    [TestMethod]
+    [Test]
     public void AddWithFactoryFunc_with_factory_registers_service_and_factory_function()
     {
         // Arrange
@@ -106,7 +105,7 @@ public class ServiceCollectionExtensionsTests
         _ = factory.Should().NotBeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void AddWithFactoryFunc_with_factory_creates_instances_using_provided_factory()
     {
         // Arrange
@@ -126,7 +125,7 @@ public class ServiceCollectionExtensionsTests
         _ = instance.Value.Should().Be(testValue);
     }
 
-    [TestMethod]
+    [Test]
     public void AddWithFactoryFunc_with_factory_throws_ArgumentNullException_when_services_is_null()
     {
         // Arrange
@@ -143,7 +142,7 @@ public class ServiceCollectionExtensionsTests
             .WithParameterName(nameof(services));
     }
 
-    [TestMethod]
+    [Test]
     public void AddWithFactoryFunc_with_factory_throws_ArgumentNullException_when_factory_is_null()
     {
         // Arrange
@@ -164,7 +163,7 @@ public class ServiceCollectionExtensionsTests
 
     #region AddWithFactoryFunc<TService, TImplementation> Tests
 
-    [TestMethod]
+    [Test]
     public void AddWithFactoryFunc_with_implementation_registers_service_and_factory_function()
     {
         // Arrange
@@ -183,7 +182,7 @@ public class ServiceCollectionExtensionsTests
         _ = factory.Should().NotBeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void AddWithFactoryFunc_with_implementation_factory_creates_correct_implementation()
     {
         // Arrange
@@ -199,7 +198,7 @@ public class ServiceCollectionExtensionsTests
         _ = instance.Should().BeOfType<TestServiceImpl>();
     }
 
-    [TestMethod]
+    [Test]
     public void AddWithFactoryFunc_with_implementation_throws_ArgumentNullException_when_services_is_null()
     {
         // Arrange
@@ -219,7 +218,7 @@ public class ServiceCollectionExtensionsTests
 
     #region TryAddWithFactoryFunc<TService> Tests
 
-    [TestMethod]
+    [Test]
     public void TryAddWithFactoryFunc_registers_service_when_not_already_registered()
     {
         // Arrange
@@ -237,7 +236,7 @@ public class ServiceCollectionExtensionsTests
         _ = factory.Should().NotBeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void TryAddWithFactoryFunc_does_not_replace_existing_registration()
     {
         // Arrange
@@ -256,7 +255,7 @@ public class ServiceCollectionExtensionsTests
         _ = service.Value.Should().Be(firstValue);
     }
 
-    [TestMethod]
+    [Test]
     public void TryAddWithFactoryFunc_throws_ArgumentNullException_when_services_is_null()
     {
         // Arrange
@@ -276,7 +275,7 @@ public class ServiceCollectionExtensionsTests
 
     #region TryAddWithFactoryFunc<TService> with Factory Tests
 
-    [TestMethod]
+    [Test]
     public void TryAddWithFactoryFunc_with_factory_registers_service_when_not_already_registered()
     {
         // Arrange
@@ -295,7 +294,7 @@ public class ServiceCollectionExtensionsTests
         _ = service.Value.Should().Be(testValue);
     }
 
-    [TestMethod]
+    [Test]
     public void TryAddWithFactoryFunc_with_factory_does_not_replace_existing_registration()
     {
         // Arrange
@@ -317,7 +316,7 @@ public class ServiceCollectionExtensionsTests
         _ = service.Value.Should().Be(firstValue);
     }
 
-    [TestMethod]
+    [Test]
     public void TryAddWithFactoryFunc_with_factory_throws_ArgumentNullException_when_services_is_null()
     {
         // Arrange
@@ -334,7 +333,7 @@ public class ServiceCollectionExtensionsTests
             .WithParameterName(nameof(services));
     }
 
-    [TestMethod]
+    [Test]
     public void TryAddWithFactoryFunc_with_factory_throws_ArgumentNullException_when_factory_is_null()
     {
         // Arrange
@@ -355,7 +354,7 @@ public class ServiceCollectionExtensionsTests
 
     #region TryAddWithFactoryFunc<TService, TImplementation> Tests
 
-    [TestMethod]
+    [Test]
     public void TryAddWithFactoryFunc_with_implementation_registers_service_when_not_already_registered()
     {
         // Arrange
@@ -370,7 +369,7 @@ public class ServiceCollectionExtensionsTests
         _ = service.Should().BeOfType<TestServiceImpl>();
     }
 
-    [TestMethod]
+    [Test]
     public void TryAddWithFactoryFunc_with_implementation_does_not_replace_existing_registration()
     {
         // Arrange
@@ -386,7 +385,7 @@ public class ServiceCollectionExtensionsTests
         _ = service.Should().BeOfType<AlternateTestServiceImpl>();
     }
 
-    [TestMethod]
+    [Test]
     public void TryAddWithFactoryFunc_with_implementation_throws_ArgumentNullException_when_services_is_null()
     {
         // Arrange
@@ -406,7 +405,7 @@ public class ServiceCollectionExtensionsTests
 
     #region AddFactoryFunc<TService> Tests
 
-    [TestMethod]
+    [Test]
     public void AddFactoryFunc_registers_factory_function()
     {
         // Arrange
@@ -422,7 +421,7 @@ public class ServiceCollectionExtensionsTests
         _ = factory.Should().NotBeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void AddFactoryFunc_factory_creates_instances_from_service_provider()
     {
         // Arrange
@@ -442,7 +441,7 @@ public class ServiceCollectionExtensionsTests
         _ = instance1.Should().NotBeSameAs(instance2);
     }
 
-    [TestMethod]
+    [Test]
     public void AddFactoryFunc_throws_ArgumentNullException_when_services_is_null()
     {
         // Arrange
@@ -460,7 +459,7 @@ public class ServiceCollectionExtensionsTests
 
     #region AddFactoryFunc<TService> with Custom Factory Tests
 
-    [TestMethod]
+    [Test]
     public void AddFactoryFunc_with_custom_factory_registers_factory_function()
     {
         // Arrange
@@ -480,7 +479,7 @@ public class ServiceCollectionExtensionsTests
         _ = instance.Value.Should().Be(testValue);
     }
 
-    [TestMethod]
+    [Test]
     public void AddFactoryFunc_with_custom_factory_throws_ArgumentNullException_when_services_is_null()
     {
         // Arrange
@@ -496,7 +495,7 @@ public class ServiceCollectionExtensionsTests
             .WithParameterName(nameof(services));
     }
 
-    [TestMethod]
+    [Test]
     public void AddFactoryFunc_with_custom_factory_throws_ArgumentNullException_when_factory_is_null()
     {
         // Arrange
@@ -517,7 +516,7 @@ public class ServiceCollectionExtensionsTests
 
     #region TryAddFactoryFunc<TService> Tests
 
-    [TestMethod]
+    [Test]
     public void TryAddFactoryFunc_registers_factory_when_not_already_registered()
     {
         // Arrange
@@ -533,7 +532,7 @@ public class ServiceCollectionExtensionsTests
         _ = factory.Should().NotBeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void TryAddFactoryFunc_does_not_replace_existing_factory_registration()
     {
         // Arrange
@@ -553,7 +552,7 @@ public class ServiceCollectionExtensionsTests
         _ = instance.Value.Should().Be(firstValue);
     }
 
-    [TestMethod]
+    [Test]
     public void TryAddFactoryFunc_throws_ArgumentNullException_when_services_is_null()
     {
         // Arrange
@@ -571,7 +570,7 @@ public class ServiceCollectionExtensionsTests
 
     #region TryAddFactoryFunc<TService> with Custom Factory Tests
 
-    [TestMethod]
+    [Test]
     public void TryAddFactoryFunc_with_custom_factory_registers_factory_when_not_already_registered()
     {
         // Arrange
@@ -591,7 +590,7 @@ public class ServiceCollectionExtensionsTests
         _ = instance.Value.Should().Be(testValue);
     }
 
-    [TestMethod]
+    [Test]
     public void TryAddFactoryFunc_with_custom_factory_does_not_replace_existing_factory_registration()
     {
         // Arrange
@@ -614,7 +613,7 @@ public class ServiceCollectionExtensionsTests
         _ = instance.Value.Should().Be(firstValue);
     }
 
-    [TestMethod]
+    [Test]
     public void TryAddFactoryFunc_with_custom_factory_throws_ArgumentNullException_when_services_is_null()
     {
         // Arrange
@@ -630,7 +629,7 @@ public class ServiceCollectionExtensionsTests
             .WithParameterName(nameof(services));
     }
 
-    [TestMethod]
+    [Test]
     public void TryAddFactoryFunc_with_custom_factory_throws_ArgumentNullException_when_factory_is_null()
     {
         // Arrange
@@ -651,7 +650,7 @@ public class ServiceCollectionExtensionsTests
 
     #region Add<TService> Tests
 
-    [TestMethod]
+    [Test]
     public void Add_registers_service_with_specified_lifetime()
     {
         // Arrange
@@ -670,7 +669,7 @@ public class ServiceCollectionExtensionsTests
         _ = service1.Should().NotBeSameAs(service2);
     }
 
-    [TestMethod]
+    [Test]
     public void Add_allows_multiple_registrations_of_same_service()
     {
         // Arrange
@@ -684,7 +683,7 @@ public class ServiceCollectionExtensionsTests
         _ = services.Count.Should().Be(2);
     }
 
-    [TestMethod]
+    [Test]
     public void Add_throws_ArgumentNullException_when_services_is_null()
     {
         // Arrange
@@ -702,7 +701,7 @@ public class ServiceCollectionExtensionsTests
 
     #region Add<TService> with Factory Tests
 
-    [TestMethod]
+    [Test]
     public void Add_with_factory_registers_service_using_factory()
     {
         // Arrange
@@ -721,7 +720,7 @@ public class ServiceCollectionExtensionsTests
         _ = service.Value.Should().Be(testValue);
     }
 
-    [TestMethod]
+    [Test]
     public void Add_with_factory_throws_ArgumentNullException_when_services_is_null()
     {
         // Arrange
@@ -737,7 +736,7 @@ public class ServiceCollectionExtensionsTests
             .WithParameterName(nameof(services));
     }
 
-    [TestMethod]
+    [Test]
     public void Add_with_factory_throws_ArgumentNullException_when_factory_is_null()
     {
         // Arrange
@@ -758,7 +757,7 @@ public class ServiceCollectionExtensionsTests
 
     #region Add<TService, TImplementation> Tests
 
-    [TestMethod]
+    [Test]
     public void Add_with_implementation_registers_service_with_implementation_type()
     {
         // Arrange
@@ -773,7 +772,7 @@ public class ServiceCollectionExtensionsTests
         _ = service.Should().BeOfType<TestServiceImpl>();
     }
 
-    [TestMethod]
+    [Test]
     public void Add_with_implementation_respects_service_lifetime()
     {
         // Arrange
@@ -789,7 +788,7 @@ public class ServiceCollectionExtensionsTests
         _ = service1.Should().BeSameAs(service2);
     }
 
-    [TestMethod]
+    [Test]
     public void Add_with_implementation_throws_ArgumentNullException_when_services_is_null()
     {
         // Arrange
@@ -807,7 +806,7 @@ public class ServiceCollectionExtensionsTests
 
     #region TryAdd<TService> Tests
 
-    [TestMethod]
+    [Test]
     public void TryAdd_registers_service_when_not_already_registered()
     {
         // Arrange
@@ -822,7 +821,7 @@ public class ServiceCollectionExtensionsTests
         _ = service.Should().NotBeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void TryAdd_does_not_register_service_when_already_registered()
     {
         // Arrange
@@ -841,7 +840,7 @@ public class ServiceCollectionExtensionsTests
         _ = service.Value.Should().Be(firstValue);
     }
 
-    [TestMethod]
+    [Test]
     public void TryAdd_throws_ArgumentNullException_when_services_is_null()
     {
         // Arrange
@@ -859,7 +858,7 @@ public class ServiceCollectionExtensionsTests
 
     #region TryAdd<TService> with Factory Tests
 
-    [TestMethod]
+    [Test]
     public void TryAdd_with_factory_registers_service_when_not_already_registered()
     {
         // Arrange
@@ -878,7 +877,7 @@ public class ServiceCollectionExtensionsTests
         _ = service.Value.Should().Be(testValue);
     }
 
-    [TestMethod]
+    [Test]
     public void TryAdd_with_factory_does_not_register_service_when_already_registered()
     {
         // Arrange
@@ -900,7 +899,7 @@ public class ServiceCollectionExtensionsTests
         _ = service.Value.Should().Be(firstValue);
     }
 
-    [TestMethod]
+    [Test]
     public void TryAdd_with_factory_throws_ArgumentNullException_when_services_is_null()
     {
         // Arrange
@@ -916,7 +915,7 @@ public class ServiceCollectionExtensionsTests
             .WithParameterName(nameof(services));
     }
 
-    [TestMethod]
+    [Test]
     public void TryAdd_with_factory_throws_ArgumentNullException_when_factory_is_null()
     {
         // Arrange
@@ -937,7 +936,7 @@ public class ServiceCollectionExtensionsTests
 
     #region TryAdd<TService, TImplementation> Tests
 
-    [TestMethod]
+    [Test]
     public void TryAdd_with_implementation_registers_service_when_not_already_registered()
     {
         // Arrange
@@ -952,7 +951,7 @@ public class ServiceCollectionExtensionsTests
         _ = service.Should().BeOfType<TestServiceImpl>();
     }
 
-    [TestMethod]
+    [Test]
     public void TryAdd_with_implementation_does_not_register_service_when_already_registered()
     {
         // Arrange
@@ -968,7 +967,7 @@ public class ServiceCollectionExtensionsTests
         _ = service.Should().BeOfType<AlternateTestServiceImpl>();
     }
 
-    [TestMethod]
+    [Test]
     public void TryAdd_with_implementation_throws_ArgumentNullException_when_services_is_null()
     {
         // Arrange
@@ -986,7 +985,7 @@ public class ServiceCollectionExtensionsTests
 
     #region Method Chaining Tests
 
-    [TestMethod]
+    [Test]
     public void AddWithFactoryFunc_returns_service_collection_for_chaining()
     {
         // Arrange
@@ -1002,7 +1001,7 @@ public class ServiceCollectionExtensionsTests
         _ = services.Count.Should().BeGreaterThan(0);
     }
 
-    [TestMethod]
+    [Test]
     public void TryAddWithFactoryFunc_returns_service_collection_for_chaining()
     {
         // Arrange
@@ -1017,7 +1016,7 @@ public class ServiceCollectionExtensionsTests
         _ = result.Should().BeSameAs(services);
     }
 
-    [TestMethod]
+    [Test]
     public void Add_methods_return_service_collection_for_chaining()
     {
         // Arrange
@@ -1032,7 +1031,7 @@ public class ServiceCollectionExtensionsTests
         _ = result.Should().BeSameAs(services);
     }
 
-    [TestMethod]
+    [Test]
     public void TryAdd_methods_return_service_collection_for_chaining()
     {
         // Arrange
@@ -1051,7 +1050,7 @@ public class ServiceCollectionExtensionsTests
 
     #region Complex Scenarios
 
-    [TestMethod]
+    [Test]
     public void AddWithFactoryFunc_allows_injecting_dependencies_into_created_instances()
     {
         // Arrange
@@ -1072,7 +1071,7 @@ public class ServiceCollectionExtensionsTests
         _ = service.Dependency.Value.Should().Be(dependencyValue);
     }
 
-    [TestMethod]
+    [Test]
     public void Factory_function_uses_scoped_lifetime_appropriately()
     {
         // Arrange
@@ -1093,7 +1092,7 @@ public class ServiceCollectionExtensionsTests
         _ = service1a.Should().NotBeSameAs(service2a);
     }
 
-    [TestMethod]
+    [Test]
     public void Multiple_services_can_be_registered_with_different_lifetimes()
     {
         // Arrange

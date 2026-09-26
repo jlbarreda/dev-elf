@@ -4,10 +4,9 @@ using DevElf.ArgumentValidation;
 
 namespace DevElf.Tests.ArgumentValidation;
 
-[TestClass]
 public class StringExtensionsTests
 {
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_does_not_throw_when_string_is_not_empty()
     {
         // Arrange
@@ -21,7 +20,7 @@ public class StringExtensionsTests
         _ = act.Should().NotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_throws_ArgumentNullException_when_string_is_null()
     {
         // Arrange
@@ -35,7 +34,7 @@ public class StringExtensionsTests
             .WithParameterName(nameof(value));
     }
 
-    [TestMethod]
+    [Test]
     public void ThrowIfNullOrEmpty_throws_ArgumentException_when_string_is_empty()
     {
         // Arrange

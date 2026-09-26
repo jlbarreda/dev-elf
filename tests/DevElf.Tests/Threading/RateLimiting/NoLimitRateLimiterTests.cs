@@ -4,12 +4,12 @@ using DevElf.Threading.RateLimiting;
 
 namespace DevElf.Tests.Threading.RateLimiting;
 
-[TestClass]
 public class NoLimitRateLimiterTests
 {
-    public TestContext TestContext { get; set; } = null!;
+    private static CancellationToken TestCancellationToken =>
+        TestContext.Current?.Execution.CancellationToken ?? CancellationToken.None;
 
-    [TestMethod]
+    [Test]
     public void Instance_returns_singleton_instance()
     {
         // Arrange & Act
@@ -20,7 +20,7 @@ public class NoLimitRateLimiterTests
         _ = instance1.Should().BeSameAs(instance2);
     }
 
-    [TestMethod]
+    [Test]
     public void IdleDuration_returns_null()
     {
         // Arrange
@@ -33,7 +33,7 @@ public class NoLimitRateLimiterTests
         _ = idleDuration.Should().BeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void GetStatistics_returns_null()
     {
         // Arrange
@@ -46,46 +46,46 @@ public class NoLimitRateLimiterTests
         _ = statistics.Should().BeNull();
     }
 
-    [TestMethod]
+    [Test]
     public async Task AcquireAsync_always_succeeds_with_single_permit()
     {
         // Arrange
         var limiter = NoLimitRateLimiter.Instance;
 
         // Act
-        using var lease = await limiter.AcquireAsync(1, TestContext.CancellationToken);
+        using var lease = await limiter.AcquireAsync(1, TestCancellationToken);
 
         // Assert
         _ = lease.IsAcquired.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public async Task AcquireAsync_always_succeeds_with_multiple_permits()
     {
         // Arrange
         var limiter = NoLimitRateLimiter.Instance;
 
         // Act
-        using var lease = await limiter.AcquireAsync(100, TestContext.CancellationToken);
+        using var lease = await limiter.AcquireAsync(100, TestCancellationToken);
 
         // Assert
         _ = lease.IsAcquired.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public async Task AcquireAsync_always_succeeds_with_zero_permits()
     {
         // Arrange
         var limiter = NoLimitRateLimiter.Instance;
 
         // Act
-        using var lease = await limiter.AcquireAsync(0, TestContext.CancellationToken);
+        using var lease = await limiter.AcquireAsync(0, TestCancellationToken);
 
         // Assert
         _ = lease.IsAcquired.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public async Task AcquireAsync_succeeds_immediately_without_waiting()
     {
         // Arrange
@@ -93,7 +93,7 @@ public class NoLimitRateLimiterTests
         var stopwatch = System.Diagnostics.Stopwatch.StartNew();
 
         // Act
-        using var lease = await limiter.AcquireAsync(1000, TestContext.CancellationToken);
+        using var lease = await limiter.AcquireAsync(1000, TestCancellationToken);
         stopwatch.Stop();
 
         // Assert
@@ -101,16 +101,16 @@ public class NoLimitRateLimiterTests
         _ = stopwatch.ElapsedMilliseconds.Should().BeLessThan(100);
     }
 
-    [TestMethod]
+    [Test]
     public async Task AcquireAsync_can_acquire_multiple_leases_concurrently()
     {
         // Arrange
         var limiter = NoLimitRateLimiter.Instance;
 
         // Act
-        using var lease1 = await limiter.AcquireAsync(50, TestContext.CancellationToken);
-        using var lease2 = await limiter.AcquireAsync(50, TestContext.CancellationToken);
-        using var lease3 = await limiter.AcquireAsync(50, TestContext.CancellationToken);
+        using var lease1 = await limiter.AcquireAsync(50, TestCancellationToken);
+        using var lease2 = await limiter.AcquireAsync(50, TestCancellationToken);
+        using var lease3 = await limiter.AcquireAsync(50, TestCancellationToken);
 
         // Assert
         _ = lease1.IsAcquired.Should().BeTrue();
@@ -118,7 +118,7 @@ public class NoLimitRateLimiterTests
         _ = lease3.IsAcquired.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void AttemptAcquire_always_succeeds_with_single_permit()
     {
         // Arrange
@@ -131,7 +131,7 @@ public class NoLimitRateLimiterTests
         _ = lease.IsAcquired.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void AttemptAcquire_always_succeeds_with_multiple_permits()
     {
         // Arrange
@@ -144,7 +144,7 @@ public class NoLimitRateLimiterTests
         _ = lease.IsAcquired.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void AttemptAcquire_always_succeeds_with_zero_permits()
     {
         // Arrange
@@ -157,7 +157,7 @@ public class NoLimitRateLimiterTests
         _ = lease.IsAcquired.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void AttemptAcquire_can_acquire_multiple_leases_concurrently()
     {
         // Arrange
@@ -174,12 +174,12 @@ public class NoLimitRateLimiterTests
         _ = lease3.IsAcquired.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public async Task Lease_MetadataNames_returns_empty_collection()
     {
         // Arrange
         var limiter = NoLimitRateLimiter.Instance;
-        using var lease = await limiter.AcquireAsync(1, TestContext.CancellationToken);
+        using var lease = await limiter.AcquireAsync(1, TestCancellationToken);
 
         // Act
         var metadataNames = lease.MetadataNames.ToList();
@@ -188,12 +188,12 @@ public class NoLimitRateLimiterTests
         _ = metadataNames.Should().BeEmpty();
     }
 
-    [TestMethod]
+    [Test]
     public async Task Lease_TryGetMetadata_always_returns_false()
     {
         // Arrange
         var limiter = NoLimitRateLimiter.Instance;
-        using var lease = await limiter.AcquireAsync(1, TestContext.CancellationToken);
+        using var lease = await limiter.AcquireAsync(1, TestCancellationToken);
 
         // Act
         bool result = lease.TryGetMetadata("SomeKey", out object? metadata);
@@ -203,12 +203,12 @@ public class NoLimitRateLimiterTests
         _ = metadata.Should().BeNull();
     }
 
-    [TestMethod]
+    [Test]
     public async Task Lease_TryGetMetadata_returns_false_for_any_key()
     {
         // Arrange
         var limiter = NoLimitRateLimiter.Instance;
-        using var lease = await limiter.AcquireAsync(1, TestContext.CancellationToken);
+        using var lease = await limiter.AcquireAsync(1, TestCancellationToken);
 
         // Act & Assert
         _ = lease.TryGetMetadata("Key1", out object? metadata1).Should().BeFalse();
@@ -221,12 +221,12 @@ public class NoLimitRateLimiterTests
         _ = metadata3.Should().BeNull();
     }
 
-    [TestMethod]
+    [Test]
     public async Task Lease_can_be_disposed_multiple_times_safely()
     {
         // Arrange
         var limiter = NoLimitRateLimiter.Instance;
-        var lease = await limiter.AcquireAsync(1, TestContext.CancellationToken);
+        var lease = await limiter.AcquireAsync(1, TestCancellationToken);
 
         // Act & Assert: disposing multiple times should not throw
         lease.Dispose();
@@ -234,28 +234,28 @@ public class NoLimitRateLimiterTests
         lease.Dispose();
     }
 
-    [TestMethod]
+    [Test]
     public async Task Multiple_leases_share_same_instance()
     {
         // Arrange
         var limiter = NoLimitRateLimiter.Instance;
 
         // Act
-        using var lease1 = await limiter.AcquireAsync(1, TestContext.CancellationToken);
-        using var lease2 = await limiter.AcquireAsync(1, TestContext.CancellationToken);
+        using var lease1 = await limiter.AcquireAsync(1, TestCancellationToken);
+        using var lease2 = await limiter.AcquireAsync(1, TestCancellationToken);
 
         // Assert: the leases should be the same singleton instance
         _ = lease1.Should().BeSameAs(lease2);
     }
 
-    [TestMethod]
+    [Test]
     public async Task AcquireAsync_completes_synchronously()
     {
         // Arrange
         var limiter = NoLimitRateLimiter.Instance;
 
         // Act
-        ValueTask<RateLimitLease> task = limiter.AcquireAsync(1, TestContext.CancellationToken);
+        ValueTask<RateLimitLease> task = limiter.AcquireAsync(1, TestCancellationToken);
 
         // Assert: should be completed synchronously
         _ = task.IsCompleted.Should().BeTrue();
@@ -264,7 +264,7 @@ public class NoLimitRateLimiterTests
         _ = lease.IsAcquired.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public async Task Works_with_RateLimiterExtensions_ApplyToAsync_action()
     {
         // Arrange
@@ -280,13 +280,13 @@ public class NoLimitRateLimiterTests
                 return Task.CompletedTask;
             },
             permitCount: 100,
-            cancellationToken: TestContext.CancellationToken);
+            cancellationToken: TestCancellationToken);
 
         // Assert
         _ = actionExecuted.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public async Task Works_with_RateLimiterExtensions_ApplyToAsync_request()
     {
         // Arrange
@@ -296,13 +296,13 @@ public class NoLimitRateLimiterTests
         int result = await limiter.ApplyToAsync(
             _ => Task.FromResult(42),
             permitCount: 100,
-            cancellationToken: TestContext.CancellationToken);
+            cancellationToken: TestCancellationToken);
 
         // Assert
         _ = result.Should().Be(42);
     }
 
-    [TestMethod]
+    [Test]
     public async Task Supports_high_concurrency_without_blocking()
     {
         // Arrange
@@ -314,7 +314,7 @@ public class NoLimitRateLimiterTests
         var tasks = Enumerable.Range(0, taskCount)
             .Select(async _ =>
             {
-                using var lease = await limiter.AcquireAsync(10, TestContext.CancellationToken);
+                using var lease = await limiter.AcquireAsync(10, TestCancellationToken);
                 _ = Interlocked.Increment(ref executionCount);
             });
 
@@ -324,7 +324,7 @@ public class NoLimitRateLimiterTests
         _ = executionCount.Should().Be(taskCount);
     }
 
-    [TestMethod]
+    [Test]
     public void Can_create_new_instance_separate_from_singleton()
     {
         // Arrange & Act

@@ -4,12 +4,11 @@ using NSubstitute;
 
 namespace DevElf.Logging.Tests;
 
-[TestClass]
 public class LoggerExtensionsTests
 {
     #region AddProperty Tests
 
-    [TestMethod]
+    [Test]
     public void AddProperty_creates_builder_with_single_property()
     {
         // Arrange
@@ -24,7 +23,7 @@ public class LoggerExtensionsTests
         _ = builder.Should().NotBeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void AddProperty_throws_ArgumentNullException_when_logger_is_null()
     {
         // Arrange
@@ -40,7 +39,7 @@ public class LoggerExtensionsTests
             .WithParameterName("logger");
     }
 
-    [TestMethod]
+    [Test]
     public void AddProperty_throws_ArgumentNullException_when_name_is_null()
     {
         // Arrange
@@ -56,7 +55,7 @@ public class LoggerExtensionsTests
             .WithParameterName("name");
     }
 
-    [TestMethod]
+    [Test]
     public void AddProperty_throws_ArgumentException_when_name_is_empty()
     {
         // Arrange
@@ -72,7 +71,7 @@ public class LoggerExtensionsTests
             .WithParameterName("name");
     }
 
-    [TestMethod]
+    [Test]
     public void AddProperty_throws_ArgumentException_when_name_is_whitespace()
     {
         // Arrange
@@ -88,7 +87,7 @@ public class LoggerExtensionsTests
             .WithParameterName("name");
     }
 
-    [TestMethod]
+    [Test]
     public void AddProperty_accepts_null_value()
     {
         // Arrange
@@ -103,7 +102,7 @@ public class LoggerExtensionsTests
         _ = builder.Should().NotBeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void AddProperty_allows_fluent_chaining()
     {
         // Arrange
@@ -125,7 +124,7 @@ public class LoggerExtensionsTests
         _ = capturedProperties["Property3"].Should().Be(true);
     }
 
-    [TestMethod]
+    [Test]
     public void AddProperty_with_complex_object_value()
     {
         // Arrange

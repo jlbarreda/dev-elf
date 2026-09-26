@@ -3,10 +3,9 @@ using DevElf.Extensions;
 
 namespace DevElf.Tests.Extensions;
 
-[TestClass]
 public class TypeExtensionsTests
 {
-    [TestMethod]
+    [Test]
     public void GetTypeName_returns_type_name_when_useBuiltInTypeNameAliases_is_false()
     {
         // Arrange
@@ -19,7 +18,7 @@ public class TypeExtensionsTests
         _ = result.Should().Be("Int32");
     }
 
-    [TestMethod]
+    [Test]
     public void GetTypeName_returns_alias_when_useBuiltInTypeNameAliases_is_true()
     {
         // Arrange
@@ -32,7 +31,7 @@ public class TypeExtensionsTests
         _ = result.Should().Be("int");
     }
 
-    [TestMethod]
+    [Test]
     public void GetTypeName_returns_type_name_for_non_built_in_type()
     {
         // Arrange
@@ -45,7 +44,7 @@ public class TypeExtensionsTests
         _ = result.Should().Be("TypeExtensionsTests");
     }
 
-    [TestMethod]
+    [Test]
     public void GetTypeName_returns_bool_alias()
     {
         // Arrange
@@ -58,7 +57,7 @@ public class TypeExtensionsTests
         _ = result.Should().Be("bool");
     }
 
-    [TestMethod]
+    [Test]
     public void GetTypeName_returns_string_alias()
     {
         // Arrange
@@ -71,7 +70,7 @@ public class TypeExtensionsTests
         _ = result.Should().Be("string");
     }
 
-    [TestMethod]
+    [Test]
     public void GetTypeName_throws_when_type_is_null()
     {
         // Arrange
@@ -84,7 +83,7 @@ public class TypeExtensionsTests
         _ = act.Should().Throw<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public void GetFriendlyTypeName_returns_formatted_generic_type_name()
     {
         // Arrange
@@ -97,7 +96,7 @@ public class TypeExtensionsTests
         _ = result.Should().Be("List<Int32>");
     }
 
-    [TestMethod]
+    [Test]
     public void GetFriendlyTypeName_returns_formatted_generic_type_name_with_aliases()
     {
         // Arrange
@@ -110,7 +109,7 @@ public class TypeExtensionsTests
         _ = result.Should().Be("List<int>");
     }
 
-    [TestMethod]
+    [Test]
     public void GetFriendlyTypeName_returns_formatted_nested_generic_type_name()
     {
         // Arrange
@@ -123,7 +122,7 @@ public class TypeExtensionsTests
         _ = result.Should().Be("Dictionary<string, List<int>>");
     }
 
-    [TestMethod]
+    [Test]
     public void GetFriendlyTypeName_returns_simple_name_for_non_generic_type()
     {
         // Arrange
@@ -136,7 +135,7 @@ public class TypeExtensionsTests
         _ = result.Should().Be("Int32");
     }
 
-    [TestMethod]
+    [Test]
     public void GetFriendlyTypeName_throws_when_type_is_null()
     {
         // Arrange
@@ -149,7 +148,7 @@ public class TypeExtensionsTests
         _ = act.Should().Throw<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public void GetCustomFormattedTypeName_returns_formatted_type_name_with_custom_format()
     {
         // Arrange
@@ -162,7 +161,7 @@ public class TypeExtensionsTests
         _ = result.Should().Be("[List[Int32]]");
     }
 
-    [TestMethod]
+    [Test]
     public void GetCustomFormattedTypeName_returns_formatted_type_name_with_multiple_arguments()
     {
         // Arrange
@@ -175,7 +174,7 @@ public class TypeExtensionsTests
         _ = result.Should().Be("Dictionary<int | string>");
     }
 
-    [TestMethod]
+    [Test]
     public void GetCustomFormattedTypeName_throws_when_type_is_null()
     {
         // Arrange
@@ -188,7 +187,7 @@ public class TypeExtensionsTests
         _ = act.Should().Throw<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public void GetCustomFormattedTypeName_throws_when_format_is_null()
     {
         // Arrange
@@ -202,7 +201,7 @@ public class TypeExtensionsTests
         _ = act.Should().Throw<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public void GetFriendlyTypeFullName_returns_full_name_for_generic_type()
     {
         // Arrange
@@ -215,7 +214,7 @@ public class TypeExtensionsTests
         _ = result.Should().Be("System.Collections.Generic.List<System.Int32>");
     }
 
-    [TestMethod]
+    [Test]
     public void GetFriendlyTypeFullName_returns_full_name_for_nested_generic_type()
     {
         // Arrange
@@ -228,7 +227,7 @@ public class TypeExtensionsTests
         _ = result.Should().Be("System.Collections.Generic.Dictionary<System.String, System.Collections.Generic.List<System.Int32>>");
     }
 
-    [TestMethod]
+    [Test]
     public void GetFriendlyTypeFullName_returns_full_name_for_non_generic_type()
     {
         // Arrange
@@ -241,7 +240,7 @@ public class TypeExtensionsTests
         _ = result.Should().Be("System.Int32");
     }
 
-    [TestMethod]
+    [Test]
     public void GetFriendlyTypeFullName_throws_when_type_is_null()
     {
         // Arrange
@@ -254,7 +253,7 @@ public class TypeExtensionsTests
         _ = act.Should().Throw<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public void GetCustomFormattedTypeFullName_returns_formatted_full_name_with_custom_format()
     {
         // Arrange
@@ -267,7 +266,7 @@ public class TypeExtensionsTests
         _ = result.Should().Be("System.Collections.Generic.List[System.Int32]");
     }
 
-    [TestMethod]
+    [Test]
     public void GetCustomFormattedTypeFullName_throws_when_type_is_null()
     {
         // Arrange
@@ -280,7 +279,7 @@ public class TypeExtensionsTests
         _ = act.Should().Throw<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public void GetCustomFormattedTypeFullName_throws_when_format_is_null()
     {
         // Arrange
@@ -294,7 +293,7 @@ public class TypeExtensionsTests
         _ = act.Should().Throw<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public void GetNameWithoutGenericParameters_returns_name_without_generic_marker()
     {
         // Arrange
@@ -307,7 +306,7 @@ public class TypeExtensionsTests
         _ = result.Should().Be("List");
     }
 
-    [TestMethod]
+    [Test]
     public void GetNameWithoutGenericParameters_returns_name_for_non_generic_type()
     {
         // Arrange
@@ -320,7 +319,7 @@ public class TypeExtensionsTests
         _ = result.Should().Be("Int32");
     }
 
-    [TestMethod]
+    [Test]
     public void GetNameWithoutGenericParameters_returns_name_for_multiple_generic_parameters()
     {
         // Arrange
@@ -333,7 +332,7 @@ public class TypeExtensionsTests
         _ = result.Should().Be("Dictionary");
     }
 
-    [TestMethod]
+    [Test]
     public void GetNameWithoutGenericParameters_throws_when_type_is_null()
     {
         // Arrange
@@ -346,7 +345,7 @@ public class TypeExtensionsTests
         _ = act.Should().Throw<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public void IsStatic_returns_true_for_static_class()
     {
         // Arrange
@@ -359,7 +358,7 @@ public class TypeExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsStatic_returns_false_for_non_static_class()
     {
         // Arrange
@@ -372,7 +371,7 @@ public class TypeExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsStatic_returns_false_for_abstract_class()
     {
         // Arrange
@@ -385,7 +384,7 @@ public class TypeExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsStatic_throws_when_type_is_null()
     {
         // Arrange
@@ -398,7 +397,7 @@ public class TypeExtensionsTests
         _ = act.Should().Throw<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public void IsIEnumerableOfT_returns_true_for_list()
     {
         // Arrange
@@ -411,7 +410,7 @@ public class TypeExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsIEnumerableOfT_returns_true_for_array()
     {
         // Arrange
@@ -424,7 +423,7 @@ public class TypeExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsIEnumerableOfT_returns_true_for_string_when_not_excluded()
     {
         // Arrange
@@ -437,7 +436,7 @@ public class TypeExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsIEnumerableOfT_returns_false_for_string_when_excluded()
     {
         // Arrange
@@ -450,7 +449,7 @@ public class TypeExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsIEnumerableOfT_returns_false_for_int()
     {
         // Arrange
@@ -463,7 +462,7 @@ public class TypeExtensionsTests
         _ = result.Should().BeFalse();
     }
 
-    [TestMethod]
+    [Test]
     public void IsIEnumerableOfT_returns_true_for_IEnumerable_interface()
     {
         // Arrange
@@ -476,7 +475,7 @@ public class TypeExtensionsTests
         _ = result.Should().BeTrue();
     }
 
-    [TestMethod]
+    [Test]
     public void IsIEnumerableOfT_throws_when_type_is_null()
     {
         // Arrange
@@ -489,7 +488,7 @@ public class TypeExtensionsTests
         _ = act.Should().Throw<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public void TryGetTypeOfTFromIEnumerableOfT_returns_true_and_gets_element_type_for_list()
     {
         // Arrange
@@ -503,7 +502,7 @@ public class TypeExtensionsTests
         _ = elementType.Should().Be<int>();
     }
 
-    [TestMethod]
+    [Test]
     public void TryGetTypeOfTFromIEnumerableOfT_returns_true_and_gets_element_type_for_array()
     {
         // Arrange
@@ -517,7 +516,7 @@ public class TypeExtensionsTests
         _ = elementType.Should().Be<string>();
     }
 
-    [TestMethod]
+    [Test]
     public void TryGetTypeOfTFromIEnumerableOfT_returns_true_for_string_when_not_excluded()
     {
         // Arrange
@@ -531,7 +530,7 @@ public class TypeExtensionsTests
         _ = elementType.Should().Be<char>();
     }
 
-    [TestMethod]
+    [Test]
     public void TryGetTypeOfTFromIEnumerableOfT_returns_false_for_string_when_excluded()
     {
         // Arrange
@@ -545,7 +544,7 @@ public class TypeExtensionsTests
         _ = elementType.Should().BeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void TryGetTypeOfTFromIEnumerableOfT_returns_false_for_int()
     {
         // Arrange
@@ -559,7 +558,7 @@ public class TypeExtensionsTests
         _ = elementType.Should().BeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void TryGetTypeOfTFromIEnumerableOfT_returns_true_for_IEnumerable_interface()
     {
         // Arrange
@@ -573,7 +572,7 @@ public class TypeExtensionsTests
         _ = elementType.Should().Be<int>();
     }
 
-    [TestMethod]
+    [Test]
     public void TryGetIEnumerableOfTType_returns_true_and_gets_interface_for_list()
     {
         // Arrange
@@ -588,7 +587,7 @@ public class TypeExtensionsTests
         _ = interfaceType!.GetGenericTypeDefinition().Should().Be(typeof(IEnumerable<>));
     }
 
-    [TestMethod]
+    [Test]
     public void TryGetIEnumerableOfTType_returns_true_and_gets_interface_for_array()
     {
         // Arrange
@@ -602,7 +601,7 @@ public class TypeExtensionsTests
         _ = interfaceType.Should().NotBeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void TryGetIEnumerableOfTType_returns_true_for_string_when_not_excluded()
     {
         // Arrange
@@ -616,7 +615,7 @@ public class TypeExtensionsTests
         _ = interfaceType.Should().NotBeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void TryGetIEnumerableOfTType_returns_false_for_string_when_excluded()
     {
         // Arrange
@@ -630,7 +629,7 @@ public class TypeExtensionsTests
         _ = interfaceType.Should().BeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void TryGetIEnumerableOfTType_returns_false_for_int()
     {
         // Arrange
@@ -644,7 +643,7 @@ public class TypeExtensionsTests
         _ = interfaceType.Should().BeNull();
     }
 
-    [TestMethod]
+    [Test]
     public void TryGetIEnumerableOfTType_throws_when_type_is_null()
     {
         // Arrange
@@ -657,7 +656,7 @@ public class TypeExtensionsTests
         _ = act.Should().Throw<ArgumentNullException>();
     }
 
-    [TestMethod]
+    [Test]
     public void GetTypeName_returns_all_built_in_type_aliases()
     {
         // Arrange & Act & Assert

@@ -2,10 +2,9 @@ using AwesomeAssertions;
 
 namespace DevElf.Tests;
 
-[TestClass]
 public class SerializableExceptionWrapperTests
 {
-    [TestMethod]
+    [Test]
     public void Constructor_wraps_exception_properties_correctly()
     {
         // Arrange
@@ -36,7 +35,7 @@ public class SerializableExceptionWrapperTests
         }
     }
 
-    [TestMethod]
+    [Test]
     public void Constructor_wraps_inner_exception()
     {
         // Arrange
@@ -51,7 +50,7 @@ public class SerializableExceptionWrapperTests
         _ = wrapper.InnerException!.Message.Should().Be("Inner");
     }
 
-    [TestMethod]
+    [Test]
     public void ToString_returns_json_serialized_string()
     {
         // Arrange
@@ -66,7 +65,7 @@ public class SerializableExceptionWrapperTests
         _ = result.Should().Contain("Message");
     }
 
-    [TestMethod]
+    [Test]
     public void Constructor_throws_on_null_exception()
     {
         // Arrange
