@@ -16,7 +16,7 @@ Throws an [System\.ArgumentOutOfRangeException](https://learn.microsoft.com/en-u
 
 ```csharp
 public static void ThrowIfPositive<T>(this System.Nullable<T> value, string parameterName=null)
-    where T : struct, System.Numerics.INumberBase<T>, System.ValueType, System.ValueType;
+    where T : struct, System.Numerics.INumberBase<T>;
 ```
 #### Type parameters
 

@@ -10,7 +10,7 @@ and contains no metadata\.
 protected sealed class NoLimitRateLimiter.NoLimitLease : System.Threading.RateLimiting.RateLimitLease
 ```
 
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') &#129106; [System\.Threading\.RateLimiting\.RateLimitLease](https://learn.microsoft.com/en-us/dotnet/api/system.threading.ratelimiting.ratelimitlease 'System\.Threading\.RateLimiting\.RateLimitLease') &#129106; NoLimitLease
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [System\.Threading\.RateLimiting\.RateLimitLease](https://learn.microsoft.com/en-us/dotnet/api/system.threading.ratelimiting.ratelimitlease 'System\.Threading\.RateLimiting\.RateLimitLease') → NoLimitLease
 
 | Fields | |
 | :--- | :--- |

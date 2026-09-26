@@ -8,7 +8,7 @@ for the enum type [TEnum](EnumExtensions.ThrowIfNotDefined.OUB1Y4FPQFP2H9KPNZ399
 
 ```csharp
 public static void ThrowIfNotDefined<TEnum>(this TEnum argument, string parameterName=null)
-    where TEnum : struct, System.Enum, System.ValueType, System.ValueType;
+    where TEnum : struct, System.Enum;
 ```
 #### Type parameters
 

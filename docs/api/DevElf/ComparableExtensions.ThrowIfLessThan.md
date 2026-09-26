@@ -18,7 +18,7 @@ Throws an [System\.ArgumentOutOfRangeException](https://learn.microsoft.com/en-u
 
 ```csharp
 public static void ThrowIfLessThan<T>(this System.Nullable<T> value, System.Nullable<T> other, string parameterName=null)
-    where T : struct, System.IComparable<T>, System.ValueType, System.ValueType;
+    where T : struct, System.IComparable<T>;
 ```
 #### Type parameters
 
@@ -60,7 +60,7 @@ Throws an [System\.ArgumentOutOfRangeException](https://learn.microsoft.com/en-u
 
 ```csharp
 public static void ThrowIfLessThan<T>(this System.Nullable<T> value, T other, string parameterName=null)
-    where T : struct, System.IComparable<T>, System.ValueType, System.ValueType;
+    where T : struct, System.IComparable<T>;
 ```
 #### Type parameters
 
@@ -102,7 +102,7 @@ Throws an [System\.ArgumentOutOfRangeException](https://learn.microsoft.com/en-u
 
 ```csharp
 public static void ThrowIfLessThan<T>(this T value, System.Nullable<T> other, string parameterName=null)
-    where T : struct, System.IComparable<T>, System.ValueType, System.ValueType;
+    where T : struct, System.IComparable<T>;
 ```
 #### Type parameters
 

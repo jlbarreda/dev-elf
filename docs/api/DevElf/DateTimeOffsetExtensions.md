@@ -9,7 +9,7 @@ Extension helpers for [System\.DateTimeOffset](https://learn.microsoft.com/en-us
 public static class DateTimeOffsetExtensions
 ```
 
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') &#129106; DateTimeOffsetExtensions
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → DateTimeOffsetExtensions
 
 | Methods | |
 | :--- | :--- |

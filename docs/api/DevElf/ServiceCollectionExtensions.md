@@ -10,7 +10,7 @@ and factory function patterns in dependency injection\.
 public static class ServiceCollectionExtensions
 ```
 
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') &#129106; ServiceCollectionExtensions
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → ServiceCollectionExtensions
 
 | Methods | |
 | :--- | :--- |

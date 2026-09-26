@@ -9,7 +9,7 @@ Provides a fluent API for building logging scopes with multiple properties\.
 public sealed class LoggingScopePropertiesBuilder
 ```
 
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') &#129106; LoggingScopePropertiesBuilder
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → LoggingScopePropertiesBuilder
 
 ### Remarks
 This class is typically created using the [AddProperty\(this ILogger, string, object\)](LoggerExtensions.AddProperty.3HF6MS7LG9TTAZCXIBRQIVMY8.md 'DevElf\.Logging\.LoggerExtensions\.AddProperty\(this Microsoft\.Extensions\.Logging\.ILogger, string, object\)') extension method

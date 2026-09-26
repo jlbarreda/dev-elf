@@ -10,7 +10,7 @@ Useful for tests and deterministic time\-dependent logic\.
 public sealed class FrozenTimeProvider : System.TimeProvider
 ```
 
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') &#129106; [System\.TimeProvider](https://learn.microsoft.com/en-us/dotnet/api/system.timeprovider 'System\.TimeProvider') &#129106; FrozenTimeProvider
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [System\.TimeProvider](https://learn.microsoft.com/en-us/dotnet/api/system.timeprovider 'System\.TimeProvider') → FrozenTimeProvider
 
 | Constructors | |
 | :--- | :--- |

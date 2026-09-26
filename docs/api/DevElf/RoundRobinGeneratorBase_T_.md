@@ -17,7 +17,7 @@ public abstract class RoundRobinGeneratorBase<T> : DevElf.IRoundRobinGenerator<T
 
 A type implementing [System\.IComparable&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.icomparable-1 'System\.IComparable\`1')\.
 
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') &#129106; RoundRobinGeneratorBase\<T\>
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → RoundRobinGeneratorBase\<T\>
 
 Implements [DevElf\.IRoundRobinGenerator&lt;](IRoundRobinGenerator_T_.md 'DevElf\.IRoundRobinGenerator\<T\>')[T](RoundRobinGeneratorBase_T_.md#DevElf.RoundRobinGeneratorBase_T_.T 'DevElf\.RoundRobinGeneratorBase\<T\>\.T')[&gt;](IRoundRobinGenerator_T_.md 'DevElf\.IRoundRobinGenerator\<T\>')
 

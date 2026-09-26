@@ -10,7 +10,7 @@ public interface ILogMessageScopeAccessor
 ```
 
 Derived  
-&#8627; [LogMessageScopeAccessor](LogMessageScopeAccessor.md 'DevElf\.Logging\.LogMessageScopeAccessor')
+↳ [LogMessageScopeAccessor](LogMessageScopeAccessor.md 'DevElf\.Logging\.LogMessageScopeAccessor')
 
 | Properties | |
 | :--- | :--- |

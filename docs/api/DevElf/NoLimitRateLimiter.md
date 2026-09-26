@@ -10,7 +10,7 @@ All requests for permits are immediately granted without any restrictions\.
 public class NoLimitRateLimiter : System.Threading.RateLimiting.RateLimiter
 ```
 
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') &#129106; [System\.Threading\.RateLimiting\.RateLimiter](https://learn.microsoft.com/en-us/dotnet/api/system.threading.ratelimiting.ratelimiter 'System\.Threading\.RateLimiting\.RateLimiter') &#129106; NoLimitRateLimiter
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [System\.Threading\.RateLimiting\.RateLimiter](https://learn.microsoft.com/en-us/dotnet/api/system.threading.ratelimiting.ratelimiter 'System\.Threading\.RateLimiting\.RateLimiter') → NoLimitRateLimiter
 
 ### Example
 

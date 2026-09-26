@@ -9,7 +9,7 @@ Extension methods for [Microsoft\.Extensions\.Logging\.ILogger](https://learn.mi
 public static class LoggerExtensions
 ```
 
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') &#129106; LoggerExtensions
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → LoggerExtensions
 
 | Methods | |
 | :--- | :--- |

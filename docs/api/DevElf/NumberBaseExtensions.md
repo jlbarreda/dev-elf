@@ -9,7 +9,7 @@ Provides extension methods for validating arguments of type [System\.Numerics\.I
 public static class NumberBaseExtensions
 ```
 
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') &#129106; NumberBaseExtensions
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → NumberBaseExtensions
 
 | Methods | |
 | :--- | :--- |

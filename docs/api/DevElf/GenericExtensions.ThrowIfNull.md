@@ -17,7 +17,7 @@ Throws an [System\.ArgumentNullException](https://learn.microsoft.com/en-us/dotn
 
 ```csharp
 public static void ThrowIfNull<T>(this System.Nullable<T> argument, string parameterName=null)
-    where T : struct, System.ValueType, System.ValueType;
+    where T : struct;
 ```
 #### Type parameters
 
