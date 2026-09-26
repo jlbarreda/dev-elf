@@ -19,7 +19,7 @@ not equal to [other](EquatableExtensions.md#DevElf.ArgumentValidation.EquatableE
 
 ```csharp
 public static void ThrowIfNotEqual<T>(this System.Nullable<T> value, System.Nullable<T> other, string parameterName=null)
-    where T : struct, System.IEquatable<T>, System.ValueType, System.ValueType;
+    where T : struct, System.IEquatable<T>;
 ```
 #### Type parameters
 
@@ -62,7 +62,7 @@ not equal to [other](EquatableExtensions.md#DevElf.ArgumentValidation.EquatableE
 
 ```csharp
 public static void ThrowIfNotEqual<T>(this System.Nullable<T> value, T other, string parameterName=null)
-    where T : struct, System.IEquatable<T>, System.ValueType, System.ValueType;
+    where T : struct, System.IEquatable<T>;
 ```
 #### Type parameters
 
@@ -105,7 +105,7 @@ not equal to [other](EquatableExtensions.md#DevElf.ArgumentValidation.EquatableE
 
 ```csharp
 public static void ThrowIfNotEqual<T>(this T value, System.Nullable<T> other, string parameterName=null)
-    where T : struct, System.IEquatable<T>, System.ValueType, System.ValueType;
+    where T : struct, System.IEquatable<T>;
 ```
 #### Type parameters
 

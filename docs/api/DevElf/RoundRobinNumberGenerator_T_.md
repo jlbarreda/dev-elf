@@ -17,7 +17,7 @@ public class RoundRobinNumberGenerator<T> : DevElf.IRoundRobinGenerator<T>
 
 A numeric type implementing [System\.Numerics\.INumber&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.inumber-1 'System\.Numerics\.INumber\`1') and [System\.IComparable&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.icomparable-1 'System\.IComparable\`1')\.
 
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') &#129106; RoundRobinNumberGenerator\<T\>
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → RoundRobinNumberGenerator\<T\>
 
 Implements [DevElf\.IRoundRobinGenerator&lt;](IRoundRobinGenerator_T_.md 'DevElf\.IRoundRobinGenerator\<T\>')[T](RoundRobinNumberGenerator_T_.md#DevElf.RoundRobinNumberGenerator_T_.T 'DevElf\.RoundRobinNumberGenerator\<T\>\.T')[&gt;](IRoundRobinGenerator_T_.md 'DevElf\.IRoundRobinGenerator\<T\>')
 

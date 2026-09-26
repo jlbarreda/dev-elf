@@ -225,8 +225,8 @@ public class LogMessageScopeTests
     {
         // Arrange
         ILogger logger = Substitute.For<ILogger>();
-        logger.IsEnabled(Arg.Any<LogLevel>()).Returns(true);
-        logger.BeginScope(Arg.Any<IReadOnlyDictionary<string, object?>>())
+        _ = logger.IsEnabled(Arg.Any<LogLevel>()).Returns(true);
+        _ = logger.BeginScope(Arg.Any<IReadOnlyDictionary<string, object?>>())
             .Returns(_ => throw new InvalidOperationException("BeginScope failed."));
         var accessor = new LogMessageScopeAccessor();
         var sut = logger.BeginMessageScope(LogLevel.Information, "message");

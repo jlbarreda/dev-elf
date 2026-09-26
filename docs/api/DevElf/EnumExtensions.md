@@ -9,7 +9,7 @@ Provides helpers for validating enum arguments\.
 public static class EnumExtensions
 ```
 
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') &#129106; EnumExtensions
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → EnumExtensions
 
 | Methods | |
 | :--- | :--- |

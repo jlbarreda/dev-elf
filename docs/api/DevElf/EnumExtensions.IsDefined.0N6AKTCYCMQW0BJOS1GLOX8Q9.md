@@ -7,7 +7,7 @@ Determines whether the specified enum value is defined in its enum type\.
 
 ```csharp
 public static bool IsDefined<TEnum>(this TEnum value)
-    where TEnum : struct, System.Enum, System.ValueType, System.ValueType;
+    where TEnum : struct, System.Enum;
 ```
 #### Type parameters
 

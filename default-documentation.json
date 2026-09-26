@@ -2,6 +2,6 @@
   "AssemblyPageName": "README",
   "FileNameFactory": "NameAndMd5Mix",
   "GeneratedAccessModifiers": "Public,Protected,ProtectedInternal",
-  "IncludeUndocumentedItems": "false",
+  "IncludeUndocumentedItems": false,
   "LogLevel": "Error"
 }

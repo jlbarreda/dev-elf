@@ -9,7 +9,7 @@ Extension methods for [System\.TimeProvider](https://learn.microsoft.com/en-us/d
 public static class TimeProviderExtensions
 ```
 
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') &#129106; TimeProviderExtensions
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → TimeProviderExtensions
 
 | Methods | |
 | :--- | :--- |

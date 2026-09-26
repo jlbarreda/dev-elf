@@ -11,7 +11,7 @@ context and controlling whether to enter the catch block\.
 public static class EnterCatch
 ```
 
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') &#129106; EnterCatch
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → EnterCatch
 
 ### Example
 

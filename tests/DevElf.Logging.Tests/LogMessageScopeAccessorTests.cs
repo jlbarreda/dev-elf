@@ -77,7 +77,7 @@ public class LogMessageScopeAccessorTests
     }
 
     [Test]
-    public async Task Current_flows_across_async_await(CancellationToken cancellationToken)
+    public async Task Current_flows_across_async_await()
     {
         // Arrange
         var fixture = new Fixture();
@@ -91,7 +91,7 @@ public class LogMessageScopeAccessorTests
         await Task.Yield();
         _ = accessor.Current.Should().BeSameAs(scope);
 
-        await Task.Delay(1, cancellationToken);
+        await Task.Yield();
         _ = accessor.Current.Should().BeSameAs(scope);
 
         // Act & Assert: inside a child task (ExecutionContext flows by default)
@@ -101,8 +101,7 @@ public class LogMessageScopeAccessorTests
                 _ = accessor.Current.Should().BeSameAs(scope);
                 await Task.Yield();
                 _ = accessor.Current.Should().BeSameAs(scope);
-            },
-            cancellationToken);
+            });
 
         // Act
         scope.Dispose();
@@ -132,7 +131,7 @@ public class LogMessageScopeAccessorTests
                 _ = allStarted.TrySetResult(true);
             }
 
-            await release.Task;
+            _ = await release.Task;
             _ = accessor.Current.Should().BeSameAs(child);
             child.Dispose();
         }
@@ -140,7 +139,7 @@ public class LogMessageScopeAccessorTests
         Task[] tasks = [Task.Run(RunChild), Task.Run(RunChild)];
 
         // Act
-        await allStarted.Task;
+        _ = await allStarted.Task;
 
         // Assert
         _ = accessor.Current.Should().BeSameAs(parent);

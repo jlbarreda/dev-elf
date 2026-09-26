@@ -9,7 +9,7 @@ Provides argument validation helpers for reference types and nullable value type
 public static class GenericExtensions
 ```
 
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') &#129106; GenericExtensions
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → GenericExtensions
 
 | Methods | |
 | :--- | :--- |

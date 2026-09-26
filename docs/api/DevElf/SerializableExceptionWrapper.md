@@ -9,7 +9,7 @@ Wraps an [System\.Exception](https://learn.microsoft.com/en-us/dotnet/api/system
 public class SerializableExceptionWrapper
 ```
 
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') &#129106; SerializableExceptionWrapper
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → SerializableExceptionWrapper
 
 | Constructors | |
 | :--- | :--- |
