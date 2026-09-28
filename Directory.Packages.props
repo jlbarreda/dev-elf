@@ -31,13 +31,13 @@
     <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.4.1" />
     <PackageVersion Include="Microsoft.Testing.Platform" Version="2.4.1" />
     <PackageVersion Include="Microsoft.Testing.Platform.MSBuild" Version="2.4.1" />
-    <PackageVersion Include="NSubstitute" Version="5.3.0" />
+    <PackageVersion Include="NSubstitute" Version="6.2.0" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageVersion>
     <PackageVersion Include="System.Threading.RateLimiting" Version="10.0.12" />
-    <PackageVersion Include="TUnit" Version="1.69.16" />
+    <PackageVersion Include="TUnit" Version="1.70.1" />
   </ItemGroup>
   <!-- Transitive packages. Versions are specified to avoid vulnerabilities -->
   <ItemGroup>
