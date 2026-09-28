@@ -20,12 +20,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
 
       - name: Security scan with CodeQL
         uses: github/codeql-action/init@v4
@@ -45,7 +45,7 @@ jobs:
         run: dotnet test --configuration Release --no-build --verbosity normal --report-trx --results-directory TestResults --coverage --coverage-output-format cobertura
 
       - name: Publish test results
-        uses: dorny/test-reporter@v2
+        uses: dorny/test-reporter@v3
         if: success() || failure()
         with:
           name: .NET Tests
