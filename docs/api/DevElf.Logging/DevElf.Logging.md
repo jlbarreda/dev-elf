@@ -4,8 +4,8 @@
 
 | Classes | |
 | :--- | :--- |
-| [LoggerExtensions](LoggerExtensions.md 'DevElf\.Logging\.LoggerExtensions') | Extension methods for [Microsoft\.Extensions\.Logging\.ILogger](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.ilogger 'Microsoft\.Extensions\.Logging\.ILogger') to integrate with [DevElf\.Logging\.LogMessageScope](https://learn.microsoft.com/en-us/dotnet/api/develf.logging.logmessagescope 'DevElf\.Logging\.LogMessageScope')\. |
-| [LogMessageScopeAccessor](LogMessageScopeAccessor.md 'DevElf\.Logging\.LogMessageScopeAccessor') | Provides access to the current [log message scope](https://learn.microsoft.com/en-us/dotnet/api/develf.logging.logmessagescope 'DevElf\.Logging\.LogMessageScope')\. |
+| [LoggerExtensions](LoggerExtensions.md 'DevElf\.Logging\.LoggerExtensions') | Extension methods for [Microsoft\.Extensions\.Logging\.ILogger](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.ilogger 'Microsoft\.Extensions\.Logging\.ILogger') to create [ILogMessageScope](ILogMessageScope.md 'DevElf\.Logging\.ILogMessageScope') instances\. |
+| [LogMessageScopeAccessor](LogMessageScopeAccessor.md 'DevElf\.Logging\.LogMessageScopeAccessor') | Provides access to the current [log message scope](ILogMessageScope.md 'DevElf\.Logging\.ILogMessageScope')\. |
 | [ServiceCollectionExtensions](ServiceCollectionExtensions.md 'DevElf\.Logging\.ServiceCollectionExtensions') | Extension methods for configuring log message scope services in dependency injection\. |
 
 | Interfaces | |

@@ -68,7 +68,7 @@ try
 }
 catch (Exception ex)
 {
-    scope.SetException(ex, setProperty: true); // Adds exception as property and sets Exception
+    scope.SetException(ex);                    // Attaches the exception and adds it as the "Exception" property
     scope.ChangeLogLevel(LogLevel.Error);      // Change from Information to Error
     scope.ChangeMessage("Data import failed"); // Update the message
     throw;
@@ -103,8 +103,8 @@ foreach (var item in batch)
 
 | Method | Description |
 |--------|-------------|
-| `SetProperty(string key, object? value)` | Add or update a property in the scope |
-| `SetException(Exception exception, bool setProperty = false)` | Attach an exception to log on dispose |
+| `SetProperty<T>(string key, T value)` | Add or update a property in the scope; returns `value` |
+| `SetException(Exception exception, bool setAsProperty = true)` | Attach an exception to log on dispose and, by default, add it as the "Exception" property |
 | `ChangeLogLevel(LogLevel logLevel)` | Change the log level for the final message |
 | `ChangeMessage(string message)` | Change the message text to log on dispose |
 | `ChangeEventId(EventId eventId)` | Change the event ID for the final message |
@@ -119,7 +119,7 @@ foreach (var item in batch)
 ## Important Notes
 
 > [!WARNING]
-> **LIFO Disposal Required**: Log message scopes must be disposed in Last-In-First-Out (LIFO) order. Disposing out of order logs a warning and the disposal is ignored, allowing a later correct disposal to succeed.
+> **LIFO Disposal Required**: Log message scopes should be disposed in Last-In-First-Out (LIFO) order. A scope disposed out of order (or from a different async flow than the one that created it) logs a warning, still emits its own log entry, and is no longer treated as the current scope.
 
 > [!IMPORTANT]
 > **Property Inheritance**: Properties from outer scopes are inherited by inner scopes. When property keys conflict, the innermost scope value takes precedence.

@@ -47,7 +47,7 @@ public class LogMessageScopeAccessorTests
     }
 
     [Test]
-    public void Current_is_unchanged_on_out_of_order_dispose_and_recovers_after_correct_order()
+    public void Current_skips_scope_disposed_out_of_order()
     {
         // Arrange
         var fixture = new Fixture();
@@ -63,17 +63,11 @@ public class LogMessageScopeAccessorTests
         // Assert
         _ = accessor.Current.Should().BeSameAs(inner, "Out-of-order dispose should not change the current scope.");
 
-        // Act in correct order now
+        // Act
         inner.Dispose();
 
         // Assert
-        _ = accessor.Current.Should().BeSameAs(outer, "After disposing inner, outer should become current again.");
-
-        // Act
-        outer.Dispose();
-
-        // Assert
-        _ = accessor.Current.Should().BeNull("After disposing outer, there should be no current scope.");
+        _ = accessor.Current.Should().BeNull("The already disposed outer scope should be skipped.");
     }
 
     [Test]

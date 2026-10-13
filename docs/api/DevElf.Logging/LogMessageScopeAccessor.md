@@ -3,7 +3,7 @@
 
 ## LogMessageScopeAccessor Class
 
-Provides access to the current [log message scope](https://learn.microsoft.com/en-us/dotnet/api/develf.logging.logmessagescope 'DevElf\.Logging\.LogMessageScope')\.
+Provides access to the current [log message scope](ILogMessageScope.md 'DevElf\.Logging\.ILogMessageScope')\.
 
 ```csharp
 public sealed class LogMessageScopeAccessor : DevElf.Logging.ILogMessageScopeAccessor

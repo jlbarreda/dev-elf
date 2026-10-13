@@ -1,5 +1,6 @@
 using AwesomeAssertions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Testing;
 using NSubstitute;
 
 namespace DevElf.Logging.Tests;
@@ -139,6 +140,54 @@ public class LoggerExtensionsTests
         // Assert
         _ = capturedProperties.Should().NotBeNull();
         _ = capturedProperties["ComplexProperty"].Should().BeSameAs(complexValue);
+    }
+
+    #endregion
+
+    #region BeginMessageScope Tests
+
+    [Test]
+    public void BeginMessageScope_works_with_typed_logger()
+    {
+        // Arrange
+        var fake = new FakeLogger<LoggerExtensionsTests>();
+        ILogger<LoggerExtensionsTests> logger = fake;
+
+        // Act
+        using (var scope = logger.BeginMessageScope(LogLevel.Information, "message"))
+        {
+            _ = scope.SetProperty("key", "value");
+        }
+
+        // Assert
+        var record = fake.Collector.GetSnapshot().Should().ContainSingle().Subject;
+        _ = record.Category.Should().Be(typeof(LoggerExtensionsTests).FullName);
+        _ = record.Level.Should().Be(LogLevel.Information);
+        _ = record.Message.Should().Be("message");
+        var properties = record.Scopes[^1] as IReadOnlyDictionary<string, object?>;
+        _ = properties.Should().NotBeNull();
+        _ = properties!["key"].Should().Be("value");
+    }
+
+    [Test]
+    public void BeginMessageScope_with_event_id_works_with_typed_logger()
+    {
+        // Arrange
+        var fake = new FakeLogger<LoggerExtensionsTests>();
+        ILogger<LoggerExtensionsTests> logger = fake;
+        var eventId = new EventId(1001, "Import");
+
+        // Act
+        using (logger.BeginMessageScope(LogLevel.Warning, eventId, "message"))
+        {
+        }
+
+        // Assert
+        var record = fake.Collector.GetSnapshot().Should().ContainSingle().Subject;
+        _ = record.Category.Should().Be(typeof(LoggerExtensionsTests).FullName);
+        _ = record.Level.Should().Be(LogLevel.Warning);
+        _ = record.Id.Should().Be(eventId);
+        _ = record.Message.Should().Be("message");
     }
 
     #endregion

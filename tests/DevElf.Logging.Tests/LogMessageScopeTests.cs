@@ -10,6 +10,8 @@ namespace DevElf.Logging.Tests;
 
 public class LogMessageScopeTests
 {
+    private const string OutOfOrderDisposeWarning = "LogMessageScope disposed out of order. Scopes must be disposed in LIFO order.";
+
     [Test]
     public void Constructor_throws_when_logger_is_null()
     {
@@ -196,7 +198,7 @@ public class LogMessageScopeTests
     }
 
     [Test]
-    public void Out_of_order_dispose_logs_warning_then_messages()
+    public void Out_of_order_dispose_logs_warning_and_still_logs_message()
     {
         // Arrange
         var fixture = new Fixture();
@@ -214,10 +216,107 @@ public class LogMessageScopeTests
 
         // Assert
         var records = fake.Collector.GetSnapshot();
+        _ = records.Should().HaveCount(3);
         _ = records[0].Level.Should().Be(LogLevel.Warning);
-        _ = records[0].Message.Should().Be("LogMessageScope disposed out of order. Scopes must be disposed in LIFO order.");
-        _ = records[1].Message.Should().Be(innerMsg);
-        _ = records[2].Message.Should().Be(outerMsg);
+        _ = records[0].Message.Should().Be(OutOfOrderDisposeWarning);
+        _ = records[1].Message.Should().Be(outerMsg);
+        _ = records[2].Message.Should().Be(innerMsg);
+    }
+
+    [Test]
+    public async Task Scope_created_in_async_method_logs_when_disposed_by_caller()
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var fake = new FakeLogger();
+        ILogger logger = fake;
+        string message = fixture.Create<string>();
+        var eventId = new EventId(1001, "Import");
+
+        async Task<ILogMessageScope> CreateScopeAsync()
+        {
+            await Task.Yield();
+
+            return logger.BeginMessageScope(LogLevel.Information, eventId, message);
+        }
+
+        var sut = await CreateScopeAsync();
+
+        // Act
+        sut.Dispose();
+
+        // Assert
+        var records = fake.Collector.GetSnapshot();
+        _ = records.Should().HaveCount(2);
+        _ = records[0].Level.Should().Be(LogLevel.Warning);
+        _ = records[0].Message.Should().Be(OutOfOrderDisposeWarning);
+        _ = records[1].Level.Should().Be(LogLevel.Information);
+        _ = records[1].Id.Should().Be(eventId);
+        _ = records[1].Message.Should().Be(message);
+        _ = records[1].Exception.Should().BeNull();
+    }
+
+    [Test]
+    public async Task Scope_disposed_in_child_flow_is_not_current_in_parent_flow()
+    {
+        // Arrange
+        var fixture = new Fixture();
+        ILogger logger = new FakeLogger();
+        var accessor = new LogMessageScopeAccessor();
+        var outer = logger.BeginMessageScope(LogLevel.Information, fixture.Create<string>());
+        var sut = logger.BeginMessageScope(LogLevel.Information, fixture.Create<string>());
+
+        // Act
+        await Task.Run(sut.Dispose);
+
+        // Assert
+        _ = accessor.Current.Should().BeSameAs(outer);
+
+        var next = logger.BeginMessageScope(LogLevel.Information, fixture.Create<string>());
+        _ = accessor.Current.Should().BeSameAs(next);
+        next.Dispose();
+        _ = accessor.Current.Should().BeSameAs(outer);
+        outer.Dispose();
+        _ = accessor.Current.Should().BeNull();
+    }
+
+    [Test]
+    public void SetException_adds_property_by_default()
+    {
+        // Arrange
+        var fixture = new Fixture();
+        var fake = new FakeLogger();
+        ILogger logger = fake;
+        var sut = logger.BeginMessageScope(LogLevel.Error, fixture.Create<string>());
+        var ex = fixture.Create<InvalidOperationException>();
+
+        // Act
+        sut.SetException(ex);
+        sut.Dispose();
+
+        // Assert
+        var records = fake.Collector.GetSnapshot();
+        _ = records.Should().ContainSingle();
+        _ = records[0].Exception.Should().BeSameAs(ex);
+        var properties = records[0].Scopes[^1] as IReadOnlyDictionary<string, object?>;
+        _ = properties.Should().NotBeNull();
+        _ = properties!["Exception"].Should().BeSameAs(ex);
+    }
+
+    [Test]
+    public void Dispose_does_not_begin_scope_when_log_level_is_disabled()
+    {
+        // Arrange
+        ILogger logger = Substitute.For<ILogger>();
+        _ = logger.IsEnabled(Arg.Any<LogLevel>()).Returns(false);
+        var sut = logger.BeginMessageScope(LogLevel.Debug, "message");
+        _ = sut.SetProperty("key", "value");
+
+        // Act
+        sut.Dispose();
+
+        // Assert
+        _ = logger.DidNotReceiveWithAnyArgs().BeginScope<IReadOnlyDictionary<string, object?>>(default!);
     }
 
     [Test]
