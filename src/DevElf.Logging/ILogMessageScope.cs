@@ -32,12 +32,13 @@ public interface ILogMessageScope : IDisposable
     T SetProperty<T>(string key, T value);
 
     /// <summary>
-    /// Sets an <see cref="System.Exception"/> on the scope and also adds it as a scope property under the key "Exception".
+    /// Sets the <see cref="System.Exception"/> that will be passed to the logger when this scope emits its log entry,
+    /// and optionally adds it as a scope property under the key "Exception".
     /// </summary>
-    /// <param name="setAsProperty">
-    /// If <see langword="true"/>, also sets the exception as a property under the key "Exception".
-    /// </param>
     /// <param name="exception">The exception to associate with the log entry.</param>
+    /// <param name="setAsProperty">
+    /// If <see langword="true"/> (the default), also sets the exception as a property under the key "Exception".
+    /// </param>
     void SetException(Exception exception, bool setAsProperty = true);
 
     /// <summary>

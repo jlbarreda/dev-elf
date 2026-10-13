@@ -133,7 +133,7 @@ var logger = provider.GetRequiredService<ILogger<Program>>();
 using (var scope = logger.BeginMessageScope(LogLevel.Information, "Import completed"))
 {
     scope.SetProperty("CorrelationId", Guid.NewGuid());
-    scope.SetEventId(new EventId(1001, "Import"));
+    scope.ChangeEventId(new EventId(1001, "Import"));
 
     try
     {
@@ -141,7 +141,7 @@ using (var scope = logger.BeginMessageScope(LogLevel.Information, "Import comple
     }
     catch (Exception ex)
     {
-        scope.SetException(ex, setProperty: true);
+        scope.SetException(ex);
         scope.ChangeLogLevel(LogLevel.Error);
         scope.ChangeMessage("Import failed");
 

@@ -9,25 +9,30 @@ namespace DevElf.Logging;
 /// </summary>
 /// <remarks>
 /// A <see cref="LogMessageScope"/> is pushed onto an async-local stack when constructed and
-/// popped when disposed. Scopes must be disposed in LIFO order. If a scope is disposed out of order,
-/// a warning is logged and no state is changed, allowing a later correct dispose to succeed.
+/// popped when disposed. Scopes should be disposed in LIFO order. If a scope is disposed out of order
+/// (for example, while a nested scope is still active, or from an execution context it does not belong to),
+/// a warning is logged and the scope still emits its log entry. The ambient stack then skips the disposed
+/// scope, so it never remains the current scope.
 ///
 /// While active, a scope can accumulate key/value properties via <see cref="SetProperty{T}(string, T)"/>.
 /// When scopes are nested, properties are merged so that child properties override parent values for the
-/// same key. On <see cref="Dispose"/>, the scope logs its message at the configured <see cref="LogLevel"/>, 
+/// same key. On <see cref="Dispose"/>, the scope logs its message at the configured <see cref="LogLevel"/>,
 /// using <see cref="ILogger.BeginScope{TState}(TState)"/> with the accumulated properties so they are available to
 /// logging providers that support scopes.
 ///
 /// An exception can be associated to the log entry via <see cref="SetException(Exception, bool)"/> and will be
 /// passed to the logger when the scope is disposed. When <c>setAsProperty</c> is
 /// <see langword="true"/>, the exception is also added as a scope property under the key "Exception".
+///
+/// The message is passed to the logger as a message template with no arguments. Text-based providers write it
+/// verbatim; structured providers may treat placeholders such as <c>{Key}</c> as template holes.
 /// </remarks>
-internal sealed partial class LogMessageScope : IDisposable, ILogMessageScope
+internal sealed partial class LogMessageScope : ILogMessageScope
 {
     private readonly ConcurrentDictionary<string, object?> _properties = new(StringComparer.OrdinalIgnoreCase);
 
 #pragma warning disable CA2213 // Disposable fields should be disposed => By design. We don't own the parent scope.
-    private readonly LogMessageScope? parent;
+    private readonly LogMessageScope? _parent;
 #pragma warning restore CA2213 // Disposable fields should be disposed
     private readonly ILogger _logger;
 
@@ -35,7 +40,7 @@ internal sealed partial class LogMessageScope : IDisposable, ILogMessageScope
     private EventId _eventId;
     private string _message;
     private Exception? _exception;
-    private bool _disposed;
+    private int _disposed;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="LogMessageScope"/> class and pushes it onto the
@@ -62,9 +67,14 @@ internal sealed partial class LogMessageScope : IDisposable, ILogMessageScope
         this._eventId = eventId;
         this._message = message;
 
-        this.parent = AsyncLocalLogMessageScopeStack.Peek();
+        this._parent = AsyncLocalLogMessageScopeStack.Peek();
         AsyncLocalLogMessageScopeStack.Push(this);
     }
+
+    /// <summary>
+    /// Gets a value indicating whether this scope has been disposed.
+    /// </summary>
+    internal bool IsDisposed => Volatile.Read(ref this._disposed) != 0;
 
     /// <summary>
     /// Sets a property on this scope.
@@ -75,7 +85,7 @@ internal sealed partial class LogMessageScope : IDisposable, ILogMessageScope
     /// <returns>Returns the provided <paramref name="value"/> to enable fluent assignment.</returns>
     public T SetProperty<T>(string key, T value)
     {
-        ObjectDisposedException.ThrowIf(this._disposed, this);
+        ObjectDisposedException.ThrowIf(IsDisposed, this);
         key.ThrowIfNullOrWhiteSpace();
 
         this._properties[key] = value;
@@ -87,15 +97,15 @@ internal sealed partial class LogMessageScope : IDisposable, ILogMessageScope
     /// Sets an exception for this scope and optionally adds it as a property.
     /// </summary>
     /// <param name="exception">The exception to set.</param>
-    /// <param name="setProperty">
+    /// <param name="setAsProperty">
     /// If <see langword="true"/>, also sets the exception as a property under the key "Exception".
     /// </param>
-    public void SetException(Exception exception, bool setProperty = false)
+    public void SetException(Exception exception, bool setAsProperty = true)
     {
-        ObjectDisposedException.ThrowIf(this._disposed, this);
+        ObjectDisposedException.ThrowIf(IsDisposed, this);
         exception.ThrowIfNull();
 
-        this._exception = setProperty ? SetProperty(nameof(Exception), exception) : exception;
+        this._exception = setAsProperty ? SetProperty(nameof(Exception), exception) : exception;
     }
 
     /// <summary>
@@ -104,7 +114,7 @@ internal sealed partial class LogMessageScope : IDisposable, ILogMessageScope
     /// <param name="logLevel">The new log level.</param>
     public void ChangeLogLevel(LogLevel logLevel)
     {
-        ObjectDisposedException.ThrowIf(this._disposed, this);
+        ObjectDisposedException.ThrowIf(IsDisposed, this);
         logLevel.ThrowIfNotDefined();
 
         this._logLevel = logLevel;
@@ -116,7 +126,7 @@ internal sealed partial class LogMessageScope : IDisposable, ILogMessageScope
     /// <param name="eventId">The new event ID.</param>
     public void ChangeEventId(EventId eventId)
     {
-        ObjectDisposedException.ThrowIf(this._disposed, this);
+        ObjectDisposedException.ThrowIf(IsDisposed, this);
 
         this._eventId = eventId;
     }
@@ -127,7 +137,7 @@ internal sealed partial class LogMessageScope : IDisposable, ILogMessageScope
     /// <param name="message">The new message.</param>
     public void ChangeMessage(string message)
     {
-        ObjectDisposedException.ThrowIf(this._disposed, this);
+        ObjectDisposedException.ThrowIf(IsDisposed, this);
         message.ThrowIfNullOrWhiteSpace();
 
         this._message = message;
@@ -135,30 +145,22 @@ internal sealed partial class LogMessageScope : IDisposable, ILogMessageScope
 
     /// <summary>
     /// Disposes the scope and logs the message with accumulated properties.
-    /// Enforces strict LIFO disposal using the ambient async-local stack.
-    /// If the scope is disposed out of order, it logs a warning and returns without changing state.
+    /// If the scope is not the current scope of the ambient async-local stack, a warning is logged first.
     /// </summary>
     public void Dispose()
     {
-        if (this._disposed)
+        if (Interlocked.Exchange(ref this._disposed, 1) != 0)
         {
-            return;
-        }
-
-        // Validate LIFO without marking disposed; allow a later correct dispose to succeed.
-        if (AsyncLocalLogMessageScopeStack.Count == 0 || !ReferenceEquals(AsyncLocalLogMessageScopeStack.Peek(), this))
-        {
-            LogOutOfOrderDisposeWarning();
-
             return;
         }
 
         // Pop first to update the ambient stack to the parent before logging.
-        _ = AsyncLocalLogMessageScopeStack.Pop();
-        this._disposed = true;
+        if (!AsyncLocalLogMessageScopeStack.TryPop(this))
+        {
+            LogOutOfOrderDisposeWarning();
+        }
 
-        // Log with accumulated properties from this scope and its parents
-        Log(GetAllProperties());
+        Log();
     }
 
     /// <summary>
@@ -166,7 +168,7 @@ internal sealed partial class LogMessageScope : IDisposable, ILogMessageScope
     /// </summary>
     private Dictionary<string, object?> GetAllProperties()
     {
-        Dictionary<string, object?> parentProperties = this.parent?.GetAllProperties() ?? new(StringComparer.OrdinalIgnoreCase);
+        Dictionary<string, object?> parentProperties = this._parent?.GetAllProperties() ?? new(StringComparer.OrdinalIgnoreCase);
 
         foreach (KeyValuePair<string, object?> property in this._properties)
         {
@@ -176,18 +178,21 @@ internal sealed partial class LogMessageScope : IDisposable, ILogMessageScope
         return parentProperties;
     }
 
-    private void Log(IReadOnlyDictionary<string, object?> properties)
+    private void Log()
     {
-        if (this._logger.IsEnabled(this._logLevel))
+        if (!this._logger.IsEnabled(this._logLevel))
         {
-            using (this._logger.BeginScope(properties))
-            {
+            return;
+        }
+
+        // Log with accumulated properties from this scope and its parents.
+        using (this._logger.BeginScope<IReadOnlyDictionary<string, object?>>(GetAllProperties()))
+        {
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
 #pragma warning disable CA2254 // Template should be a static expression
-                this._logger.Log(this._logLevel, this._eventId, this._exception, this._message);
+            this._logger.Log(this._logLevel, this._eventId, this._exception, this._message);
 #pragma warning restore CA2254 // Template should be a static expression
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
-            }
         }
     }
 
